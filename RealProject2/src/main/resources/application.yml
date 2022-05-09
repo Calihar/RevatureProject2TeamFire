@@ -3,7 +3,7 @@ server:
   
 spring:
   datasource:
-    url: jdbc:postgresql://${TRAINING_DB_ENDPOINT}/foodSpringData
+    url: jdbc:postgresql://${TRAINING_DB_ENDPOINT}/Project2
     username: ${TRAINING_DB_USERNAME}
     password: ${TRAINING_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver

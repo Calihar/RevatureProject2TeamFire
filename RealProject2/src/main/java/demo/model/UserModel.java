@@ -2,6 +2,7 @@ package demo.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,43 +27,43 @@ public class UserModel {
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	int userId;
+	private int userId;
 	
 	@Column(name="username", unique=true, nullable=false)
-	String username;
+	private String username;
 	
 	@Column(name="hashed_password", unique=false, nullable=false)
-	String password;
+	private String password;
 	
 	@Column(name="first_name", unique=false, nullable=false)
-	String firstName;
+	private String firstName;
 	
 	@Column(name="last_name", unique=false, nullable=false)
-	String lastName;
+	private String lastName;
 	
 	@Column(name="user_email", unique=false, nullable=false)
-	String userEmail;
+	private String userEmail;
 	
 	@Column(name="user_type", unique=false, nullable=false)
-	UserType userType;
+	private UserType userType;
 	
 	@Column(name="creation_date", unique=false, nullable=false)
-	Timestamp creationDate;
+	private Timestamp creationDate;
 	
 	@Column(name="user_birthday", unique=false, nullable=true)
-	Timestamp userBirthday;
+	private Timestamp userBirthday;
 	
 	@Column(name="user_bio", unique=false, nullable=true)
-	String userBio;
+	private String userBio;
 	
 	@Column(name="review_count", unique=false, nullable=false)			
-	int reviewCount;
+	private int reviewCount;
 	
 	@OneToMany(fetch=FetchType.LAZY)
-	ArrayList<PostModel> postList;
+	private List<PostModel> postList;
 	
 	@OneToMany(fetch=FetchType.LAZY)
-	ArrayList<CommentModel> commentList;
+	private List<CommentModel> commentList;
 	
 	
 	enum UserType {

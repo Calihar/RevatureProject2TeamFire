@@ -58,8 +58,8 @@ public class PostModel {
 	@OneToMany(fetch=FetchType.LAZY)
 	ArrayList<CommentModel> commentList;
 	
-	
-//	PICTURE VAR GOES HERE
+	@Column(name="picture_url", unique=false, nullable=true)
+	String pictureURL;
 	
 	enum ItemType {
 		Movie,

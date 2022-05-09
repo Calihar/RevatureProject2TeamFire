@@ -28,21 +28,21 @@ public class CommentModel {
 	@Id
 	@Column(name="comment_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	int commentId;
+	private int commentId;
 	
 	@Column(name="comment_content", unique=false, nullable=false)
-	String commentContent;
+	private String commentContent;
 	
 	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)			
 	@JoinColumn(name="user_id_FK")
-	UserModel myOwner;
+	private UserModel myOwner;
 	
 	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)			
 	@JoinColumn(name="post_id_FK")
-	PostModel myPost;
+	private PostModel myPost;
 	
 	@Column(name="submit_time", unique=false, nullable=false)
-	Timestamp submitTime;
+	private Timestamp submitTime;
 
 	public CommentModel(String commentContent, UserModel myOwner, PostModel myPost, Timestamp submitTime) {
 		super();

@@ -2,6 +2,7 @@ package demo.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,36 +31,36 @@ public class PostModel {
 	@Id
 	@Column(name="post_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	int postId;
+	private int postId;
 		
 	@Column(name="post_rating", unique=false, nullable=true)
-	int postRating;
+	private int postRating;
 	
 	@Column(name="review_item", unique=false, nullable=true)
-	String reviewItem;
+	private String reviewItem;
 	
 	@Column(name="item_type", unique=false, nullable=false)
-	ItemType itemType;
+	private ItemType itemType;
 	
 	@Column(name="post_content", unique=false, nullable=false)
-	String postContent;
+	private String postContent;
 	
 	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id_FK")
-	UserModel myOwner;
+	private UserModel myOwner;
 	
 	@Column(name="submit_date", unique=false, nullable=false)
-	Timestamp submitTime;
+	private Timestamp submitTime;
 	
 	@ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
 	@JoinColumn(name="likes_id_FK")
-	ArrayList<UserModel> userLikesList;
+	private List<UserModel> userLikesList;
 	
-	@OneToMany(fetch=FetchType.LAZY)
-	ArrayList<CommentModel> commentList;
+	@OneToMany(mappedBy="myPost", fetch=FetchType.LAZY)
+	private List<CommentModel> commentList;
 	
 	@Column(name="picture_url", unique=false, nullable=true)
-	String pictureURL;
+	private String pictureURL;
 	
 	enum ItemType {
 		Movie,

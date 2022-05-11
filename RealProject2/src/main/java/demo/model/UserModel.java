@@ -29,16 +29,16 @@ public class UserModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int userId;
 	
-	@Column(name="username", unique=true, nullable=false)
+	@Column(name="username", unique=true, nullable=false, length=14)
 	private String username;
 	
 	@Column(name="hashed_password", unique=false, nullable=false)
 	private String password;
 	
-	@Column(name="first_name", unique=false, nullable=false)
+	@Column(name="first_name", unique=false, nullable=false, length=14)
 	private String firstName;
 	
-	@Column(name="last_name", unique=false, nullable=false)
+	@Column(name="last_name", unique=false, nullable=false, length=14)
 	private String lastName;
 	
 	@Column(name="user_email", unique=false, nullable=false)

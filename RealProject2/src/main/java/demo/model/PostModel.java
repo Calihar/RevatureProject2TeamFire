@@ -36,7 +36,7 @@ public class PostModel {
 	@Column(name="post_rating", unique=false, nullable=true)
 	private int postRating;
 	
-	@Column(name="review_item", unique=false, nullable=true)
+	@Column(name="review_item", unique=false, nullable=true, length=14)
 	private String reviewItem;
 	
 	@Column(name="item_type", unique=false, nullable=false)

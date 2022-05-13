@@ -1,6 +1,8 @@
 package demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,33 @@ public class UserController {
 	
 	//ENDPOINTS\\
 	
+	@GetMapping("/login")
+	public String routeLoginPage() {
+		System.out.println("In the user/login controller");
+		return "html/login.html";
+	}
 	
-
+	@GetMapping("/register")
+	public String routeRegisterPage() {
+		System.out.println("In the user/login controller");
+		return "html/register.html";
+	}
+	
+	@PostMapping("/loginauthentication")
+	public String routeLoginToHomePage() {
+		System.out.println("In the user/login controller");
+		
+		//BUSINESS LOGIC
+		
+		return "html/home.html";
+	}
+	
+	@PostMapping("/registerauthentication")
+	public String routeRegisterToHomePage() {
+		System.out.println("In the user/login controller");
+		
+		//BUSINESS LOGIC
+		
+		return "html/home.html";
+	}
 }

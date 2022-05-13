@@ -59,14 +59,15 @@ public class UserModel {
 	@Column(name="review_count", unique=false, nullable=false)			
 	private int reviewCount;
 	
+	@Column(name="profile_picture_name", unique=true, nullable=true)
+	private String profilePicName;
+	
 	@OneToMany(fetch=FetchType.LAZY)
 	private List<PostModel> postList;
 	
 	@OneToMany(fetch=FetchType.LAZY)
 	private List<CommentModel> commentList;
 	
-	@Column(name="profile_picture_name", unique=true, nullable=true)
-	private String profilePicName;
 	
 	
 	enum UserType {

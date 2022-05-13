@@ -10,7 +10,7 @@ Here goes your awesome project description!
 * ProjectLombok - version 2.6.3
 * PostgreSQL - version 2.6.3
 * JacksonDatabind - version 2.6.3
-* AWS - S3 and RDS
+* AWS - S3, EC2, and RDS
 
 ## Features
 
@@ -27,11 +27,11 @@ To-do list:
 
 > git clone https://github.com/Calihar/RevatureProject2TeamFire.git  
 > Ensure that the ENV variables are set up to match the ones asked for by the application.yml
-> This project uses AWS's S3 and RDS, so ensure that the endpoints are set up for your personal DB and S3 bucket.
+> This project uses AWS's S3, EC2, and RDS, so ensure that the endpoints are set up for your personal DB and S3 bucket.
 
 ## Usage
 
-> Here, you instruct other people on how to use your project after they’ve installed it. This would also be a good place to include screenshots of your project in action.
+To use this project, you can deploy it on a personal machine with a forwarded port or can use EC2 to deploy on an Amazon machine.
 
 ## Contributors
 

@@ -1,19 +1,25 @@
 package demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.dao.CommentDao;
 import demo.dao.PostDao;
 import demo.dao.UserDao;
+import demo.util.StorageService;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 	
 	//FIELDS\\
 	private UserDao userDao;
 	private PostDao postDao;
 	private CommentDao commentDao;
+	
+	@Autowired
+	private StorageService storageServ;
 	
 	
 	//CONSTRUCTORS\\
@@ -26,5 +32,7 @@ public class UserController {
 	}
 	
 	//ENDPOINTS\\
+	
+	
 
 }

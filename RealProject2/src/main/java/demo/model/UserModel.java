@@ -65,6 +65,9 @@ public class UserModel {
 	@OneToMany(fetch=FetchType.LAZY)
 	private List<CommentModel> commentList;
 	
+	@Column(name="profile_picture_name", unique=true, nullable=true)
+	private String profilePicName;
+	
 	
 	enum UserType {
 		General,
@@ -72,28 +75,9 @@ public class UserModel {
 	}
 
 
-	public UserModel(String username, String password, String firstName, String lastName, String userEmail,
-			UserType userType, Timestamp creationDate, Timestamp userBirthday, String userBio, int reviewCount,
-			ArrayList<PostModel> postList, ArrayList<CommentModel> commentList) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userEmail = userEmail;
-		this.userType = userType;
-		this.creationDate = creationDate;
-		this.userBirthday = userBirthday;
-		this.userBio = userBio;
-		this.reviewCount = reviewCount;
-		this.postList = postList;
-		this.commentList = commentList;
-	}
-
-
 	public UserModel(int userId, String username, String password, String firstName, String lastName, String userEmail,
 			UserType userType, Timestamp creationDate, Timestamp userBirthday, String userBio, int reviewCount,
-			ArrayList<PostModel> postList, ArrayList<CommentModel> commentList) {
+			List<PostModel> postList, List<CommentModel> commentList, String profilePicName) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -108,16 +92,41 @@ public class UserModel {
 		this.reviewCount = reviewCount;
 		this.postList = postList;
 		this.commentList = commentList;
+		this.profilePicName = profilePicName;
+	}
+
+
+	public UserModel(String username, String password, String firstName, String lastName, String userEmail,
+			UserType userType, Timestamp creationDate, Timestamp userBirthday, String userBio, int reviewCount,
+			List<PostModel> postList, List<CommentModel> commentList, String profilePicName) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userEmail = userEmail;
+		this.userType = userType;
+		this.creationDate = creationDate;
+		this.userBirthday = userBirthday;
+		this.userBio = userBio;
+		this.reviewCount = reviewCount;
+		this.postList = postList;
+		this.commentList = commentList;
+		this.profilePicName = profilePicName;
 	}
 
 
 	@Override
 	public String toString() {
-		return "UserModel [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+		return "\nUserModel [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", userEmail=" + userEmail + ", userType=" + userType
 				+ ", creationDate=" + creationDate + ", userBirthday=" + userBirthday + ", userBio=" + userBio
-				+ ", reviewCount=" + reviewCount + ", postList=" + postList + ", commentList=" + commentList + "]";
+				+ ", reviewCount=" + reviewCount + ", postList=" + postList + ", commentList=" + commentList
+				+ ", profilePicName=" + profilePicName + "]";
 	}
+
+
+	
 	
 	
 	

@@ -1,17 +1,23 @@
 package demo.controller;
 
+import java.sql.Timestamp;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import demo.dao.CommentDao;
 import demo.dao.PostDao;
 import demo.dao.UserDao;
+import demo.model.UserModel;
 import demo.util.StorageService;
 
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 	
@@ -47,21 +53,59 @@ public class UserController {
 		return "html/register.html";
 	}
 	
-	@PostMapping("/loginauthentication")
-	public String routeLoginToHomePage() {
+	@PostMapping("/l-authentication")
+	public String routeLoginToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
 		System.out.println("In the user/login controller");
 		
-		//BUSINESS LOGIC
+		UserModel dbUser = loginAuthentication(reqUser);
+		if(dbUser == null) {
+			return "html/login.html";
+		}
+		session.setAttribute("loggedUser", dbUser);
 		
 		return "html/home.html";
 	}
 	
-	@PostMapping("/registerauthentication")
-	public String routeRegisterToHomePage() {
-		System.out.println("In the user/login controller");
+	@PostMapping("/r-authentication")
+	public String routeRegisterToHomePage(HttpSession session, @RequestBody UserModel reqUser ) {
+		System.out.println("In the user/register controller");
 		
-		//BUSINESS LOGIC
+		UserModel dbCheck = loginAuthentication(reqUser);
+		
+		if(dbCheck != null) {
+			return "html/login.html";
+		}
+		reqUser.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		UserModel newUser = userDao.save(reqUser);
+		
+		session.setAttribute("loggedUser", newUser);
 		
 		return "html/home.html";
 	}
+	
+	
+	
+	public UserModel loginAuthentication(UserModel reqUser){
+		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());
+		if(dbUser != null) {
+			/*
+			 * PASSWORD HASHING AND DEHASHING METHOD CALS WILL GO HERE!!
+			 */
+			if(dbUser.getPassword() == reqUser.getPassword()) {
+				return dbUser;
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

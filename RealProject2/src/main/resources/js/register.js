@@ -6,7 +6,7 @@ window.onload = function () {
 }
 
 function redirectToLoginPage(){
-    window.location.replace("C:/Users/tapioca/Documents/Project2_Team_Fire_Nation/RevatureProject2TeamFire/RealProject2/src/main/resources/html/login.html");
+    window.location.replace("../html/login.html");
 }
 
 function newUserRegister() {
@@ -40,7 +40,7 @@ function newUserRegister() {
         // }
         console.log("Inside the json block");
         // xhttp.send(JSON.stringify(newUserRegistration));
-        // window.location.replace("/html/logout.html");
+        // window.location.replace("../html/logout.html");
 
     } 
 }

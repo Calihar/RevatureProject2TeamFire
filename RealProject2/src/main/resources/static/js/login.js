@@ -37,7 +37,7 @@ function userLogin(userName, passWord) {
     
     let xhttp = new XMLHttpRequest;
 
-    xhttp.open('POST', `http://localhost:9001/Project2/json/uservalidation`);
+    xhttp.open('POST', `http://localhost:9001/login`);
     xhttp.setRequestHeader("content-type", "application/json");
 
     xhttp.onreadystatechange = function(){

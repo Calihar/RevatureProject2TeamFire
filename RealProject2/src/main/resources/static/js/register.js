@@ -9,7 +9,7 @@ function redirectToLoginPage(){
 
     ///this the line of the GODs!!!!!!
     window.localStorage.clear();
-    
+
     window.location.replace("../html/login.html");
 }
 
@@ -17,7 +17,7 @@ function newUserRegister(userFirstName,userLastName,userName,email,userPassword)
     
     let xhttp = new XMLHttpRequest;
 
-    xhttp.open('POST', `http://localhost:9001/Project2/json/newuserregistration`);
+    xhttp.open('POST', `http://localhost:9001/register`);
     xhttp.setRequestHeader("content-type", "application/json");
 
     xhttp.onreadystatechange = function(){

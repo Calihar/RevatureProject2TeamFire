@@ -6,41 +6,48 @@ window.onload = function () {
 }
 
 function redirectToLoginPage(){
+
+    ///this the line of the GODs!!!!!!
+    window.localStorage.clear();
+    
     window.location.replace("../html/login.html");
 }
 
-function newUserRegister() {
+function newUserRegister(userFirstName,userLastName,userName,email,userPassword) {
     
-    // let xhttp = new XMLHttpRequest;
+    let xhttp = new XMLHttpRequest;
 
-    // xhttp.open('POST', `http://localhost:9001/Project2/json/newuserregistration`);
-    // xhttp.setRequestHeader("content-type", "application/json");
+    xhttp.open('POST', `http://localhost:9001/Project2/json/newuserregistration`);
+    xhttp.setRequestHeader("content-type", "application/json");
 
-    // xhttp.onreadystatechange = function(){
-    //     if (xhttp.readyState == 4 && xhttp.status== 200) {            
+    xhttp.onreadystatechange = function(){
+        if (xhttp.readyState == 4 && xhttp.status== 200) {            
             
-    //         let regObj = xhttp.responseText;
-    //         console.log(regObj);
-            
-    //     }
-    // }    
+            // let regObj = xhttp.responseText;
+            // console.log(regObj);
+
+            // /////the response text will send the URI main page of the newly created account
+            window.location = xhttp.responseText;
+        }
+    }    
     
     console.log("no empty fields: "+ noEmptyFields());        
     console.log("passwords match: " + passwordMatching());        
     if (noEmptyFields() & passwordMatching()) {
 
         //no field is empty
-        // let newUserRegistration = {
-        //     "firstName" : userFirstName,
-        //     "lastName" : userLastName,
-        //     "username" : userName,
-        //     "userEmail" : email,
-        //     "password" : userPassword
+        let newUserRegistration = {
+            "firstName" : userFirstName,
+            "lastName" : userLastName,
+            "username" : userName,
+            "userEmail" : email,
+            "password" : userPassword
     
-        // }
+        }
         console.log("Inside the json block");
+        console.log(newUserRegistration);
         // xhttp.send(JSON.stringify(newUserRegistration));
-        // window.location.replace("../html/logout.html");
+        
 
     } 
 }

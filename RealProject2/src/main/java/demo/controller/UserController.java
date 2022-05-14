@@ -18,7 +18,6 @@ import demo.model.UserModel;
 import demo.util.StorageService;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 	
 	//FIELDS\\
@@ -41,18 +40,22 @@ public class UserController {
 	
 	//ENDPOINTS\\
 	
+	
+	//ROUTING\\
 	@GetMapping("/login")
 	public String routeLoginPage() {
 		System.out.println("In the user/login controller");
 		return "html/login.html";
 	}
-	
 	@GetMapping("/register")
 	public String routeRegisterPage() {
 		System.out.println("In the user/login controller");
 		return "html/register.html";
 	}
 	
+	
+	
+	//DB ACCESSING\\
 	@PostMapping("/l-authentication")
 	public String routeLoginToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
 		System.out.println("In the user/login controller");
@@ -85,6 +88,9 @@ public class UserController {
 	
 	
 	
+	
+	
+	//HELPER METHODS\\
 	public UserModel loginAuthentication(UserModel reqUser){
 		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());
 		if(dbUser != null) {

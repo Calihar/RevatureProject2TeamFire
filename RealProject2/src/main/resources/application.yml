@@ -1,7 +1,22 @@
 server:
-  port: 9001
-  
+  port: 9001 
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    credentials:
+      access-key: ${AWSAccessKeyId}
+      secret-key: ${AWSSecretKey}
+    stack:
+      auto: false
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+  application:
+    name: s3-demo
   datasource:
     url: jdbc:postgresql://${TRAINING_DB_ENDPOINT}/Project2
     username: ${TRAINING_DB_USERNAME}

@@ -69,7 +69,7 @@ function noEmptyFields() {
     let userName = document.getElementById("username").value;
     let email = document.getElementById("email").value;
 
-    if (userFirstName & userLastName & userName & email) {
+    if (userFirstName !== "" & userLastName !== "" & userName !== "" & email !== "") {
         return true;        
     } else {
         document.getElementById('texto').innerHTML = "all fields must be filled";
@@ -80,13 +80,16 @@ function noEmptyFields() {
 function passwordMatching() {
     let userPassword = document.getElementById("password").value;
     let retypePassword = document.getElementById("repass").value;
-    if (userPassword & retypePassword  & (userPassword === retypePassword)) {
+    if ((userPassword !== "" & retypePassword !== "")  & (userPassword === retypePassword)) {
+        console.log("hooray passwords match");
         return true;        
-    } else if (userPassword & retypePassword  & (userPassword != retypePassword)) {
+    } else if ((userPassword !== "" & retypePassword !== "")  & (userPassword !== retypePassword)) {
+        console.log("passwords don't match");
         document.getElementById('texto').innerHTML = "passwords don't match";
         return false;
     } else {
         return false;
+        //sdsdsds
     }
 }
 

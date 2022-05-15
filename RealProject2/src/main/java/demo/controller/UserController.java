@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.servlet.http.HttpSession;
 
+import demo.model.UserModel.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +63,7 @@ public class UserController {
 		if (dbCheck != null) {
 			return "html/login.html";
 		}
+		reqUser.setUserType(UserType.General);
 		reqUser.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		UserModel newUser = userDao.save(reqUser);
 

@@ -26,7 +26,7 @@ function redirectToLoginPage(){
 
 
 
-function newUserRegister(userFirstName,userLastName,userName,email,userPassword) {
+function newUserRegister() {
     
     let xhttp = new XMLHttpRequest;
 
@@ -40,21 +40,21 @@ function newUserRegister(userFirstName,userLastName,userName,email,userPassword)
             // console.log(regObj);
 
             // /////the response text will send the URI main page of the newly created account
-            window.location = xhttp.responseText;
+            // window.location = xhttp.responseText;
         }
     } 
     
-    var userFirstName = document.getElementById("firstname").value;
-    var userLastName = document.getElementById("lastname").value;
-    var userName = document.getElementById("username").value;
-    var email = document.getElementById("email").value;
-    var userPassword = document.getElementById("password").value;
+    var userFirstName = document.querySelector("#firstname").value;
+    var userLastName = document.querySelector("#lastname").value;
+    var userName = document.querySelector("#username").value;
+    var email = document.querySelector("#email").value;
+    var userPassword = document.querySelector("#password").value;
     
     
     
     // console.log("no empty fields: "+ noEmptyFields());        
     // console.log("passwords match: " + passwordMatching());        
-    if (noEmptyFields() & passwordMatching()) {
+    if (noEmptyFields(userFirstName,userLastName,userName,email) && passwordMatching(userPassword)) {
 
         console.log("name: "+ userFirstName);
         console.log("last name: "+ userLastName);
@@ -81,7 +81,7 @@ function newUserRegister(userFirstName,userLastName,userName,email,userPassword)
 
 function noEmptyFields(userFirstName,userLastName,userName,email) {    
 
-    if (userFirstName !== "" & userLastName !== "" & userName !== "" & email !== "") {
+    if (userFirstName != "" & userLastName != "" & userName != "" & email != "") {
         return true;        
     } else {
         document.getElementById('texto').innerHTML = "all fields must be filled";
@@ -90,17 +90,17 @@ function noEmptyFields(userFirstName,userLastName,userName,email) {
 }
 
 function passwordMatching(userPassword) {
-    var retypePassword = document.getElementById("repass").value;
-    if ((userPassword !== "" & retypePassword !== "")  & (userPassword === retypePassword)) {
+    var retypePassword = document.querySelector("#repass").value;
+    if ((userPassword != "" & retypePassword != "")  & (userPassword === retypePassword)) {
         console.log("hooray passwords match");
         return true;        
-    } else if ((userPassword !== "" & retypePassword !== "")  & (userPassword !== retypePassword)) {
+    } else /* if ((userPassword != "" & retypePassword != "")  & (userPassword != retypePassword)) */ {
         console.log("passwords don't match");
         document.getElementById('texto').innerHTML = "passwords don't match";
         return false;
-    } else {
+    } /* else {
         return false;        
-    }
+    } */
 }
 
 

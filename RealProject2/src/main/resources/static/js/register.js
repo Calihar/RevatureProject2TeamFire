@@ -80,11 +80,9 @@ function noEmptyFields() {
 function passwordMatching() {
     let userPassword = document.getElementById("password").value;
     let retypePassword = document.getElementById("repass").value;
-    if ((userPassword !== "" & retypePassword !== "")  & (userPassword === retypePassword)) {
-        console.log("hooray passwords match");
+    if (userPassword & retypePassword  & (userPassword === retypePassword)) {
         return true;        
-    } else if ((userPassword !== "" & retypePassword !== "")  & (userPassword !== retypePassword)) {
-        console.log("passwords don't match");
+    } else if (userPassword & retypePassword  & (userPassword != retypePassword)) {
         document.getElementById('texto').innerHTML = "passwords don't match";
         return false;
     } else {

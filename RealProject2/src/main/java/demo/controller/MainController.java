@@ -35,29 +35,30 @@ public class MainController {
 	// ROUTING\\
 	@GetMapping("/")
 	public String routeLandingPage() {
-		System.out.println("In the main controller");
+		System.out.println("In the main router");
 		return "landing.html";
 	}
 
 	@GetMapping("/login")
 	public String routeLoginPage() {
-		System.out.println("In the user/login controller");
+		System.out.println("In the main/login router");
 		return "html/login.html";
 	}
 	@GetMapping("/register")
 	public String routeRegisterPage() {
-		System.out.println("In the user/login controller");
+		System.out.println("In the main/register router");
 		return "html/register.html";
 	}
 	
 	@GetMapping("/aboutus")
 	public String routeAboutUsPage() {
-		System.out.println("In the user/login controller");
+		System.out.println("In the main/aboutus router");
 		return "html/aboutus.html";
 	}
 	
 	@GetMapping("/home")
 	public String routeHomePage(HttpSession session) {
+		System.out.println("In the main/home router");
 		// MAKE SURE THE USER IS LOGGED IN
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser == null)
@@ -68,6 +69,7 @@ public class MainController {
 	
 	@GetMapping("/profile")
 	public String routeProfilePage(HttpSession session) {
+		System.out.println("In the main/profile router");
 		// MAKE SURE THE USER IS LOGGED IN
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser == null)
@@ -78,6 +80,7 @@ public class MainController {
 	
 	@GetMapping("/logout")
 	public String logoutMethod(HttpSession session) {
+		System.out.println("Logging out");
 		session.invalidate();
 		return "landing.html";
 	}

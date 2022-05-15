@@ -114,7 +114,8 @@ function setUserInfo(respObj) {
     emailChild = document.createElement("p");
     emailChild.setAttribute("id", "emailChild");
     emailChild.setAttribute("type", "email");
-    emailChild.setAttribute("value", "New Email Address");
+    emailChild.setAttribute("placeholder", "New Email Address");
+    emailChild.setAttribute("value", respObj.userEmail)
     emailChild.setAttribute("name", "childEmailValue");
     emailChild.innerText = "(Filled From DB)";
     emailParent.appendChild(emailChild);
@@ -157,9 +158,11 @@ function setUserInfo(respObj) {
 function startUp() {
     console.log("In startup Function");
 
+
     //When done with testing, delete
     setUserInfo();
     ///////////////////////////////////
+
 
     let xhttp = new XMLHttpRequest();
 
@@ -176,17 +179,22 @@ function startUp() {
             console.log(respObj);
 
             setUserInfo(respObj);
+
+   
+
         }
     }
 
 
 
 
+
     xhttp.open('GET', `http://localhost:9001/profile/Hiro`);
-    xhttp.send();
+
 
 
 }
+
 
 function setProfilePage() {
     console.log("In Set Profile Page Function");
@@ -230,3 +238,4 @@ function setProfilePage() {
        
 
    }
+

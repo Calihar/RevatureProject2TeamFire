@@ -1,5 +1,6 @@
 package demo.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import demo.dao.PostDao;
 import demo.dao.UserDao;
 import demo.model.PostModel;
 import demo.model.UserModel;
+import demo.util.StorageService;
 
 @Controller
 public class MainController {
@@ -31,6 +33,9 @@ public class MainController {
 		this.postDao = postDao;
 		this.commentDao = commentDao;
 	}
+	
+	@Autowired
+	private StorageService storageServ;
 
 	// ROUTING\\
 	@GetMapping("/")
@@ -44,18 +49,19 @@ public class MainController {
 		System.out.println("In the main/login router");
 		return "html/login.html";
 	}
+
 	@GetMapping("/register")
 	public String routeRegisterPage() {
 		System.out.println("In the main/register router");
 		return "html/register.html";
 	}
-	
+
 	@GetMapping("/aboutus")
 	public String routeAboutUsPage() {
 		System.out.println("In the main/aboutus router");
 		return "html/aboutus.html";
 	}
-	
+
 	@GetMapping("/home")
 	public String routeHomePage(HttpSession session) {
 		System.out.println("In the main/home router");
@@ -66,7 +72,7 @@ public class MainController {
 
 		return "html/home.html";
 	}
-	
+
 	@GetMapping("/profile")
 	public String routeProfilePage(HttpSession session) {
 		System.out.println("In the main/profile router");
@@ -77,17 +83,14 @@ public class MainController {
 
 		return "html/profile.html";
 	}
-	
+
 	@GetMapping("/logout")
 	public String logoutMethod(HttpSession session) {
 		System.out.println("Logging out");
 		session.invalidate();
 		return "landing.html";
 	}
-	
-	
-	
-	
+
 	// DB ACCESSING\\
 	@GetMapping("/homeall")
 	public List<PostModel> homeGetAllPosts(HttpSession session) {
@@ -100,6 +103,16 @@ public class MainController {
 		postArray.addAll(postDao.findAll());
 
 		return postArray;
+	}
+
+	@GetMapping("/photo")
+	public String getPictureURL(HttpSession session, String fileName) throws IOException {
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser == null) {
+			return storageServ.presignedUrl(fileName);
+		}
+		return null;
+		
 	}
 
 	// HELPER METHOD\\

@@ -132,23 +132,23 @@ public class UserModel {
 	}
 
 	public UserModel updateObject(Object obj) {
-		UserModel mergedUserModel = new UserModel();
+		UserModel mergedUserModel = this;
 		
 		UserModel other = (UserModel) obj;
 		if(!Objects.equals(firstName, other.firstName) && other.firstName != null) {
-			
+			mergedUserModel.setFirstName(other.getFirstName());
 		}
-		if(Objects.equals(lastName, other.lastName) && other.lastName != null) {
-			
+		if(!Objects.equals(lastName, other.lastName) && other.lastName != null) {
+			mergedUserModel.setLastName(other.getLastName());
 		}
-		if(Objects.equals(userBio, other.userBio) && other.userBio != null) {
-			
+		if(!Objects.equals(userBio, other.userBio) && other.userBio != null) {
+			mergedUserModel.setUserBio(other.getUserBio());
 		}
-		if(Objects.equals(userBirthday, other.userBirthday) && other.userBirthday != null) {
-			
+		if(!Objects.equals(userBirthday, other.userBirthday) && other.userBirthday != null) {
+			mergedUserModel.setUserBirthday(other.getUserBirthday());
 		}
-		if(Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
-			
+		if(!Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
+			mergedUserModel.setUserEmail(other.getUserEmail());
 		}
 		
 				

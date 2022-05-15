@@ -3,5 +3,5 @@ window.onload = function (){
 }
 
 function redirectToLoginPage(){
-    window.location.replace("../html/login.html");
+    window.location.replace("../landing.html");
 }

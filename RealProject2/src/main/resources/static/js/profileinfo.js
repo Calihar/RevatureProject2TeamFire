@@ -37,7 +37,7 @@ function changeBirthDayFunction() {
     birthDayChild.setAttribute("id", "birthDayChild");
     birthDayChild.setAttribute("type", "date");
     birthDayChild.setAttribute("value", "New Birthdate");
-    birthDayChild.setAttribute("name", "BirthDayValue");
+    birthDayChild.setAttribute("name", "birthDayValue");
     birthDayChild.innerText = "(Filled From DB)";
     birthDayParent.appendChild(birthDayChild);
 }
@@ -70,8 +70,27 @@ function changeLastNameFunction() {
     lastNameParent.appendChild(lastNameChild);
 }
 
-function updateUserInfo(){
+function updateUserInfo() {
     console.log("In update User info function");
+    let childEmailValue = document.querySelector("#emailChild").value;
+    let firstNameValue = document.querySelector("#firstNameChild").value;
+    let lastNameValue = document.querySelector("#lastNameChild").value;
+    let birthDayValue = document.querySelector("#birthDayChild").value;
+    let userBiographyTextAreaValue = document.querySelector("#userBiographyTextArea").value;
+
+
+    console.log("-----TESTING INPUT BLOCK-----" + "\n Email: " + childEmailValue + "\n" + " First Name: " + firstNameValue + "\n Last name: " + lastNameValue + "\n Birthday: " + birthDayValue + "\n Biography Info: \n" + userBiographyTextAreaValue + "\n-----END OF TESTING INPUT BLOCK-----");
+
+
+    console.log("-----TESTING JSON BLOCK-----")
+    let Json = JSON.stringify({ childEmailValue, firstNameValue, lastNameValue, birthDayValue, userBiographyTextAreaValue });
+    console.log(Json);
+    console.log("-----END OF JSON TESTING BLOCK-----")
+
+
+
+
+
 
 
 }
@@ -82,7 +101,7 @@ function getUserInfo(respObj) {
     let emailParent = document.querySelector("#emailParent");
     let emailChild = document.querySelector("#emailChild");
     emailChild.remove();
-    emailChild = document.createElement("P");
+    emailChild = document.createElement("p");
     emailChild.setAttribute("id", "emailChild");
     emailChild.setAttribute("type", "email");
     emailChild.setAttribute("value", "New Email Address");
@@ -93,7 +112,7 @@ function getUserInfo(respObj) {
     let birthDayParent = document.querySelector("#birthDayParent");
     let birthDayChild = document.querySelector("#birthDayChild");
     birthDayChild.remove();
-    birthDayChild = document.createElement("P");
+    birthDayChild = document.createElement("p");
     birthDayChild.setAttribute("id", "birthDayChild");
     birthDayChild.setAttribute("type", "date");
     birthDayChild.setAttribute("value", "New Birthdate");
@@ -104,7 +123,7 @@ function getUserInfo(respObj) {
     let firstNameParent = document.querySelector("#firstNameParent");
     let firstNameChild = document.querySelector("#firstNameChild");
     firstNameChild.remove();
-    firstNameChild = document.createElement("P");
+    firstNameChild = document.createElement("p");
     firstNameChild.setAttribute("id", "firstNameChild");
     firstNameChild.setAttribute("type", "text");
     firstNameChild.setAttribute("value", "New First Name");
@@ -115,7 +134,7 @@ function getUserInfo(respObj) {
     let lastNameParent = document.querySelector("#lastNameParent");
     let lastNameChild = document.querySelector("#lastNameChild");
     lastNameChild.remove();
-    lastNameChild = document.createElement("P");
+    lastNameChild = document.createElement("p");
     lastNameChild.setAttribute("id", "lastNameChild");
     lastNameChild.setAttribute("type", "text");
     lastNameChild.setAttribute("value", "New Last Name");

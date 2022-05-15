@@ -72,20 +72,20 @@ function updateUserInfo() {
     let userBirthday = document.querySelector("#birthDayChild").value;
     let userBiographyTextAreaValue = document.querySelector("#userBiographyTextArea").value;
 
-    let userObject={ 
+    let userObject = {
         "userEmail": childEmailValue,
         "firstName": firstNameValue,
-        "lastName":lastNameValue,
-        "userBirthday":userBirthday,
-        "userBio":userBiographyTextAreaValue
+        "lastName": lastNameValue,
+        "userBirthday": userBirthday,
+        "userBio": userBiographyTextAreaValue
     };
     console.log(userObject);
-    
-    
+
+
     let xhttp = new XMLHttpRequest();
-    
-    
-    
+
+
+
     xhttp.onreadystatechange = function () {
         console.log("readyState is changing: ", xhttp.readyState);
 
@@ -98,14 +98,14 @@ function updateUserInfo() {
 
 
     xhttp.open('POST', `http://localhost:9001/profile/update`);
-    
+
     xhttp.setRequestHeader("content-type", "application/json");
-    
+
     //xhttp.send(JSON.stringify(userObject));
-    
+
 }
 
-function getUserInfo(respObj) {
+function setUserInfo(respObj) {
     console.log("In get user info function");
 
     let emailParent = document.querySelector("#emailParent");
@@ -157,7 +157,9 @@ function getUserInfo(respObj) {
 function startUp() {
     console.log("In startup Function");
 
-    getUserInfo();
+    //When done with testing, delete
+    setUserInfo();
+    ///////////////////////////////////
 
     let xhttp = new XMLHttpRequest();
 
@@ -165,6 +167,7 @@ function startUp() {
         console.log("readyState is changing: ", xhttp.readyState);
 
         if (xhttp.readyState == 4 && xhttp.status == 200) {
+
             console.log("readyState is 4!!! AND status is 200!!!");
 
 
@@ -172,16 +175,58 @@ function startUp() {
             let respObj = JSON.parse(xhttp.responseText);
             console.log(respObj);
 
-            getUserInfo(respObj);
+            setUserInfo(respObj);
         }
     }
 
 
 
 
-    xhttp.open('GET', `http://localhost:9001/profile/user`);
+    xhttp.open('GET', `http://localhost:9001/profile/Hiro`);
     xhttp.send();
 
 
 }
 
+function setProfilePage() {
+    console.log("In Set Profile Page Function");
+    
+//PROFILE PAGE
+  //Column 1
+    //picture
+    let profilePicture=document.querySelector("#profilePicture");
+    profilePicture.setAttribute("src",respObj.profilePicture);
+
+    //username
+    let username=document.querySelector("#username");
+    username.setAttribute("username", respObj.username);
+
+  
+//MODEL FROM PROFILE PAGE
+    //email
+    let userEmail=document.querySelector("#emailChild");
+    userEmail.setAttribute("emailChild", respObj.userEmail);
+    
+    //first
+    let firstName=document.querySelector("#firstNameChild");
+    firstName.setAttribute("firstNameChild", respObj.firstName);
+
+    //last
+    let lastName=document.querySelector("#lastNameChild");
+    lastName.setAttribute("lastNameChild", respObj.lastName);
+
+
+    //birthday
+    let userBirthday=document.querySelector("#userBirthday");
+    userBirthday.setAttribute("userBirthday", respObj.userBirthday);
+
+    //biography
+    let userBio=document.querySelector("#userBiographyTextArea");
+    userBio=setAttribute("userBio", respObj.userBio);
+
+}
+//Column 2
+   function populatePost(respObj, i, newPost){
+       
+
+   }

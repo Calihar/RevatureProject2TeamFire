@@ -92,7 +92,7 @@ public class UserController {
 		if (reqUser != null) {
 			currentUser.updateObject(reqUser);
 			session.setAttribute("loggedUser", currentUser);
-			userDao.save(currentUser);
+			return userDao.save(currentUser);
 		}
 
 		return currentUser;

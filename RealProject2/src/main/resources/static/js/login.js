@@ -48,7 +48,7 @@ function userLogin(userName, passWord) {
     
     let xhttp = new XMLHttpRequest;
 
-    xhttp.open('POST', `http://localhost:9001/login`);
+    xhttp.open('POST', `http://localhost:9001/l-authentication`);
     xhttp.setRequestHeader("content-type", "application/json");
 
     xhttp.onreadystatechange = function(){

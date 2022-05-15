@@ -105,7 +105,7 @@ function updateUserInfo() {
     
 }
 
-function getUserInfo(respObj) {
+function setUserInfo(respObj) {
     console.log("In get user info function");
 
     let emailParent = document.querySelector("#emailParent");
@@ -114,7 +114,8 @@ function getUserInfo(respObj) {
     emailChild = document.createElement("p");
     emailChild.setAttribute("id", "emailChild");
     emailChild.setAttribute("type", "email");
-    emailChild.setAttribute("value", "New Email Address");
+    emailChild.setAttribute("placeholder", "New Email Address");
+    emailChild.setAttribute("value", respObj.userEmail)
     emailChild.setAttribute("name", "childEmailValue");
     emailChild.innerText = "(Filled From DB)";
     emailParent.appendChild(emailChild);
@@ -157,7 +158,7 @@ function getUserInfo(respObj) {
 function startUp() {
     console.log("In startup Function");
 
-    getUserInfo();
+  
 
     let xhttp = new XMLHttpRequest();
 
@@ -172,16 +173,21 @@ function startUp() {
             let respObj = JSON.parse(xhttp.responseText);
             console.log(respObj);
 
-            getUserInfo(respObj);
+            setUserInfo(respObj);
+            setUpPage(respObj);
         }
     }
 
 
 
 
-    xhttp.open('GET', `http://localhost:9001/profile/user`);
+    xhttp.open('GET', `http://localhost:9001/profile/` + "Hiro");
     xhttp.send();
 
+
+}
+
+function setUpPage(respObj) {
 
 }
 

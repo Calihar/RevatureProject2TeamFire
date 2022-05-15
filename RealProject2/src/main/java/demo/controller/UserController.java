@@ -1,21 +1,24 @@
 package demo.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 
 import javax.servlet.http.HttpSession;
 
-import demo.model.UserModel.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import demo.dao.CommentDao;
 import demo.dao.PostDao;
 import demo.dao.UserDao;
 import demo.model.UserModel;
+import demo.model.UserModel.UserType;
 import demo.util.StorageService;
 
 @RestController
@@ -72,6 +75,7 @@ public class UserController {
 		return "/home";
 	}
 
+	@Deprecated
 	@GetMapping("/profile/user")
 	public UserModel currentUserProfile(HttpSession session) {
 		UserModel tempUser = (UserModel) session.getAttribute("loggedUser");
@@ -97,6 +101,20 @@ public class UserController {
 
 		return currentUser;
 	}
+	
+	@PostMapping("/profile/picture")
+	public String updateProfilePicture(HttpSession session, @RequestParam(value="file") MultipartFile file) throws IOException {
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			String newFileName = storageServ.uploadAWSFile(file);
+			currentUser.setProfilePicName(newFileName);
+			userDao.save(currentUser);
+			
+			return storageServ.presignedUrl(newFileName);
+		}
+		
+		return null;
+	}
 
 	// HELPER METHODS\\
 	public UserModel loginAuthentication(UserModel reqUser) {
@@ -104,9 +122,7 @@ public class UserController {
 		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());
 		System.out.println("dbUser: " + dbUser);
 		if (dbUser != null) {
-			/*
-			 * PASSWORD HASHING AND DEHASHING METHOD CALS WILL GO HERE!!
-			 */
+			
 			if (dbUser.getPassword().equals(reqUser.getPassword())) {
 				return dbUser;
 			}

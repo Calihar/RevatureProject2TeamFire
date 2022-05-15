@@ -57,7 +57,7 @@ function newUserRegister(userFirstName,userLastName,userName,email,userPassword)
         }
         console.log("Inside the json block");
         console.log(newUserRegistration);
-        // xhttp.send(JSON.stringify(newUserRegistration));
+        xhttp.send(JSON.stringify(newUserRegistration));
         
 
     } 

@@ -40,7 +40,8 @@ function newUserRegister() {
             // console.log(regObj);
 
             // /////the response text will send the URI main page of the newly created account
-            // window.location = xhttp.responseText;
+            var urlBase = "http://localhost:9001"
+            window.location = urlBase + xhttp.responseText;
         }
     } 
     

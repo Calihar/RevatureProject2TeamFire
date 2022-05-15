@@ -47,11 +47,11 @@ public class UserController {
 
 		UserModel dbUser = loginAuthentication(reqUser);
 		if (dbUser == null) {
-			return "html/login.html";
+			return "/login";
 		}
 		session.setAttribute("loggedUser", dbUser);
 
-		return "html/home.html";
+		return "/home";
 	}
 
 	@PostMapping("/r-authentication")
@@ -59,17 +59,17 @@ public class UserController {
 		System.out.println("In the user/register controller");
 
 		UserModel dbCheck = loginAuthentication(reqUser);
-
 		if (dbCheck != null) {
-			return "html/login.html";
+			return "/login";
 		}
+		
 		reqUser.setUserType(UserType.General);
 		reqUser.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		UserModel newUser = userDao.save(reqUser);
 
 		session.setAttribute("loggedUser", newUser);
 
-		return "html/home.html";
+		return "/home";
 	}
 
 	@GetMapping("/profile/user")
@@ -100,12 +100,14 @@ public class UserController {
 
 	// HELPER METHODS\\
 	public UserModel loginAuthentication(UserModel reqUser) {
+		System.out.println("reqUser: " + reqUser);
 		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());
+		System.out.println("dbUser: " + dbUser);
 		if (dbUser != null) {
 			/*
 			 * PASSWORD HASHING AND DEHASHING METHOD CALS WILL GO HERE!!
 			 */
-			if (dbUser.getPassword() == reqUser.getPassword()) {
+			if (dbUser.getPassword().equals(reqUser.getPassword())) {
 				return dbUser;
 			}
 		}

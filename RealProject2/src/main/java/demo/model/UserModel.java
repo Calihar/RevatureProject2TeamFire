@@ -121,6 +121,11 @@ public class UserModel {
 		this.userEmail = userEmail;
 	}
 	
+	public UserModel(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
 
 	@Override
 	public String toString() {
@@ -150,11 +155,10 @@ public class UserModel {
 		if(!Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
 			mergedUserModel.setUserEmail(other.getUserEmail());
 		}
-		
-				
-				   
+	   
 		return mergedUserModel;
 	}
+
 
 
 }

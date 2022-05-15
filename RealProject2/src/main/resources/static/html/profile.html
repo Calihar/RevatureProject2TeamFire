@@ -101,47 +101,54 @@
                         </tr>
                       </thead>
                       <tbody>
+
                         <tr>
                           <td>User name</td>
                           <td></td>
                           <td></td>
                         </tr>
+
                         <tr>
                           <td>Email Address</td>
-
-                          <td id="emailParent"><input id="emailChild" type="email" value="New Email Address" name="cmailval"></td>
+                          <td id="emailParent"><input id="emailChild" type="email" value="New Email Address"
+                              name="childEmailValue"></td>
                           <td><button id="emailBtn" type="button">Change</button></td>
+                        </tr>
 
-                        </tr>
-                        <tr>
-                          <td>Birthday</td>
-                          <td id="birthDayParent"><input id="birthDayChild" type="date" value="New Birthday" name="bdayval"></td>
-                          <td><button id="changeBirthDayBtn">Change</button></td>
-                        </tr>
                         <tr>
                           <td>First Name</td>
-                          <td id="firstNameParent"><input id="firstNameChild" type="text" value="New First Name" name="fnval"></td>
+                          <td id="firstNameParent"><input id="firstNameChild" type="text" value="New First Name"
+                              name="firstNameValue"></td>
                           </td>
                           <td><button id="firstNameParentBtn">Change</button></td>
                         </tr>
+
                         <tr>
                           <td>Last Name</td>
-                          <td id="lastNameParent"><input id="lastNameChild" type="text" value="New Last Name" name="lnval"></td>
+                          <td id="lastNameParent"><input id="lastNameChild" type="text" value="New Last Name"
+                              name="lastNameValue"></td>
                           <td><button id="lastNameParentBtn">Change</button></td>
                         </tr>
 
+                        <tr>
+                          <td>Birthday</td>
+                          <td id="birthDayParent"><input id="birthDayChild" type="date" value="New Birthdate"
+                              name="bdayval"></td>
+                          <td><button id="changeBirthDayBtn">Change</button></td>
+                        </tr>
                       </tbody>
                     </table>
-                    <div id="UsrInf">
-                    </div>
+                    <lable id="userBiographyLbl">Tell us a little about yourself:</lable>
+                    <textarea id="userBiographyTextArea" name="userBiographyValue"
+                      placeholder="Biography Entry: " wrap="soft" rows="4" cols="48" value="userBiographyTextAreaValue">
+                      </textarea>
 
-
-
-                    </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button id="modalClose" type="button" class="btn btn-secondary"
+                      data-bs-dismiss="modal">Close</button>
+                    <button id="modalUpdateBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update User Info
+                      </button>
                   </div>
                 </div>
               </div>

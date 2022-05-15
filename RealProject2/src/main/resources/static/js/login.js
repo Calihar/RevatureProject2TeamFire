@@ -4,6 +4,17 @@ window.onload = function () {
 
 }
 
+function preventBack() {
+    window.history.forward(); 
+}
+  
+setTimeout("preventBack()", 0);
+
+window.onunload = () => {
+    // window.localStorage.clear();
+    null;
+}
+
 
 
 function noEmptyFields() {

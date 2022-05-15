@@ -74,27 +74,74 @@
             <li class="list-group-item"></li>
           </ul>
           <div class="card-body">
-           <!-- Button trigger modal -->
-           
-           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-              Edit Account
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              View Account
             </button>
 
+
             <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Edit Acccount</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">View Account Info</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
+
                   <div class="modal-body">
-                    Fields to edit account
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Field</th>
+                          <th scope="col">Changeing Fields </th>
+                          <th scope="col">Button</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>User name</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>Email Address</td>
+
+                          <td id="emailParent"><input id="emailChild" type="email" value="New Email Address" name="cmailval"></td>
+                          <td><button id="emailBtn" type="button">Change</button></td>
+
+                        </tr>
+                        <tr>
+                          <td>Birthday</td>
+                          <td id="birthDayParent"><input id="birthDayChild" type="date" value="New Birthday" name="bdayval"></td>
+                          <td><button id="changeBirthDayBtn">Change</button></td>
+                        </tr>
+                        <tr>
+                          <td>First Name</td>
+                          <td id="firstNameParent"><input id="firstNameChild" type="text" value="New First Name" name="fnval"></td>
+                          </td>
+                          <td><button id="firstNameParentBtn">Change</button></td>
+                        </tr>
+                        <tr>
+                          <td>Last Name</td>
+                          <td id="lastNameParent"><input id="lastNameChild" type="text" value="New Last Name" name="lnval"></td>
+                          <td><button id="lastNameParentBtn">Change</button></td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                    <div id="UsrInf">
+                    </div>
+
+
+
+                    </form>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                   </div>
                 </div>
               </div>
@@ -102,7 +149,8 @@
 
 
 
-            <a href="#" class="card-link">View Account</a>
+
+            <!-- <a href="#" class="card-link">View Account</a> -->
           </div>
         </div>
       </div>
@@ -152,6 +200,7 @@
     crossorigin="anonymous"></script>
 
   <!-- Accesory Script -->
+  <script src="../js/profileinfo.js"></script>
 
 </body>
 

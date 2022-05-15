@@ -69,7 +69,7 @@ public class UserModel {
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<CommentModel> commentList;
 
-	enum UserType {
+	public enum UserType {
 		General, Admin
 	}
 

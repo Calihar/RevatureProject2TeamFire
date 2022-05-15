@@ -68,8 +68,8 @@ function noEmptyFields() {
     let userLastName = document.getElementById("lastname").value;
     let userName = document.getElementById("username").value;
     let email = document.getElementById("email").value;
-
-    if (userFirstName & userLastName & userName & email) {
+    
+    if (userFirstName !== "" & userLastName !== "" & userName !== "" & email !== "") {
         return true;        
     } else {
         document.getElementById('texto').innerHTML = "all fields must be filled";

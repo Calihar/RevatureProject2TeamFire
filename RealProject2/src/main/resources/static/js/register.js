@@ -28,7 +28,7 @@ function newUserRegister(userFirstName,userLastName,userName,email,userPassword)
     
     let xhttp = new XMLHttpRequest;
 
-    xhttp.open('POST', `http://localhost:9001/register`);
+    xhttp.open('POST', `http://localhost:9001/r-authentication`);
     xhttp.setRequestHeader("content-type", "application/json");
 
     xhttp.onreadystatechange = function(){

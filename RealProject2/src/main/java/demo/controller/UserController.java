@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +43,7 @@ public class UserController {
 	
 	//DB ACCESSING\\
 	@PostMapping("/l-authentication")
-	public String routeLoginToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
+	public String loginToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
 		System.out.println("In the user/login controller");
 		
 		UserModel dbUser = loginAuthentication(reqUser);
@@ -54,7 +56,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/r-authentication")
-	public String routeRegisterToHomePage(HttpSession session, @RequestBody UserModel reqUser ) {
+	public String registerToHomePage(HttpSession session, @RequestBody UserModel reqUser ) {
 		System.out.println("In the user/register controller");
 		
 		UserModel dbCheck = loginAuthentication(reqUser);
@@ -70,7 +72,27 @@ public class UserController {
 		return "html/home.html";
 	}
 	
+	@GetMapping("/profile/user")
+	public UserModel currentUserProfile(HttpSession session) {
+		UserModel tempUser =  (UserModel)session.getAttribute("loggedUser");
+		
+		return tempUser;
+	}
 	
+	@GetMapping("/profile/{username}")
+	public UserModel pathUserProfile(@PathVariable("username") String username) {
+		UserModel tempUser = userDao.findByUsername(username);
+		
+		
+		return tempUser;
+	}
+	
+	@PostMapping("/profile/update")
+	public UserModel updateUserProfile(HttpSession session, @RequestBody UserModel reqUser) {
+		UserModel currentUser = (UserModel)session.getAttribute("loggedUser");
+		
+		return null;
+	}
 	
 	
 	

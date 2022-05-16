@@ -26,7 +26,7 @@ public class MailController {
 	String messageContent = "Someone logged into your account has requested a password reset. If you did not do this, then please call Trevin Chester at Revature. "
 			+ "<br><br>Otherwise, please click on the link below to go to our reset page"
 			+ "<br><br><a href='http://localhost:9001/finalizepasswordreset'>Password Reset</a>"
-			+ "<br><br>Thanks,<br>Hot Takes Security Team";
+			+ "<br><br>Thanks,<br>HotTakes Security Team";
 
 	@PostMapping("/sendemail")
 	public String sendEmail(@RequestParam(value="emailName") String email) throws AddressException, MessagingException, IOException {

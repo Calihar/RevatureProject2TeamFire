@@ -114,7 +114,7 @@ public class UserController {
 	 * @param username
 	 * @return
 	 */
-	@GetMapping("/get/profile/{username}")
+	@PostMapping("/get/profile/{username}")
 	public UserModel pathUserProfile(@PathVariable("username") String username) {
 		UserModel tempUser = userDao.findByUsername(username);
 
@@ -171,6 +171,20 @@ public class UserController {
 		}
 		
 		return null;
+	}
+	
+	
+	@PostMapping("/photo")
+	public String getPictureURL(HttpSession session, @RequestParam("picName") String fileName) throws IOException {
+		System.out.println("In the get Photo method");
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			String URL = storageServ.presignedUrl(fileName);
+			System.out.println("\n\n" + URL + "\n\n");
+			return URL;
+		}
+		return null;
+		
 	}
 
 	// HELPER METHODS\\

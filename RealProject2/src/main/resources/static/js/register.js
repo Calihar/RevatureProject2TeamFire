@@ -47,34 +47,17 @@ function newUserRegister() {
     } 
 
     
-    var crypto = require("crypto");
-    // var crypto = import("crypto");
-    var encrypt = function (clear) {
-      let salt = process.env.USER_SALT;
-
-      //SHA
-      let hash = crypto.createHmac("sha256", salt);
-      hash.update(clear);
-      return {
-        salt: salt, //this is the salt (needs a column on DB unique for each user)
-        hash: hash.digest("hex"), //this is the hashed string (goes in the DB on the password field)
-      };
-    };
+     
+    
     
     var userFirstName = document.querySelector("#firstname").value;
     var userLastName = document.querySelector("#lastname").value;
     var userName = document.querySelector("#username").value;
-    var email = document.querySelector("#email").value;
-
-
-    var clearpass = document.querySelector("#password").value;  //this is the user password in plaintext 
-
-    var encrypted = encrypt(clearpass);
-    var userPassword = encrypted.hash;
+    var email = document.querySelector("#email").value;    
+    var userPassword = document.querySelector("#password").value;  
     
     
-    // console.log("no empty fields: "+ noEmptyFields());        
-    // console.log("passwords match: " + passwordMatching());        
+       
     if (noEmptyFields(userFirstName,userLastName,userName,email) && passwordMatching(userPassword)) {
 
         console.log("name: "+ userFirstName);
@@ -92,7 +75,7 @@ function newUserRegister() {
             "password" : userPassword
     
         }
-        // console.log("Inside the json block");
+        
         console.log(newUserRegistration);
         xhttp.send(JSON.stringify(newUserRegistration));
         
@@ -119,9 +102,7 @@ function passwordMatching(userPassword) {
         console.log("passwords don't match");
         document.getElementById('texto').innerHTML = "passwords don't match";
         return false;
-    } /* else {
-        return false;        
-    } */
+    } 
 }
 
 

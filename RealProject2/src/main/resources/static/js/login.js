@@ -17,6 +17,8 @@ window.onunload = () => {
 }
 
 
+
+
 function noEmptyFields(userName, passWord) {
 
     if (userName == "" || passWord == "") {
@@ -27,9 +29,11 @@ function noEmptyFields(userName, passWord) {
 }
 
 function loginCheck() {
+
       
     var userName = document.querySelector("#username").value;
     var passWord = document.querySelector("#password").value;
+
 
     console.log(noEmptyFields(userName, passWord));
     if (noEmptyFields(userName, passWord)) {

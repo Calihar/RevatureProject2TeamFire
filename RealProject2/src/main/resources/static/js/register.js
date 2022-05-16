@@ -118,6 +118,13 @@ function newUserRegister() {
     var userPassword = document.querySelector("#password").value;
 
     
+
+    /**
+     * This variable right here is the one that is supposed to get the message.toString,
+     * which is the hashed password and then be sent inside the JSON in the "password" field. 
+     * But I don't have neurons to make it work right now x_x
+     * 
+     */
     var userPasswordField = myEncryptionFunc();
     
     

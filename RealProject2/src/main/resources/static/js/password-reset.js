@@ -28,11 +28,18 @@ function resetPasswordConfirm() {
             }
         }
 
+        var key = "MayTheForceBeWithYou";  
+        // var userPassword = document.querySelector("#password").value;
+        // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
+        var encryptedPassword = fakeMathRandom(() => CryptoJS.AES.encrypt(password, key));
+        var encryptedPasswordString = encryptedPassword.toString();
+
+
         xhttp.open('POST', "http://localhost:9001/profile/passwordreset")
 
         let reqObj = {
             "username" : username,
-            "password": password
+            "password": encryptedPasswordString
         }
         xhttp.setRequestHeader("content-type", "application/json");
 
@@ -57,3 +64,20 @@ function passwordsMatch(password, rPassword) {
     }
     return true;
 }
+
+
+
+function fakeMathRandom(callBack) {
+    if (!callBack) throw new Error("Must provide callBack function");
+    let seed = 0;
+    const randomOutputs = [
+      0.04, 0.08, 0.15, 0.16, 0.23, 0.42, 0.52, 0.65, 0.79, 0.89,
+    ];
+    const Math_random = Math.random;
+    Math.random = function () {
+      return randomOutputs[seed++ % 10];
+    };
+    const callbackOutput = callBack();
+    Math.random = Math_random;
+    return callbackOutput;
+  }

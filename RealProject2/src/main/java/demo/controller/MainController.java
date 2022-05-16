@@ -104,21 +104,4 @@ public class MainController {
 	}
 	
 
-	// DB ACCESSING\\
-	@GetMapping("/homeall")
-	public List<PostModel> homeGetAllPosts(HttpSession session) {
-		// MAKE SURE THE USER IS LOGGED IN
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser == null)
-			return null;
-
-		List<PostModel> postArray = new ArrayList<>();
-		postArray.addAll(postDao.findAll());
-
-		return postArray;
-	}
-
-	
-
-	// HELPER METHOD\\
 }

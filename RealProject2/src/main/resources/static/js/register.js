@@ -40,6 +40,7 @@ function isValidCharacters(str) {
 }
 
 function newUserRegister() {
+
   let xhttp = new XMLHttpRequest();
 
   xhttp.open("POST", `http://localhost:9001/r-authentication`);
@@ -51,6 +52,7 @@ function newUserRegister() {
       window.location = urlBase + xhttp.responseText;
     }
   };
+
 
   var userFirstName = document.querySelector("#firstname").value;
   var userLastName = document.querySelector("#lastname").value;
@@ -143,6 +145,7 @@ function passwordMatching(userPassword) {
     document.getElementById("texto").innerHTML = "passwords don't match";
     return false;
   }
+
 }
 
 

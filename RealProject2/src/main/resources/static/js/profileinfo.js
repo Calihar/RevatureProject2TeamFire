@@ -28,6 +28,8 @@ function changeAvatarPictureFunction() {
 
     let childFileSubmitBtn=document.createElement("button");
     childFileSubmitBtn.setAttribute("id", "upload-button")
+    childFileSubmitBtn.setAttribute("type", "submit");
+    childFileSubmitBtn.innerText="Upload";
     ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
 
     childProfilePictureModalPictureUpload.setAttribute("id", "childProfilePictureModalPictureUpload");

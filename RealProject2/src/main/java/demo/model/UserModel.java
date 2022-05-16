@@ -1,7 +1,8 @@
 package demo.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -150,6 +151,7 @@ public class UserModel {
 			mergedUserModel.setUserBio(other.getUserBio());
 		}
 		if(!Objects.equals(userBirthday, other.userBirthday) && other.userBirthday != null) {
+			Date tempDate = addHoursToJavaUtilDate(other.getUserBirthday(), 12);
 			mergedUserModel.setUserBirthday(other.getUserBirthday());
 		}
 		if(!Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
@@ -157,6 +159,13 @@ public class UserModel {
 		}
 	   
 		return mergedUserModel;
+	}
+	
+	public Date addHoursToJavaUtilDate(Date date, int hours) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    calendar.add(Calendar.HOUR_OF_DAY, hours);
+	    return calendar.getTime();
 	}
 
 

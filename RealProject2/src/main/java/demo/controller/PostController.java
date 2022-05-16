@@ -20,6 +20,7 @@ import demo.dao.UserDao;
 import demo.model.CommentModel;
 import demo.model.PostModel;
 import demo.model.UserModel;
+import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
@@ -33,6 +34,9 @@ public class PostController {
 
 	@Autowired
 	private StorageService storageServ;
+	
+	@Autowired
+	private ProfanityFilter pFilter;
 
 	// CONSTRUCTORS\\
 	@Autowired
@@ -50,6 +54,10 @@ public class PostController {
 	public PostModel postToDataBase(@RequestBody PostModel postModel, HttpSession session) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
+			
+			//PROFANITY FILTER
+			postModel.setReviewItem(pFilter.getCleanContent(postModel.getReviewItem()));
+			postModel.setPostContent(pFilter.getCleanContent(postModel.getPostContent()));
 			
 			//PostgreSQL DB actions
 			postModel.setSubmitTime(new Timestamp(System.currentTimeMillis()));
@@ -88,6 +96,10 @@ public class PostController {
 	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") int postId, CommentModel comModel ) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
+			
+			//PROFANITY FILTER
+			comModel.setCommentContent(pFilter.getCleanContent(comModel.getCommentContent()));
+			
 			PostModel tempPost = postDao.findByPostId(postId);
 			tempPost.getCommentList().add(comModel);
 			postDao.save(tempPost);

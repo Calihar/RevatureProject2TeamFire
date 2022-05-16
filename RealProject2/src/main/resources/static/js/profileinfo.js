@@ -34,7 +34,7 @@ function changeAvatarPictureFunction() {
     childFileSubmitBtn.innerText = "Upload";
     ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
     
-    document.getElementById("upload-button").addEventListener('click', serverGetPhoto);
+    document.getElementById("upload-button").addEventListener('click', serverSendAndGetPhoto);
 
 
     /* childProfilePictureModalPictureUpload.setAttribute("id", "childProfilePictureModalPictureUpload");
@@ -48,29 +48,28 @@ function changeAvatarPictureFunction() {
 }
 
 
-function serverGetPhoto() {
+function serverSendAndGetPhoto() {
     let file = document.getElementById('fileupload').files[0];
     let formData = new FormData();
     formData.append("file", file);
-
+    
     let xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
-        console.log("readyState is changing: ", xhttp.readyState);
+        console.log(xhttp.readyState);
 
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            console.log("readyState is 4!!! AND status is 200!!!");
-            console.log(xhttp.responseText);
-            let pictureSrcUrl = document.querySelector("#profilePictureMain");
-            pictureSrcUrl.setAttribute("src", xhttp.responseText);
-
+            let picURL = xhttp.responseText;
+            document.querySelector("#profilePictureMain").setAttribute("src", picURL);
         }
-        
     }
-    xhttp.open('POST', `http://localhost:9001/profile/picture`);
-    xhttp.send();
-    
+    xhttp.open('POST', "http://localhost:9001/profile/picture")
+
+    // xhttp.setRequestHeader("Content-Type", "multipart/form-data; boundary=AaB03x");
+
+
+    xhttp.send(formData);
+
 }
 
 function changeEmailFunction() {
@@ -218,11 +217,16 @@ function startUp() {
 
         }
     }
-    xhttp.open('GET', `http://localhost:9001/profile/Hiro`);
-    console.log("Post Open");
+
+    let currentURLArray = window.location.href.split("/");
+    let length = currentURLArray.length;
+    // let URLEnd = currentURLArray[length - 1];
+    let URLEnd = "Calihar";
+
+    console.log(URLEnd);
+    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
     xhttp.setRequestHeader("content-type", "application/json");
     xhttp.send();
-    console.log("After Xh send");
 }
 
 function setProfilePage(respObj) {
@@ -256,17 +260,12 @@ function setProfilePage(respObj) {
 
 
     //birthday
-    let userBirthday = document.querySelector("#userBirthday");
-    userBirthday.innerText = respObj.userBirthday;
+    let userBirthday = document.querySelector("#birthDayChild");
+    let eventB = new Date(respObj.userBirthday).toLocaleDateString();
+    userBirthday.innerText = eventB;
 
     //biography
     let userBio = document.querySelector("#userBiographyTextArea");
     userBio.innerText = respObj.userBio
 
 }
-//Column 2
-/*  function populatePost(respObj, i, newPost){
-     
-
- } */
-

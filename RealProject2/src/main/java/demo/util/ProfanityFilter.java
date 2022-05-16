@@ -1,10 +1,16 @@
 package demo.util;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ProfanityFilter {
 	
 	String result;
 	
-	public String getCleanContent(String[] str) {
+	public String getCleanContent(String fullStr) {
+		String[] str = fullStr.split(" ");
+		
+		
 		result = "";
 		for(int i = 0; i < str.length; i++) {
 			if(!isCleanContent(str[i]))

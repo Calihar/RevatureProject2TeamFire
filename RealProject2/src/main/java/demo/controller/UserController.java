@@ -50,7 +50,8 @@ public class UserController {
 	// DB ACCESSING\\
 	
 	/**
-	 * 
+	 * This sends the user info to the helper method that checks to make sure the login was accurate and then sets the "loggedUser" attr in the session. The user is then sent to the home.html.
+	 * @author CalebJGulledge
 	 * @param session
 	 * @param reqUser
 	 * @return
@@ -69,10 +70,12 @@ public class UserController {
 	}
 
 	/**
-	 * 
+	 * Takes in all of the registration information from the user. It sets the default values to the UserModel, 
+	 * before sending it to the DB. What the DB returns is set to the "loggedUser" in the session. The user is then sent to the home.html page.
+	 * @author CalebJGulledge
 	 * @param session
 	 * @param reqUser
-	 * @return
+	 * @return Path to Home
 	 */
 	@PostMapping("/r-authentication")
 	public String registerToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
@@ -96,36 +99,45 @@ public class UserController {
 		return "/home";
 	}
 
-	/**
-	 * 
-	 * @param session
-	 * @return
-	 */
-//	@Deprecated
-//	@GetMapping("/profile/user")
-//	public UserModel currentUserProfile(HttpSession session) {
-//		UserModel tempUser = (UserModel) session.getAttribute("loggedUser");
-//
-//		return tempUser;
-//	}
 
 	/**
-	 * 
+	 * Checks that user is logged in and then returns the requested User
+	 * @author CalebJGulledge
 	 * @param username
-	 * @return
+	 * @return Gets the requested UserModel from the DB
 	 */
 	@PostMapping("/get/profile/{username}")
 	public UserModel pathUserProfile(@PathVariable("username") String username) {
 		UserModel tempUser = userDao.findByUsername(username);
+		if (tempUser == null)
+			return null;
 
 		return tempUser;
 	}
+	
+	/**
+	 * Checks that the user is logged in and then returns the current user in the session.
+	 * @author CalebJGulledge
+	 * @param session
+	 * @return Current user in the session
+	 */
+	@PostMapping("/get/currentuser")
+	public UserModel getCurrentUser(HttpSession session) {
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser == null) {
+			return null;
+		}
+		return currentUser;
+	}
+	
 
 	/**
-	 * 
+	 * Checks that the user is logged in and then uses a helper method in the Model that updates the fields. 
+	 * It then saves it to the DB and returns what the DB returns. Also, updates the currentUser in the session.
+	 * @author CalebJGulledge
 	 * @param session
 	 * @param reqUser
-	 * @return
+	 * @return Updated Current User.
 	 */
 	@PostMapping("/profile/update")
 	public UserModel updateUserProfile(HttpSession session, @RequestBody UserModel reqUser) {
@@ -140,7 +152,8 @@ public class UserController {
 	}
 	
 	/**
-	 * 
+	 * Finds the 
+	 * @author CalebJGulledge
 	 * @param reqUser
 	 * @return
 	 */
@@ -153,7 +166,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 
+	 * @author CalebJGulledge
 	 * @param session
 	 * @param file
 	 * @return
@@ -200,6 +213,19 @@ public class UserController {
 		if (dbUser != null) {
 			
 			if (dbUser.getPassword().equals(reqUser.getPassword())) {
+				return dbUser;
+			}
+		}
+		return null;
+	}
+	
+	public UserModel resetAuthentication(String randomCode) {
+		System.out.println("randomCode: " + randomCode);
+		UserModel dbUser = userDao.findByUsername(randomCode);
+		System.out.println("dbUser: " + dbUser);
+		if (dbUser != null) {
+			
+			if (dbUser.getPassword().equals(randomCode)) {
 				return dbUser;
 			}
 		}

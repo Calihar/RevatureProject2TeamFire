@@ -2,6 +2,7 @@ package demo.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -34,7 +35,7 @@ public class PostController {
 
 	@Autowired
 	private StorageService storageServ;
-	
+
 	@Autowired
 	private ProfanityFilter pFilter;
 
@@ -51,20 +52,31 @@ public class PostController {
 
 	// DB ACCESS\\
 	@PostMapping("/post")
-	public PostModel postToDataBase(@RequestBody PostModel postModel, HttpSession session) {
+	public List<PostModel> postToDataBase(@RequestBody PostModel postModel, HttpSession session) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
-			
-			//PROFANITY FILTER
+
+			// PROFANITY FILTER
 			postModel.setReviewItem(pFilter.getCleanContent(postModel.getReviewItem()));
 			postModel.setPostContent(pFilter.getCleanContent(postModel.getPostContent()));
-			
-			//PostgreSQL DB actions
+
+			// PostgreSQL DB actions
 			postModel.setSubmitTime(new Timestamp(System.currentTimeMillis()));
 			postModel.setMyOwner(currentUser);
-			return postDao.save(postModel);
+			postDao.save(postModel);
+			return postDao.findAll();
 		}
 
+		return null;
+	}
+
+	@PostMapping("/getall/posts")
+	public List<PostModel> getAllPosts(HttpSession session) {
+
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			return postDao.findAll();
+		}
 		return null;
 	}
 
@@ -75,31 +87,31 @@ public class PostController {
 	 * @throws IOException
 	 */
 	@PostMapping("/post/photo")
-	public String postPhotoToDataBase(HttpSession session, @RequestParam(value = "file") MultipartFile file, PostModel postModel)
-			throws IOException {
+	public List<PostModel> postPhotoToDataBase(HttpSession session, @RequestParam(value = "file") MultipartFile file,
+			PostModel postModel) throws IOException {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 			String newFileName = storageServ.uploadAWSFile(file);
 			postModel.setPictureURL(newFileName);
-			
+
 			postModel.setMyOwner(currentUser);
 			postModel.setSubmitTime(new Timestamp(System.currentTimeMillis()));
 			postDao.save(postModel);
-			
-			return storageServ.presignedUrl(newFileName);
+
+			return postDao.findAll();
 		}
 		return null;
 
 	}
-	
+
 	@PostMapping("/post/{id}/comment")
-	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") int postId, CommentModel comModel ) {
+	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") int postId, CommentModel comModel) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
-			
-			//PROFANITY FILTER
+
+			// PROFANITY FILTER
 			comModel.setCommentContent(pFilter.getCleanContent(comModel.getCommentContent()));
-			
+
 			PostModel tempPost = postDao.findByPostId(postId);
 			tempPost.getCommentList().add(comModel);
 			postDao.save(tempPost);
@@ -107,20 +119,19 @@ public class PostController {
 		}
 		return false;
 	}
-	
+
 	@PostMapping("/post/{id}/like")
 	public boolean postLikeToDataBase(HttpSession session, @PathVariable("id") int postId) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
-		PostModel tempPost = postDao.findByPostId(postId);
-		tempPost.getUserLikesList().add(currentUser);
-		postDao.save(tempPost);
-		return true;
-		
+			PostModel tempPost = postDao.findByPostId(postId);
+			tempPost.getUserLikesList().add(currentUser);
+			postDao.save(tempPost);
+			return true;
+
 		}
-		
+
 		return false;
 	}
-	
 
 }

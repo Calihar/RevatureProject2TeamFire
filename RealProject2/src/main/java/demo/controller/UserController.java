@@ -102,6 +102,15 @@ public class UserController {
 		return currentUser;
 	}
 	
+	@PostMapping("/profile/passwordreset")
+	public boolean updateUserPassword(@RequestBody UserModel reqUser) {
+		UserModel tempUser = userDao.findByUsername(reqUser.getUsername());
+		tempUser.setPassword(reqUser.getPassword());
+		userDao.save(tempUser);
+		return true;
+	}
+	
+	
 	@PostMapping("/profile/picture")
 	public String updateProfilePicture(HttpSession session, @RequestParam(value="file") MultipartFile file) throws IOException {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");

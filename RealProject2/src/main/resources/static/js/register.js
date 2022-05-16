@@ -90,7 +90,17 @@ function redirectToLoginPage(){
     window.location.replace("../html/login.html");
 }
 
+function isValidCharacters(str){
+    for (let a of str){
+        const letters = /[a-z]/i;
+        const nonletters = /(!$*_-&^)/;
+        const numbers = /[0-9]/;
 
+        if(!letters.test(a) && !nonletters.test(a) && !numbers.test(a))
+            return false;
+    } 
+    return true;
+}
 
 function newUserRegister() {
     
@@ -129,6 +139,13 @@ function newUserRegister() {
     
     
        
+    if(noEmptyFields(userFirstName,userLastName,userName,email) && passwordMatching(userPassword) && (isValidCharacters(userName) && isValidCharacters(userPassword)) ){
+        console.log("name: "+ userFirstName);
+        console.log("last name: "+ userLastName);
+        console.log("username: "+ userName);
+        console.log("email: "+ email);
+        console.log("password: "+ userPassword);
+
     if (noEmptyFields(userFirstName,userLastName,userName,email) && passwordMatching(userPassword)) {
 
         

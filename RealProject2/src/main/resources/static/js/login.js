@@ -1,6 +1,7 @@
 window.onload = function () {
 
     document.getElementById('login').addEventListener("click", loginCheck);
+    document.getElementById('modalUpdateBtn').addEventListener('click', passwordReset)
 
 }
 
@@ -16,21 +17,6 @@ window.onunload = () => {
 }
 
 
-/* var crypto = require('crypto');
-var encrypt = function (clear){    
-
-    let salt = process.env.USER_SALT;
-
-    //SHA
-    let hash = crypto.createHmac("sha256", salt);
-    hash.update(clear);
-    return{
-        salt : salt,  //this is the salt (needs a column on DB unique for each user)
-        hash : hash.digest('hex') //this is the hashed string (goes in the DB on the password field)
-    }
-
-}; */
-
 
 
 function noEmptyFields(userName, passWord) {
@@ -43,10 +29,11 @@ function noEmptyFields(userName, passWord) {
 }
 
 function loginCheck() {
-    //need to change back to clear pass
-    var passWord = document.querySelector("#password").value;  //this is the user password in plaintext    
+
+      
     var userName = document.querySelector("#username").value;
-    //var passWord = encrypt(clearpass);
+    var passWord = document.querySelector("#password").value;
+
 
     console.log(noEmptyFields(userName, passWord));
     if (noEmptyFields(userName, passWord)) {
@@ -99,3 +86,25 @@ function userLogin(userName, passWord) {
     }
 
 }
+
+function passwordReset() {
+    let email = document.querySelector("#resetEmail").value;
+    console.log(email);
+
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            document.getElementById('texto').innerHTML = "Email Sent Successfully!";
+        }
+    }
+
+    xhttp.open('POST', "http://localhost:9001/sendemail") 
+
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    let params = "emailName=" + email;
+
+    xhttp.send(params);
+
+}
+

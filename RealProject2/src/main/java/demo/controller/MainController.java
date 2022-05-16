@@ -90,6 +90,13 @@ public class MainController {
 		session.invalidate();
 		return "landing.html";
 	}
+	
+	@GetMapping("/finalizepasswordreset")
+	public String routeResetPassword() {
+		System.out.println("Resetting Password");
+		return "html/password-reset.html";
+	}
+	
 
 	// DB ACCESSING\\
 	@GetMapping("/homeall")

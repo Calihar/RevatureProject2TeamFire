@@ -1,7 +1,8 @@
 package demo.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -150,7 +151,10 @@ public class UserModel {
 			mergedUserModel.setUserBio(other.getUserBio());
 		}
 		if(!Objects.equals(userBirthday, other.userBirthday) && other.userBirthday != null) {
-			mergedUserModel.setUserBirthday(other.getUserBirthday());
+			Long duration = (long) ((8 * 60 * 60) * 1000);
+			Timestamp oldTimestamp = other.getUserBirthday();
+			oldTimestamp.setTime(other.getUserBirthday().getTime() + duration);
+			mergedUserModel.setUserBirthday(oldTimestamp);
 		}
 		if(!Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
 			mergedUserModel.setUserEmail(other.getUserEmail());
@@ -158,6 +162,8 @@ public class UserModel {
 	   
 		return mergedUserModel;
 	}
+	
+	
 
 
 

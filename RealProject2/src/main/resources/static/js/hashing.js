@@ -1,65 +1,35 @@
-(() => {
+const key = await crypto.subtle.generateKey(
+  // The algorithm is AES in CBC mode, with a key length
+  // of 256 bits.
+  {
+    name: 'AES-CBC',
+    length: 256
+  },
+  // Allow extracting the key material (see below).
+  true,
+  // Restrict usage of this key to encryption.
+  ['encrypt']
+);
 
-  /*
-  Store the calculated ciphertext here, so we can decrypt the message later.
-  */
-  let ciphertext;
+// AES-CBC requires a 128-bit initialization vector (iv).
+const iv = MayTheForceBeWithYou;
+// const iv = crypto.getRandomValues(new Uint8Array(16));
 
-  /*
-  Fetch the contents of the "message" textbox, and encode it
-  in a form we can use for the encrypt operation.
-  */
-  function getMessageEncoding() {
-    var messageBox = "avocado";
-    let message = messageBox.value;
-    let enc = new TextEncoder();
-    return enc.encode(message);
-  }
+// This is the plaintext:
+const encoder = new TextEncoder();
+const message = encoder.encode('Hello world!');
 
-  /*
-  Get the encoded message, encrypt it and display a representation
-  of the ciphertext in the "Ciphertext" element.
-  */
-  async function encryptMessage(key) {
-    let encoded = getMessageEncoding();
-    ciphertext = await window.crypto.subtle.encrypt(
-      {
-        name: "RSA-OAEP"
-      },
-      key,
-      encoded
-    );
-
-    let buffer = new Uint8Array(ciphertext, 0, 5);
-    const ciphertextValue = "avocado";
-    // ciphertextValue.classList.add('fade-in');
-    // ciphertextValue.addEventListener('animationend', () => {
-    //   ciphertextValue.classList.remove('fade-in');
-    // });
-    ciphertextValue.textContent = `${buffer}...[${ciphertext.byteLength} bytes total]`;
-  }
-
-  
-
-  /*
-  Generate an encryption key pair, then set up event listeners
-  on the "Encrypt" and "Decrypt" buttons.
-  */
-  window.crypto.subtle.generateKey(
-    {
-    name: "RSA-OAEP",
-    // Consider using a 4096-bit key for systems that require long-term security
-    modulusLength: 2048,
-    publicExponent: new Uint8Array([1, 0, 1]),
-    hash: "SHA-256",
-    },
-    true,
-    ["encrypt", "decrypt"]
-  ).then((keyPair) => {
-
-    console.log(encryptMessage(keyPair.publicKey));
-
-    
-  });
-
-})();
+// Finally, encrypt the plaintext, and obtain the ciphertext.
+const ciphertext = await crypto.subtle.encrypt(
+  // The algorithm is still AES-CBC. In addition, the
+  // 128-bit initialization vector must be specified.
+  {
+    name: 'AES-CBC',
+    iv
+  },
+  // The encryption key. This must be an AES-CBC key,
+  // otherwise, this function will reject.
+  key,
+  // The plaintext to encrypt.
+  message
+);

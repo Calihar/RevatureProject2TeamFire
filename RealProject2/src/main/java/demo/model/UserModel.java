@@ -151,8 +151,10 @@ public class UserModel {
 			mergedUserModel.setUserBio(other.getUserBio());
 		}
 		if(!Objects.equals(userBirthday, other.userBirthday) && other.userBirthday != null) {
-			Date tempDate = addHoursToJavaUtilDate(other.getUserBirthday(), 12);
-			mergedUserModel.setUserBirthday(other.getUserBirthday());
+			Long duration = (long) ((8 * 60 * 60) * 1000);
+			Timestamp oldTimestamp = other.getUserBirthday();
+			oldTimestamp.setTime(other.getUserBirthday().getTime() + duration);
+			mergedUserModel.setUserBirthday(oldTimestamp);
 		}
 		if(!Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
 			mergedUserModel.setUserEmail(other.getUserEmail());
@@ -161,12 +163,7 @@ public class UserModel {
 		return mergedUserModel;
 	}
 	
-	public Date addHoursToJavaUtilDate(Date date, int hours) {
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTime(date);
-	    calendar.add(Calendar.HOUR_OF_DAY, hours);
-	    return calendar.getTime();
-	}
+	
 
 
 

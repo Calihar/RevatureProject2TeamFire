@@ -101,20 +101,20 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@Deprecated
-	@GetMapping("/profile/user")
-	public UserModel currentUserProfile(HttpSession session) {
-		UserModel tempUser = (UserModel) session.getAttribute("loggedUser");
-
-		return tempUser;
-	}
+//	@Deprecated
+//	@GetMapping("/profile/user")
+//	public UserModel currentUserProfile(HttpSession session) {
+//		UserModel tempUser = (UserModel) session.getAttribute("loggedUser");
+//
+//		return tempUser;
+//	}
 
 	/**
 	 * 
 	 * @param username
 	 * @return
 	 */
-	@GetMapping("/profile/{username}")
+	@GetMapping("/get/profile/{username}")
 	public UserModel pathUserProfile(@PathVariable("username") String username) {
 		UserModel tempUser = userDao.findByUsername(username);
 

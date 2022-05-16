@@ -1,6 +1,7 @@
 window.onload = function () {
 
     document.getElementById('login').addEventListener("click", loginCheck);
+    document.getElementById('modalUpdateBtn').addEventListener('click', passwordReset)
 
 }
 
@@ -81,3 +82,25 @@ function userLogin(userName, passWord) {
     }
 
 }
+
+function passwordReset() {
+    let email = document.querySelector("#resetEmail").value;
+    console.log(email);
+
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            document.getElementById('texto').innerHTML = "Email Sent Successfully!";
+        }
+    }
+
+    xhttp.open('POST', "http://localhost:9001/sendemail") 
+
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    let params = "emailName=" + email;
+
+    xhttp.send(params);
+
+}
+

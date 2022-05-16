@@ -116,7 +116,7 @@ function newUserRegister() {
             window.location = urlBase + xhttp.responseText;
         }
     } 
-
+}
     
      
     
@@ -139,7 +139,7 @@ function newUserRegister() {
     
     
        
-    if(noEmptyFields(userFirstName,userLastName,userName,email) && passwordMatching(userPassword) && (isValidCharacters(userName) && isValidCharacters(userPassword)) ){
+    if(noEmptyFields(userFirstName,userLastName,userName,email) && passwordMatching(userPassword)){  //&& (isValidCharacters(userName) && isValidCharacters(userPassword)
         console.log("name: "+ userFirstName);
         console.log("last name: "+ userLastName);
         console.log("username: "+ userName);
@@ -198,12 +198,3 @@ function passwordMatching(userPassword) {
         return false;
     } 
 }
-
-
-
-    
-
-    
-
-
-    

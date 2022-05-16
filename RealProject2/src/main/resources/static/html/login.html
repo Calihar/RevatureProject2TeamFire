@@ -97,7 +97,7 @@
 
     <div class="col-auto mx-auto">
       <br><br><br>
-      <h2 class="nonactive">project 2 fire team</h2>
+      <h2 class="nonactive">Hot Takes Login</h2>
       <br>
 
 
@@ -112,10 +112,41 @@
 
         <p id="texto"></p>
       </form>
-      <br><br><br><br>
+      <br><br>
+
+      <p style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#exampleModal">Reset Password</p>
+
+      <br><br>
     </div>
 
 
+  </div>
+
+
+
+
+
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body"> Email:
+          <input id="resetEmail" type="email" placeholder="john.doe@example.com">
+        </div>
+        <div class="modal-footer">
+          <button id="modalCloseBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="modalUpdateBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Send Password Reset
+            Email
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
 

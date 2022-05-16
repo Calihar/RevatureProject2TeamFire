@@ -15,12 +15,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import demo.model.UserModel;
 
 @RestController
 public class MailController {
@@ -30,15 +28,17 @@ public class MailController {
 			+ "<br><br><a href='http://localhost:9001/finalizepasswordreset'>Password Reset</a>"
 			+ "<br><br>Thanks,<br>Hot Takes Security Team";
 
-	@GetMapping("/sendemail")
-	public String sendEmail(HttpSession session) throws AddressException, MessagingException, IOException {
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser != null) {
-			sendMail(currentUser.getUserEmail());
-			return "Email sent successfully";
-		}
-		return "Email did not send";
+	@PostMapping("/sendemail")
+	public String sendEmail(@RequestParam(value="emailName") String email) throws AddressException, MessagingException, IOException {
+		System.out.println(email);
+		sendMail(email);
+		
+		return "Email sent successfully";
 	}
+	
+	
+	
+	
 
 	private void sendMail(String email) throws AddressException, MessagingException, IOException {
 		Properties props = new Properties();
@@ -72,5 +72,8 @@ public class MailController {
 //		msg.setContent(multipart);
 		Transport.send(msg);
 	}
+	
+	
+	
 
 }

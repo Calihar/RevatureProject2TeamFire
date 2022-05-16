@@ -70,7 +70,7 @@ function serverGetPhoto() {
     }
     xhttp.open('POST', `http://localhost:9001/profile/picture`);
     xhttp.send();
-    
+
 }
 
 function changeEmailFunction() {

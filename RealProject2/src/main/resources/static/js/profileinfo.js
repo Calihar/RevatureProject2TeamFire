@@ -1,6 +1,7 @@
 window.onload = function () {
     startUp();
 
+   document.getElementById("childProfilePictureModalPictureUpload").addEventListener('click', changeAvatarPictureFunction);
     document.getElementById("emailBtn").addEventListener('click', changeEmailFunction);
     document.getElementById("changeBirthDayBtn").addEventListener('click', changeBirthDayFunction);
     document.getElementById("firstNameParentBtn").addEventListener('click', changeFirstNameFunction);
@@ -8,8 +9,58 @@ window.onload = function () {
     document.getElementById("modalUpdateBtn").addEventListener('click', updateUserInfo);
 }
 
+function changeAvatarPictureFunction() {
+    console.log("In Change Avatar Picture Function");
+
+    let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
+
+    let childProfilePictureModalPictureUpload = document.querySelector("#childProfilePictureModalPictureUpload");
+    childProfilePictureModalPictureUpload.remove();
+    childProfilePictureModalPictureUpload.removeEventListener('click', changeAvatarPictureFunction);
+
+    let childModalPictureDescrpt = document.createElement("p");
+    childModalPictureDescrpt.innerText = "Please choose file to upload";
+    ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
+
+    let childFileUpload = document.createElement("input")
+    childFileUpload.setAttribute("id", "fileupload")
+    childFileUpload.setAttribute("type", "file");
+    childFileUpload.setAttribute("name", "fileupload");
+    ParentProfilePictureModalPictureUpload.appendChild(childFileUpload);
+
+    let childFileSubmitBtn = document.createElement("button");
+    childFileSubmitBtn.setAttribute("id", "upload-button")
+    childFileSubmitBtn.setAttribute("type", "submit");
+    childFileSubmitBtn.innerText = "Upload";
+    ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
+    
+    document.getElementById("upload-button").addEventListener('click', serverSendAndGetPhoto);
+
+}
+
+
+function serverSendAndGetPhoto() {
+    let file = document.getElementById('fileupload').files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            let respObj = xhttp.responseText;
+            document.querySelector("#profilePictureMain").setAttribute("src", respObj);
+            document.querySelector("#navBarPhoto").setAttribute("src", respObj);
+        }
+    }
+    xhttp.open('POST', "http://localhost:9001/profile/picture")
+
+    xhttp.send(formData);
+
+}
+
 function changeEmailFunction() {
-    console.log("In Change Email Function");
     let emailParent = document.querySelector("#emailParent");
     let emailChild = document.querySelector("#emailChild");
     emailChild.remove();
@@ -23,7 +74,6 @@ function changeEmailFunction() {
 }
 
 function changeBirthDayFunction() {
-    console.log("In Change Birthday Function");
     let birthDayParent = document.querySelector("#birthDayParent");
     let birthDayChild = document.querySelector("#birthDayChild");
     birthDayChild.remove();
@@ -37,7 +87,6 @@ function changeBirthDayFunction() {
 }
 
 function changeFirstNameFunction() {
-    console.log("In Change First Name Function");
     let firstNameParent = document.querySelector("#firstNameParent");
     let firstNameChild = document.querySelector("#firstNameChild");
     firstNameChild.remove();
@@ -51,7 +100,6 @@ function changeFirstNameFunction() {
 }
 
 function changeLastNameFunction() {
-    console.log("In Change Last Name Function");
     let lastNameParent = document.querySelector("#lastNameParent");
     let lastNameChild = document.querySelector("#lastNameChild");
     lastNameChild.remove();
@@ -65,7 +113,6 @@ function changeLastNameFunction() {
 }
 
 function updateUserInfo() {
-    console.log("In update User info function");
     let childEmailValue = document.querySelector("#emailChild").value;
     let firstNameValue = document.querySelector("#firstNameChild").value;
     let lastNameValue = document.querySelector("#lastNameChild").value;
@@ -79,15 +126,12 @@ function updateUserInfo() {
         "userBirthday": userBirthday,
         "userBio": userBiographyTextAreaValue
     };
-    console.log(userObject);
-
 
     let xhttp = new XMLHttpRequest();
 
 
 
     xhttp.onreadystatechange = function () {
-        console.log("readyState is changing: ", xhttp.readyState);
 
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             console.log("readyState is 4!!! AND status is 200!!!");
@@ -105,7 +149,6 @@ function updateUserInfo() {
 }
 
 function setUserInfo(respObj) {
-    console.log("In get user info function");
 
     let emailChild = document.querySelector("#emailChild");
     emailChild.innerText = respObj.userEmail;
@@ -121,7 +164,6 @@ function setUserInfo(respObj) {
     lastNameChild.innerText = respObj.lastName;
 
 }
-
 
 function startUp() {
     console.log("In startup Function");
@@ -154,31 +196,26 @@ function startUp() {
 
         }
     }
-    xhttp.open('GET', `http://localhost:9001/profile/Hiro`);
-    console.log("Post Open");
+
+    let currentURLArray = window.location.href.split("/");
+    let length = currentURLArray.length;
+    let URLEnd = currentURLArray[length - 1];
+    // let URLEnd = "Calihar";
+
+    console.log(URLEnd);
+    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
     xhttp.setRequestHeader("content-type", "application/json");
     xhttp.send();
-    console.log("After Xh send");
 }
-
 
 function setProfilePage(respObj) {
     console.log("In Set Profile Page Function");
-
-    //PROFILE PAGE
-    //Column 1
-    //picture
-    /*    let profilePicture=document.querySelector("#profilePicture");
-       profilePicture.setAttribute("src",respObj.profilePicture);
-    */
     //username
     let usernameTitle = document.querySelector("#usernameTitle");
     usernameTitle.innerText = respObj.username;
 
     let usernameModal = document.querySelector("#usernameModal");
     usernameModal.innerText = respObj.username;
-
-
 
     //MODEL FROM PROFILE PAGE
     //email
@@ -195,17 +232,38 @@ function setProfilePage(respObj) {
 
 
     //birthday
-    let userBirthday = document.querySelector("#userBirthday");
-    userBirthday.innerText = respObj.userBirthday;
+    let userBirthday = document.querySelector("#birthDayChild");
+    let eventB = new Date(respObj.userBirthday).toLocaleDateString();
+    userBirthday.innerText = eventB;
 
     //biography
     let userBio = document.querySelector("#userBiographyTextArea");
     userBio.innerText = respObj.userBio
 
+    getProfilePhoto(respObj.profilePicName);
+    
+
 }
-//Column 2
-/*  function populatePost(respObj, i, newPost){
-     
 
- } */
+function getProfilePhoto(picName) {
 
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        console.log("readyState is changing: ", xhttp.readyState);
+
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+            let respObj = xhttp.responseText;
+            document.querySelector("#profilePictureMain").setAttribute("src", respObj);
+            document.querySelector("#navBarPhoto").setAttribute("src", respObj);
+            document.querySelector("#childProfilePictureModalPictureUpload").setAttribute("src", respObj);
+        }
+    }
+
+    let params = "?picName=" + picName;
+    xhttp.open('POST', "http://localhost:9001/photo" + params);
+
+    xhttp.send();
+
+}

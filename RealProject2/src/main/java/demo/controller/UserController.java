@@ -19,6 +19,7 @@ import demo.dao.PostDao;
 import demo.dao.UserDao;
 import demo.model.UserModel;
 import demo.model.UserModel.UserType;
+import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
@@ -31,6 +32,9 @@ public class UserController {
 
 	@Autowired
 	private StorageService storageServ;
+	
+	@Autowired
+	private ProfanityFilter pFilter;
 
 	// CONSTRUCTORS\\
 	@Autowired
@@ -44,6 +48,13 @@ public class UserController {
 	// ENDPOINTS\\
 
 	// DB ACCESSING\\
+	
+	/**
+	 * 
+	 * @param session
+	 * @param reqUser
+	 * @return
+	 */
 	@PostMapping("/l-authentication")
 	public String loginToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
 		System.out.println("In the user/login controller");
@@ -57,9 +68,19 @@ public class UserController {
 		return "/home";
 	}
 
+	/**
+	 * 
+	 * @param session
+	 * @param reqUser
+	 * @return
+	 */
 	@PostMapping("/r-authentication")
 	public String registerToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
 		System.out.println("In the user/register controller");
+		
+		//PROFANITY FILTER
+		reqUser.setFirstName(pFilter.getCleanContent(reqUser.getFirstName()));
+		reqUser.setLastName(pFilter.getCleanContent(reqUser.getLastName()));
 
 		UserModel dbCheck = loginAuthentication(reqUser);
 		if (dbCheck != null) {
@@ -75,21 +96,37 @@ public class UserController {
 		return "/home";
 	}
 
-	@Deprecated
-	@GetMapping("/profile/user")
-	public UserModel currentUserProfile(HttpSession session) {
-		UserModel tempUser = (UserModel) session.getAttribute("loggedUser");
+	/**
+	 * 
+	 * @param session
+	 * @return
+	 */
+//	@Deprecated
+//	@GetMapping("/profile/user")
+//	public UserModel currentUserProfile(HttpSession session) {
+//		UserModel tempUser = (UserModel) session.getAttribute("loggedUser");
+//
+//		return tempUser;
+//	}
 
-		return tempUser;
-	}
-
-	@GetMapping("/profile/{username}")
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
+	@PostMapping("/get/profile/{username}")
 	public UserModel pathUserProfile(@PathVariable("username") String username) {
 		UserModel tempUser = userDao.findByUsername(username);
 
 		return tempUser;
 	}
 
+	/**
+	 * 
+	 * @param session
+	 * @param reqUser
+	 * @return
+	 */
 	@PostMapping("/profile/update")
 	public UserModel updateUserProfile(HttpSession session, @RequestBody UserModel reqUser) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
@@ -102,6 +139,11 @@ public class UserController {
 		return currentUser;
 	}
 	
+	/**
+	 * 
+	 * @param reqUser
+	 * @return
+	 */
 	@PostMapping("/profile/passwordreset")
 	public boolean updateUserPassword(@RequestBody UserModel reqUser) {
 		UserModel tempUser = userDao.findByUsername(reqUser.getUsername());
@@ -110,7 +152,13 @@ public class UserController {
 		return true;
 	}
 	
-	
+	/**
+	 * 
+	 * @param session
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
 	@PostMapping("/profile/picture")
 	public String updateProfilePicture(HttpSession session, @RequestParam(value="file") MultipartFile file) throws IOException {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
@@ -124,8 +172,27 @@ public class UserController {
 		
 		return null;
 	}
+	
+	
+	@PostMapping("/photo")
+	public String getPictureURL(HttpSession session, @RequestParam("picName") String fileName) throws IOException {
+		System.out.println("In the get Photo method");
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			String URL = storageServ.presignedUrl(fileName);
+			System.out.println("\n\n" + URL + "\n\n");
+			return URL;
+		}
+		return null;
+		
+	}
 
 	// HELPER METHODS\\
+	/**
+	 * 
+	 * @param reqUser
+	 * @return
+	 */
 	public UserModel loginAuthentication(UserModel reqUser) {
 		System.out.println("reqUser: " + reqUser);
 		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());

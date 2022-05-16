@@ -17,72 +17,54 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!--- Nav bar -->
     <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="../favicon-32x32.png" alt="Hottakes">
+        </a>
 
-      <a class="navbar-brand" href="#">
-        <img src="../favicon-32x32.png" alt="Hottakes">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav> <!-- Nav bar end-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-  <div id="new-post" class="container-sm row border rounded mx-auto py-3 my-3">
-    <div class="mb-3">
-      <textarea class="form-control" placeholder="Insert your Review Here!" id="floatingTextarea"></textarea>
-      <label for="formFileMultiple" class="form-label">Upload Photos</label>
-      <input class="form-control" type="file" id="formFileMultiple" multiple>
-    
-      <input type="radio" id="movie" name="enum" value="Movie" checked>
-      <label for="movie">Movie</label><br>
-      <input type="radio" id="game" name="enum" value="Game">
-      <label for="game">Game</label><br>
-      <input type="radio" id="Book" name="enum" value="Book">
-      <label for="book">Book</label>
-    </div>  
-    <div class="mb-3 text-center" style="display: inline-block"> <!--- This is only so it doesn't take up the whole page, So, it's inline-block.-->
-      <input id="flame-count" type="number" placeholder="Flame Review">
-      <button id="submit" type="button" class="btn btn-primary">Submit Post</button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <li class="nav-item" style="margin-left: 10px;">
+                    <button class="nav-link btn btn-outline-success">Post</button>
+                </li>
+                
+
+            </ul>
+
+            <form class="d-flex">
+
+                <input class="form-control me-2" type="search"
+                        placeholder="Search for Users" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+
+                <button style="margin-left: 10px;" class="nav-link btn btn-outline-success">Logout</button>
+
+                <a class="navbar-brand">
+                    <img src="../default_profile.jpg" width="32px" height="32px" alt="userProfilePic"
+                        style="margin-left: 10px;">
+                </a>
+            </form>
+
+
+        </div>
+
+
     </div>
-  </div><!--- div new-post end -->
 </nav> <!-- Nav bar end-->
 
 <div id="myBody">
 
-
 </div>
+
 
 <div id="post" class="container-sm row border rounded mx-auto py-3 my-3">
   <div id="rating" class="col-auto">

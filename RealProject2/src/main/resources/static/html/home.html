@@ -14,8 +14,10 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!--- Nav bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!--- Nav bar -->
     <div class="container-fluid">
+
       <a class="navbar-brand" href="#">
         <img src="../favicon-32x32.png" alt="Hottakes">
       </a>
@@ -75,6 +77,58 @@
       <button id="submit" type="button" class="btn btn-primary">Submit Post</button>
     </div>
   </div><!--- div new-post end -->
+
+
+
+
+        <a class="navbar-brand" href="/">
+            <img src="../favicon-32x32.png" alt="Hottakes">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <li class="nav-item" style="margin-left: 10px;">
+                    <button class="nav-link btn btn-outline-success">Post</button>
+                </li>
+                
+
+            </ul>
+
+            <form class="d-flex">
+
+                <input class="form-control me-2" type="search"
+                        placeholder="Search for Users" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+
+                <button style="margin-left: 10px;" class="nav-link btn btn-outline-success">Logout</button>
+
+                <a class="navbar-brand">
+                    <img src="../default_profile.jpg" width="32px" height="32px" alt="userProfilePic"
+                        style="margin-left: 10px;">
+                </a>
+            </form>
+
+
+        </div>
+
+
+    </div>
+</nav> <!-- Nav bar end-->
+
+
+
+
+
 
 <div id="post" class="container-sm row border rounded mx-auto py-3 my-3">
   <div id="rating" class="col-auto mx-auto">

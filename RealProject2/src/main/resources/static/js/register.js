@@ -158,6 +158,11 @@ function passwordMatching(userPassword) {
     var retypePassword = document.querySelector("#repass").value;
     if ((userPassword != "" & retypePassword != "")  & (userPassword === retypePassword)) {
         // console.log("hooray passwords match");
+        if(userPassword.length < 8) {
+            document.getElementById('texto').innerHTML = "Password must be at least 8 characters long";
+            return false;
+        }
+        console.log("hooray passwords match");
         return true;        
     } else /* if ((userPassword != "" & retypePassword != "")  & (userPassword != retypePassword)) */ {
         // console.log("passwords don't match");

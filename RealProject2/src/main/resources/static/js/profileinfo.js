@@ -111,7 +111,8 @@ function setUserInfo(respObj) {
     emailChild.innerText = respObj.userEmail;
 
     let birthDayChild = document.querySelector("#birthDayChild");
-    birthDayChild.innerText = respObj.userBirthday;
+    let tempDate = new Date(respObj.userBirthday).toLocaleDateString();
+    birthDayChild.innerText = tempDate;
 
     let firstNameChild = document.querySelector("#firstNameChild");
     firstNameChild.innerText = respObj.firstName;

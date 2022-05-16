@@ -94,64 +94,31 @@ function updateUserInfo() {
         }
     }
 
-
-
-
     xhttp.open('POST', `http://localhost:9001/profile/update`);
 
     xhttp.setRequestHeader("content-type", "application/json");
 
-    //xhttp.send(JSON.stringify(userObject));
+
+    xhttp.send(JSON.stringify(userObject));
+
 
 }
 
 function setUserInfo(respObj) {
     console.log("In get user info function");
 
-    let emailParent = document.querySelector("#emailParent");
     let emailChild = document.querySelector("#emailChild");
-    emailChild.remove();
-    emailChild = document.createElement("p");
-    emailChild.setAttribute("id", "emailChild");
-    emailChild.setAttribute("type", "email");
-    emailChild.setAttribute("placeholder", "New Email Address");
-    emailChild.setAttribute("value", respObj.userEmail)
-    emailChild.setAttribute("name", "childEmailValue");
-    emailChild.innerText = "(Filled From DB)";
-    emailParent.appendChild(emailChild);
+    emailChild.innerText = respObj.userEmail;
 
-    let birthDayParent = document.querySelector("#birthDayParent");
     let birthDayChild = document.querySelector("#birthDayChild");
-    birthDayChild.remove();
-    birthDayChild = document.createElement("p");
-    birthDayChild.setAttribute("id", "birthDayChild");
-    birthDayChild.setAttribute("type", "date");
-    birthDayChild.setAttribute("value", "New Birthdate");
-    birthDayChild.setAttribute("name", "BirthDayValue");
-    birthDayChild.innerText = "(Filled From DB)";
-    birthDayParent.appendChild(birthDayChild);
+    birthDayChild.innerText = respObj.userBirthday;
 
-    let firstNameParent = document.querySelector("#firstNameParent");
     let firstNameChild = document.querySelector("#firstNameChild");
-    firstNameChild.remove();
-    firstNameChild = document.createElement("p");
-    firstNameChild.setAttribute("id", "firstNameChild");
-    firstNameChild.setAttribute("type", "text");
-    firstNameChild.setAttribute("value", "New First Name");
-    firstNameChild.setAttribute("name", "firstNameValue");
-    firstNameChild.innerText = "(Filled From DB)";
-    firstNameParent.appendChild(firstNameChild);
+    firstNameChild.innerText = respObj.firstName;
 
-    let lastNameParent = document.querySelector("#lastNameParent");
     let lastNameChild = document.querySelector("#lastNameChild");
-    lastNameChild.remove();
-    lastNameChild = document.createElement("p");
-    lastNameChild.setAttribute("id", "lastNameChild");
-    lastNameChild.setAttribute("type", "text");
-    lastNameChild.setAttribute("value", "New Last Name");
-    lastNameChild.setAttribute("name", "lastNameValue");
-    lastNameChild.innerText = "(Filled From DB)";
-    lastNameParent.appendChild(lastNameChild);
+    lastNameChild.innerText = respObj.lastName;
+
 }
 
 
@@ -159,8 +126,9 @@ function startUp() {
     console.log("In startup Function");
 
 
+
     //When done with testing, delete
-    setUserInfo();
+    //setUserInfo();
     ///////////////////////////////////
 
 
@@ -174,68 +142,69 @@ function startUp() {
             console.log("readyState is 4!!! AND status is 200!!!");
 
 
+
             console.log(xhttp.responseText);
             let respObj = JSON.parse(xhttp.responseText);
             console.log(respObj);
 
             setUserInfo(respObj);
+            setProfilePage(respObj);
 
-   
 
         }
     }
-
-
-
-
-
     xhttp.open('GET', `http://localhost:9001/profile/Hiro`);
-
-
-
+    console.log("Post Open");
+    xhttp.setRequestHeader("content-type", "application/json");
+    xhttp.send();
+    console.log("After Xh send");
 }
 
 
-function setProfilePage() {
+function setProfilePage(respObj) {
     console.log("In Set Profile Page Function");
-    
-//PROFILE PAGE
-  //Column 1
+
+    //PROFILE PAGE
+    //Column 1
     //picture
-    let profilePicture=document.querySelector("#profilePicture");
-    profilePicture.setAttribute("src",respObj.profilePicture);
-
+    /*    let profilePicture=document.querySelector("#profilePicture");
+       profilePicture.setAttribute("src",respObj.profilePicture);
+    */
     //username
-    let username=document.querySelector("#username");
-    username.setAttribute("username", respObj.username);
+    let usernameTitle = document.querySelector("#usernameTitle");
+    usernameTitle.innerText = respObj.username;
 
-  
-//MODEL FROM PROFILE PAGE
+    let usernameModal = document.querySelector("#usernameModal");
+    usernameModal.innerText = respObj.username;
+
+
+
+    //MODEL FROM PROFILE PAGE
     //email
-    let userEmail=document.querySelector("#emailChild");
-    userEmail.setAttribute("emailChild", respObj.userEmail);
-    
+    let userEmail = document.querySelector("#emailChild");
+    userEmail.innerText = respObj.userEmail;
+
     //first
-    let firstName=document.querySelector("#firstNameChild");
-    firstName.setAttribute("firstNameChild", respObj.firstName);
+    let firstName = document.querySelector("#firstNameChild");
+    firstName.innerText = respObj.firstName;
 
     //last
-    let lastName=document.querySelector("#lastNameChild");
-    lastName.setAttribute("lastNameChild", respObj.lastName);
+    let lastName = document.querySelector("#lastNameChild");
+    lastName.innerText = respObj.lastName;
 
 
     //birthday
-    let userBirthday=document.querySelector("#userBirthday");
-    userBirthday.setAttribute("userBirthday", respObj.userBirthday);
+    let userBirthday = document.querySelector("#userBirthday");
+    userBirthday.innerText = respObj.userBirthday;
 
     //biography
-    let userBio=document.querySelector("#userBiographyTextArea");
-    userBio=setAttribute("userBio", respObj.userBio);
+    let userBio = document.querySelector("#userBiographyTextArea");
+    userBio.innerText = respObj.userBio
 
 }
 //Column 2
-   function populatePost(respObj, i, newPost){
-       
+/*  function populatePost(respObj, i, newPost){
+     
 
-   }
+ } */
 

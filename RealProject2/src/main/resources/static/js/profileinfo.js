@@ -1,11 +1,43 @@
 window.onload = function () {
     startUp();
-
+    document.getElementById("childProfilePictureModalPictureUpload").addEventListener('click', changeAvatarPictureFunction);
     document.getElementById("emailBtn").addEventListener('click', changeEmailFunction);
     document.getElementById("changeBirthDayBtn").addEventListener('click', changeBirthDayFunction);
     document.getElementById("firstNameParentBtn").addEventListener('click', changeFirstNameFunction);
     document.getElementById("lastNameParentBtn").addEventListener('click', changeLastNameFunction);
     document.getElementById("modalUpdateBtn").addEventListener('click', updateUserInfo);
+}
+
+function changeAvatarPictureFunction() {
+    console.log("In Change Avatar Picture Function");
+
+    let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
+
+    let childProfilePictureModalPictureUpload = document.querySelector("#childProfilePictureModalPictureUpload");
+    childProfilePictureModalPictureUpload.remove();
+
+    let childModalPictureDescrpt = document.createElement("p");
+    childModalPictureDescrpt.innerText = "Please choose file to upload";
+    ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
+
+    let childFileUpload = document.createElement("input")
+    childFileUpload.setAttribute("id","fileupload")
+    childFileUpload.setAttribute("type", "file");
+    childFileUpload.setAttribute("name", "fileupload");
+    ParentProfilePictureModalPictureUpload.appendChild(childFileUpload);
+
+    let childFileSubmitBtn=document.createElement("button");
+    childFileSubmitBtn.setAttribute("id", "upload-button")
+    ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
+
+    childProfilePictureModalPictureUpload.setAttribute("id", "childProfilePictureModalPictureUpload");
+    childProfilePictureModalPictureUpload.setAttribute("class", "card-img-top");
+    //ParentProfilePictureModalPictureUpload.appendChild(childProfilePictureModalPictureUpload);
+
+
+
+
+
 }
 
 function changeEmailFunction() {
@@ -122,7 +154,6 @@ function setUserInfo(respObj) {
 
 }
 
-
 function startUp() {
     console.log("In startup Function");
 
@@ -160,7 +191,6 @@ function startUp() {
     xhttp.send();
     console.log("After Xh send");
 }
-
 
 function setProfilePage(respObj) {
     console.log("In Set Profile Page Function");

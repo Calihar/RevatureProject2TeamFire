@@ -43,7 +43,7 @@ public class UserModel {
 	@Column(name = "last_name", unique = false, nullable = false, length = 14)
 	private String lastName;
 
-	@Column(name = "user_email", unique = false, nullable = false)
+	@Column(name = "user_email", unique = true, nullable = false)
 	private String userEmail;
 
 	@Column(name = "user_type", unique = false, nullable = false)
@@ -64,13 +64,15 @@ public class UserModel {
 	@Column(name = "profile_picture_name", unique = true, nullable = true)
 	private String profilePicName;
 
+	@Column(name = "password_reset_key", unique = true, nullable = true)
+	private String passwordResetKey;
+	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<PostModel> postList;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<CommentModel> commentList;
 	
-//	@Column(name = "profile")
 
 	public enum UserType {
 		General, Admin

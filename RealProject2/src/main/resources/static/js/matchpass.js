@@ -1,3 +1,7 @@
+/**
+ * This thing only works on NodeJS :(
+ */
+
 
 ///ENCRYPTION
 var crypto = require('crypto');

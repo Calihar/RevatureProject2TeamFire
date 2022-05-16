@@ -1,105 +1,49 @@
 
+///ENCRYPTION
+var crypto = require('crypto');
 
-// let userFirstName = document.getElementById("firstname").value;
-// let userLastName = document.getElementById("lastname").value;
-// let userName = document.getElementById("username").value;
-// let email = document.getElementById("email").value;
-// let userPassword = document.getElementById("password").value;
-// let retypePassword = document.getElementById("repass").value;
+var creepy = function (clear){
 
+    //random salt
+    // let length = 16;
+    // let salt = crypto.randomBytes(Math.ceil(length/2))
+    // .toString('hex')
+    // .slice(0, length);
 
-let userFirstName = "Eric";
-let userLastName = "Mateo";
-let userName = "mateoer";
-let email = "revature@lalala.com";
-let userPassword = "123";
-let retypePassword = "123";
+    let salt = process.env.USER_SALT;
 
+    //SHA
+    let hash = createHmac("sha256", salt);
+    hash.update(clear);
+    return{
+        salt : salt,  //this is the salt (needs a column on DB unique for each user)
+        hash : hash.digest('hex') //this is the hashed string (goes in the DB on the password field)
+    }
 
+};
 
-function newUserRegister(userFirstName,userLastName,userName,email,userPassword) {   
-    
-    
-
-        console.log("name: "+ userFirstName);
-        console.log("last name: "+ userLastName);
-        console.log("username: "+ userName);
-        console.log("email: "+ email);
-        console.log("password: "+ userPassword);
-
-        
-        let newUserRegistration = {
-            "firstName" : userFirstName,
-            "lastName" : userLastName,
-            "username" : userName,
-            "userEmail" : email,
-            "password" : userPassword
-    
-        }
-        console.log(newUserRegistration);
-        
-
-    
-}
+////VAR DECLARATION
+var clearpass = "FOOBAR";  //this is the user password in plaintext
+var creeped = creepy(clearpass);
+console.log(creeped);
 
 
+///VALIDATION
+var validate = function (loginpass, hashedpass, salt){
+    let hash = createHmac("sha256", salt); //could use sha512 too but for this example is too long
+    hash.update(loginpass);
+    loginpass = hash.digest("hex");
 
-newUserRegister(userFirstName,userLastName,userName,email,userPassword);
-
-
-
-
-
-
-
-
+    return loginpass == hashedpass;
+};
 
 
+///CHECKING RESULTS
+var validated = validate(/* "FOOBAR" */ clearpass, creeped.hash, creeped.salt);
+console.log(clearpass);
+console.log(validated ? "YES": "NO");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log(passwordMatching());
-// function passwordMatching() {
-//     let userPassword = "aaa";
-//     let retypePassword = "aaa";
-//     console.log(userPassword);
-//     console.log(retypePassword);
-//     if ((userPassword !== "" & retypePassword !== "")  & (userPassword === retypePassword)) {
-//         console.log("hooray passwords match");
-//         return true;        
-//     } else if ((userPassword !== "" & retypePassword !== "")  & (userPassword !== retypePassword)) {
-//         console.log("passwords don't match");
-//         return false;
-//     } else {
-//         return false;
-//     }
-// }
-
-// console.log(noEmptyFields());
-// function noEmptyFields() {
-//     let userFirstName = "Eric";
-//     let userLastName = "Mateo";
-//     let userName = "mateoer";
-//     let email = "revature@laland.com";
-
-//     if (userFirstName !== "" & userLastName !== "" & userName !== "" & email !== "") {
-//         console.log("first name: " + userFirstName +"\nlast name: "+ userLastName+
-//         "\nusername: "+userName +"\nemail: "+email);
-//         return true;        
-//     } else {
-//         // document.getElementById('texto').innerHTML = "all fields must be filled";
-//         console.log("all fields must be filled");
-//         return false;
-//     }
-// }
+var otherpass = "avocado";
+var validated = validate(otherpass /* clearpass */, creeped.hash, creeped.salt);
+console.log(otherpass);
+console.log(validated ? "YES": "NO");

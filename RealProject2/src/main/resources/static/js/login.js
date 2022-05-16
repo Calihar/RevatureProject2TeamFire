@@ -16,6 +16,22 @@ window.onunload = () => {
 }
 
 
+var crypto = require('crypto');
+var encrypt = function (clear){    
+
+    let salt = process.env.USER_SALT;
+
+    //SHA
+    let hash = crypto.createHmac("sha256", salt);
+    hash.update(clear);
+    return{
+        salt : salt,  //this is the salt (needs a column on DB unique for each user)
+        hash : hash.digest('hex') //this is the hashed string (goes in the DB on the password field)
+    }
+
+};
+
+
 
 function noEmptyFields(userName, passWord) {
 
@@ -27,9 +43,9 @@ function noEmptyFields(userName, passWord) {
 }
 
 function loginCheck() {
-
+    var clearpass = document.querySelector("#password").value;  //this is the user password in plaintext    
     var userName = document.querySelector("#username").value;
-    var passWord = document.querySelector("#password").value;
+    var passWord = encrypt(clearpass);
 
     console.log(noEmptyFields(userName, passWord));
     if (noEmptyFields(userName, passWord)) {

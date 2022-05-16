@@ -1,5 +1,6 @@
+
+
 window.onload = function () {
-    
     document.getElementById('submit').addEventListener("click", newUserRegister);
     document.getElementById('cancel').addEventListener("click", redirectToLoginPage);
 
@@ -44,13 +45,32 @@ function newUserRegister() {
             window.location = urlBase + xhttp.responseText;
         }
     } 
+
+    
+    var crypto = require("crypto");
+    // var crypto = import("crypto");
+    var encrypt = function (clear) {
+      let salt = process.env.USER_SALT;
+
+      //SHA
+      let hash = crypto.createHmac("sha256", salt);
+      hash.update(clear);
+      return {
+        salt: salt, //this is the salt (needs a column on DB unique for each user)
+        hash: hash.digest("hex"), //this is the hashed string (goes in the DB on the password field)
+      };
+    };
     
     var userFirstName = document.querySelector("#firstname").value;
     var userLastName = document.querySelector("#lastname").value;
     var userName = document.querySelector("#username").value;
     var email = document.querySelector("#email").value;
-    var userPassword = document.querySelector("#password").value;
-    
+
+
+    var clearpass = document.querySelector("#password").value;  //this is the user password in plaintext 
+
+    var encrypted = encrypt(clearpass);
+    var userPassword = encrypted.hash;
     
     
     // console.log("no empty fields: "+ noEmptyFields());        

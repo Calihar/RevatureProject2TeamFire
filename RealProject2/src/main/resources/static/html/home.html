@@ -56,28 +56,25 @@
     </div>
   </div>
 </nav> <!-- Nav bar end-->
-<div id="new-post" class="container-sm row border rounded mx-auto py-3 my-3">
 
-  <div class="mb-3">
-    <textarea class="form-control" placeholder="Insert your Review Here!" id="floatingTextarea"></textarea>
-    <label for="formFileMultiple" class="form-label">Upload Photos</label>
-    <input class="form-control" type="file" id="formFileMultiple" multiple>
-  
-    <input type="radio" id="movie" name="enum" value="Movie" checked>
-    <label for="movie">Movie</label><br>
-    <input type="radio" id="game" name="enum" value="Game">
-    <label for="game">Game</label><br>
-    <input type="radio" id="Book" name="enum" value="Book">
-    <label for="book">Book</label>
-</div>  
-<div class="mb-3 text-center" style="display: inline-block"> <!--- This is only so it doesn't take up the whole page, So, it's inline-block.-->
-  
+  <div id="new-post" class="container-sm row border rounded mx-auto py-3 my-3">
+    <div class="mb-3">
+      <textarea class="form-control" placeholder="Insert your Review Here!" id="floatingTextarea"></textarea>
+      <label for="formFileMultiple" class="form-label">Upload Photos</label>
+      <input class="form-control" type="file" id="formFileMultiple" multiple>
+    
+      <input type="radio" id="movie" name="enum" value="Movie" checked>
+      <label for="movie">Movie</label><br>
+      <input type="radio" id="game" name="enum" value="Game">
+      <label for="game">Game</label><br>
+      <input type="radio" id="Book" name="enum" value="Book">
+      <label for="book">Book</label>
+    </div>  
+    <div class="mb-3 text-center" style="display: inline-block"> <!--- This is only so it doesn't take up the whole page, So, it's inline-block.-->
       <input id="flame-count" type="number" placeholder="Flame Review">
       <button id="submit" type="button" class="btn btn-primary">Submit Post</button>
     </div>
-  </div>
-  
-</div><!--- div new-post end -->
+  </div><!--- div new-post end -->
 
 <div id="post" class="container-sm row border rounded mx-auto py-3 my-3">
   <div id="rating" class="col-auto mx-auto">
@@ -135,8 +132,15 @@
     </div> <!-- div profile end -->
   </div> <!--div post-content end -->
 </div> <!-- div post end -->
+<div id="more-posts-button" class="text-center">
+  <button class="btn btn-secondary">
+    Get More Posts
+  </button>
+
+</div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
+    <script src="../js/home.js"></script>
 </body>
 </html>

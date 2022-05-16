@@ -69,6 +69,8 @@ public class UserModel {
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<CommentModel> commentList;
+	
+//	@Column(name = "profile")
 
 	public enum UserType {
 		General, Admin
@@ -137,6 +139,12 @@ public class UserModel {
 				+ ", profilePicName=" + profilePicName + "]";
 	}
 
+	
+	/**
+	 * This function will check the input(obj) from the user and compare it what called it. If the user input(obj) is not null and is different, then it sets the new values to the key and returns the new 
+	 * @param obj
+	 * @return
+	 */
 	public UserModel updateObject(Object obj) {
 		UserModel mergedUserModel = this;
 		

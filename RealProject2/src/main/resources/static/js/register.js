@@ -157,7 +157,12 @@ function noEmptyFields(userFirstName,userLastName,userName,email) {
 function passwordMatching(userPassword) {
     var retypePassword = document.querySelector("#repass").value;
     if ((userPassword != "" & retypePassword != "")  & (userPassword === retypePassword)) {
+
+        
+        
+
         if(userPassword.length < 8 || userPassword.length > 20) {
+
             document.getElementById('texto').innerHTML = "Password must be at least 8 characters long";
             return false;
         }

@@ -36,7 +36,7 @@ function startUp() {
     // let URLEnd = "Calihar";
 
     console.log(URLEnd);
-    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
+    xhttp.open('POST', "http://54.147.157.227:9001/get/profile/" + URLEnd);
     xhttp.setRequestHeader("content-type", "application/json");
     xhttp.send();
 }
@@ -113,7 +113,7 @@ function getProfilePhoto(picName) {
 
     let params = "?picName=" + picName;
     console.log("Picture URL: " + picUrl);
-    xhttp.open('POST', "http://localhost:9001/photo" + params);
+    xhttp.open('POST', "http://54.147.157.227:9001/photo" + params);
 
 
     xhttp.send();
@@ -168,7 +168,7 @@ function serverSendAndGetPhoto() {
             picUrl = respObj;
         }
     }
-    xhttp.open('POST', `http://localhost:9001/profile/picture`)
+    xhttp.open('POST', `http://54.147.157.227:9001/profile/picture`)
 
     xhttp.send(formData);
 }
@@ -276,7 +276,7 @@ function updateUserInfo() {
         }
     }
 
-    xhttp.open('POST', `http://localhost:9001/profile/update`);
+    xhttp.open('POST', `http://54.147.157.227:9001/profile/update`);
 
     xhttp.setRequestHeader("content-type", "application/json");
 

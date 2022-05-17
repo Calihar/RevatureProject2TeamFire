@@ -31,7 +31,7 @@ function createPost(){
             // myDOM(query);
         }
     }
-    xhttp.open('Post', 'http://localhost:9001/post/post');
+    xhttp.open('Post', 'http://54.147.157.227:9001/post/post');
 
     xhttp.send();
 }

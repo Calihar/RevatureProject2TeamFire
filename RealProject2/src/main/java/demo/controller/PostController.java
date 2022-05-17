@@ -24,7 +24,7 @@ import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:9001/")
+@CrossOrigin(origins = "http://54.147.157.227:9001/")
 public class PostController {
 
 	// FIELDS\\

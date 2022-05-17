@@ -17,7 +17,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light position-static mb-3" style="top: 0; width: 100%;">
     <!--- Nav bar -->
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"> <!-- Inquire about this-->
+      <a class="navbar-brand" href="/home"> <!-- Inquire about this-->
         <img src="../favicon-32x32.png" alt="Hottakes">
       </a>
 
@@ -74,7 +74,7 @@
               <button id="logout" style="margin-left: 10px;" class="nav-link btn btn-outline-success">Logout</button>
               
               <a class="navbar-brand">
-                <img src="../default_profile.jpg" width="32px" height="32px" alt="userProfilePic"
+                <img cursor="pointer" id="navbarPic" src="../default_profile.jpg" width="32px" height="32px" alt="userProfilePic"
                 style="margin-left: 10px;">
               </a>
             </form>
@@ -90,6 +90,8 @@
   <button class="btn btn-secondary">
     Get More Posts
   </button>
+
+  
 
 </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

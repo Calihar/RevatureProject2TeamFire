@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -33,6 +34,7 @@ public class StorageService {
 	 * @return boolean of true if passes
 	 * @throws IOException
 	 */
+	@CrossOrigin("/*")
 	public String uploadAWSFile(MultipartFile file) throws IOException {
 		System.out.println("In the service upload!");
 		File fileObj = convertMultipartFileToFile(file);
@@ -50,6 +52,7 @@ public class StorageService {
 	 * @return Url for HTML img src
 	 * @throws IOException
 	 */
+	@CrossOrigin("/*")
 	public String presignedUrl(String fileName) throws IOException {
 		return amazonS3.generatePresignedUrl(AWSConfig.getBucketName(), fileName, convertToDateViaInstant(LocalDate.now().plusDays(1)))
 				.toString();

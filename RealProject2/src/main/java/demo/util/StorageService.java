@@ -19,8 +19,13 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 @Service
 public class StorageService {
 
-	@Autowired
 	private AmazonS3 amazonS3;
+	
+	@Autowired
+	public StorageService(AmazonS3 amazonS3) {
+		super();
+		this.amazonS3 = amazonS3;
+	}
 
 	/**
 	 * This method takes in a Multipart file and then converts it into a file and sends a putObject request to the AWS server where the bucket name matches the one in the AWSConfig class.
@@ -57,6 +62,7 @@ public class StorageService {
 	 * @param fileName
 	 * @return ResponseEntity of ok
 	 */
+	@Deprecated
 	public ResponseEntity<String> deleteAWSFile(String fileName) {
 		System.out.println("Deleting file: " + fileName);
 		amazonS3.deleteObject(AWSConfig.getBucketName(), fileName);

@@ -10,9 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "User_Table")
+@JsonIgnoreProperties (value = {"postList", "commentList"}, allowSetters = true)
 public class UserModel {
 
 	@Id
@@ -66,12 +68,10 @@ public class UserModel {
 	@Column(name = "password_reset_key", unique = true, nullable = true)
 	private String passwordResetKey;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="post_list")
+	@OneToMany(mappedBy="myOwner", fetch = FetchType.LAZY)
 	private List<PostModel> postList;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name="comment_list")
+	@OneToMany(mappedBy="myOwner", fetch = FetchType.LAZY)
 	private List<CommentModel> commentList;
 	
 

@@ -51,7 +51,9 @@ function startUp() {
 
 function buttonHide(){
 
-    
+    document.getElementById("modalUpInput").style.display="none";
+
+
 
 }
 

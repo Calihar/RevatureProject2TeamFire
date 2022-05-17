@@ -54,6 +54,8 @@ function serverSendAndGetPhoto() {
             document.querySelector("#navBarPhoto").setAttribute("src", respObj);
         }
     }
+    xhttp.open('POST', `http://localhost:9001/profile/picture`);
+    xhttp.send();
     xhttp.open('POST', "http://localhost:9001/profile/picture")
 
     xhttp.send(formData);

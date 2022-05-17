@@ -5,12 +5,12 @@ window.onload = function () {
     startUp();
     document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPost);
-    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile)
+    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile);
 
 }
 window.onunload = function () {
     window.localStorage.clear();
-
+    null;
 }
 
 function redirectToOwnProfile() {
@@ -20,11 +20,12 @@ function redirectToOwnProfile() {
 function redirectToLoginPage() {
     ///this the line of the GODs!!!!!!
     window.localStorage.clear();
-    window.location.replace("../login");
+    window.location.replace("../html/login.html");
 }
 
 function preventBack() {
     window.history.forward();
+    
 }
 setTimeout("preventBack()", 0);
 

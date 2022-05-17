@@ -56,7 +56,8 @@ public class PostModel {
 	@JoinColumn(name="likes_id_FK")
 	private List<UserModel> userLikesList;
 	
-	@OneToMany(mappedBy="myPost", fetch=FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="comment_list")
 	private List<CommentModel> commentList;
 	
 	@Column(name="picture_url", unique=false, nullable=true)

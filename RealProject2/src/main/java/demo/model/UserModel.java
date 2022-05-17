@@ -66,7 +66,7 @@ public class UserModel {
 	@Column(name = "password_reset_key", unique = true, nullable = true)
 	private String passwordResetKey;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="post_list")
 	private List<PostModel> postList;
 

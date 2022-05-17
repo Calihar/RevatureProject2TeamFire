@@ -3,7 +3,6 @@ let currentUser = "null";
 let currentProfile = "null"
 let counter=0;
 
-
 window.onload = function () {
 
     startUp();

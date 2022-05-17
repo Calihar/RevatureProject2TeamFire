@@ -1,7 +1,7 @@
 window.onload = function () {
     startUp();
 
-   document.getElementById("childProfilePictureModalPictureUpload").addEventListener('click', changeAvatarPictureFunction);
+    document.getElementById("childProfilePictureModalPictureUpload").addEventListener('click', changeAvatarPictureFunction);
     document.getElementById("emailBtn").addEventListener('click', changeEmailFunction);
     document.getElementById("changeBirthDayBtn").addEventListener('click', changeBirthDayFunction);
     document.getElementById("firstNameParentBtn").addEventListener('click', changeFirstNameFunction);
@@ -37,7 +37,6 @@ function changeAvatarPictureFunction() {
     document.getElementById("upload-button").addEventListener('click', serverSendAndGetPhoto);
 
 }
-
 
 function serverSendAndGetPhoto() {
     let file = document.getElementById('fileupload').files[0];

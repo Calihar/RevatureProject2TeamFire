@@ -1,8 +1,6 @@
 package demo.model;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -68,9 +67,11 @@ public class UserModel {
 	private String passwordResetKey;
 	
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="post_list")
 	private List<PostModel> postList;
 
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="comment_list")
 	private List<CommentModel> commentList;
 	
 
@@ -137,8 +138,8 @@ public class UserModel {
 		return "\nUserModel [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", userEmail=" + userEmail + ", userType=" + userType
 				+ ", creationDate=" + creationDate + ", userBirthday=" + userBirthday + ", userBio=" + userBio
-				+ ", reviewCount=" + reviewCount + ", postList=" + postList + ", commentList=" + commentList
-				+ ", profilePicName=" + profilePicName + "]";
+				+ ", reviewCount="
+				+ reviewCount + ", profilePicName=" + profilePicName + "]";
 	}
 
 	

@@ -101,6 +101,7 @@ public class MainController {
 	public String routeResetPassword() {
 		System.out.println("Resetting Password");
 		return "/html/password-reset.html";
+		
 	}
 	
 

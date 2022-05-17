@@ -1,20 +1,24 @@
 let currentUser = null;
 let currentUserProPic = null;
 
+// window.onload = function () {
+//     startUp();
+//     document.getElementById('logout').addEventListener("click", redirectToLoginPage);
+//     document.getElementById('mySubmit').addEventListener("click", createPost);
+//     document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile);
+
+// }
 window.onload = function () {
     startUp();
     document.getElementById('logout').addEventListener("click", redirectToLoginPage);
+    document.getElementById('mySubmit').addEventListener("click", createPostDOM);
     document.getElementById('mySubmit').addEventListener("click", createPost);
-    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile);
 
 }
 window.onunload = function () {
     window.localStorage.clear();
     null;
-}
 
-function redirectToOwnProfile() {
-    window.location.replace("../user/" + currentUser.username);
 }
 
 function redirectToLoginPage() {
@@ -25,9 +29,17 @@ function redirectToLoginPage() {
 
 function preventBack() {
     window.history.forward();
-    
 }
+  
 setTimeout("preventBack()", 0);
+
+function redirectToLoginPage(){    
+    window.location.replace("../landing.html");
+}
+
+function redirectToOwnProfile() {
+    window.location.replace("../user/" + currentUser.username);
+}
 
 function startUp() {
     let xhttp = new XMLHttpRequest();

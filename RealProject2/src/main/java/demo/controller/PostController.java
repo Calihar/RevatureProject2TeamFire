@@ -7,10 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +24,7 @@ import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
-@RequestMapping("/post")
+@CrossOrigin(origins = "http://localhost:9001/")
 public class PostController {
 
 	// FIELDS\\
@@ -52,7 +51,7 @@ public class PostController {
 
 	// DB ACCESS\\
 	@PostMapping("/post")
-	public List<PostModel> postToDataBase(@RequestBody PostModel postModel, HttpSession session) {
+	public List<PostModel> postToDataBase(@RequestParam(value="post") PostModel postModel, HttpSession session) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 
@@ -70,16 +69,6 @@ public class PostController {
 		return null;
 	}
 
-	@PostMapping("/getall/posts")
-	public List<PostModel> getAllPosts(HttpSession session) {
-
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser != null) {
-			return postDao.findAll();
-		}
-		return null;
-	}
-
 	/**
 	 * 
 	 * @param file
@@ -88,7 +77,7 @@ public class PostController {
 	 */
 	@PostMapping("/post/photo")
 	public List<PostModel> postPhotoToDataBase(HttpSession session, @RequestParam(value = "file") MultipartFile file,
-			PostModel postModel) throws IOException {
+			@RequestParam(value="post") PostModel postModel) throws IOException {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 			String newFileName = storageServ.uploadAWSFile(file);
@@ -104,6 +93,16 @@ public class PostController {
 
 	}
 
+	@PostMapping("/getall/posts")
+	public List<PostModel> getAllPosts(HttpSession session) {
+		
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			return postDao.findAll();
+		}
+		return null;
+	}
+	
 	@PostMapping("/post/{id}/comment")
 	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") int postId, CommentModel comModel) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");

@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +23,7 @@ import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:9001/")
 public class UserController {
 
 	// FIELDS\\
@@ -168,14 +169,16 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/profile/passwordreset/{resetKey}")
-	public boolean updateUserPassword(@PathVariable("resetKey") String resetKey, @RequestBody UserModel reqUser) {
+	public String updateUserPassword(@PathVariable("resetKey") String resetKey, @RequestBody UserModel reqUser) {
+		System.out.println("In the functional reset password URI");
 		UserModel tempUser = userDao.findByUsername(reqUser.getUsername());
 		if (resetAuthentication(resetKey, tempUser)) {
 			tempUser.setPassword(reqUser.getPassword());
+			tempUser.setPasswordResetKey("");
 			userDao.save(tempUser);
-			return true;
+			return "true";
 		}
-		return false;
+		return "false";
 
 	}
 
@@ -201,6 +204,13 @@ public class UserController {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param session
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
 	@PostMapping("/photo")
 	public String getPictureURL(HttpSession session, @RequestParam("picName") String fileName) throws IOException {
 		System.out.println("In the get Photo method");
@@ -234,7 +244,9 @@ public class UserController {
 
 	public boolean resetAuthentication(String resetKey, UserModel currentUser) {
 		if (currentUser != null) {
+			System.out.println("The user/resetpasswordauth is not null");
 			if (currentUser.getPasswordResetKey().equals(resetKey)) {
+				System.out.println("The user/resetpasswordauth resetKey matches");
 				return true;
 			}
 		}

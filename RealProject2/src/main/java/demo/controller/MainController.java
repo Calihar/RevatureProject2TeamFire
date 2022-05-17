@@ -1,45 +1,39 @@
 package demo.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import demo.dao.CommentDao;
 import demo.dao.PostDao;
 import demo.dao.UserDao;
-import demo.model.PostModel;
-import demo.model.ResponseMessage;
 import demo.model.UserModel;
 import demo.util.StorageService;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:9001/")
 public class MainController {
 
 	// FIELDS\\
 	private UserDao userDao;
 	private PostDao postDao;
 	private CommentDao commentDao;
+	private StorageService storageServ;
 
 	// CONSTRUCTORS\\
 	@Autowired
-	public MainController(UserDao userDao, PostDao postDao, CommentDao commentDao) {
+	public MainController(UserDao userDao, PostDao postDao, CommentDao commentDao, StorageService storageServ) {
 		super();
 		this.userDao = userDao;
 		this.postDao = postDao;
 		this.commentDao = commentDao;
+		this.storageServ = storageServ;
 	}
 	
-	@Autowired
-	private StorageService storageServ;
 
 	// ROUTING\\
 	@GetMapping("/")
@@ -72,7 +66,7 @@ public class MainController {
 		// MAKE SURE THE USER IS LOGGED IN
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser == null)
-			return "landing.html";
+			return "/landing.html";
 
 		return "/html/home.html";
 	}
@@ -84,7 +78,7 @@ public class MainController {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		System.out.println(currentUser);
 		if (currentUser == null)
-			return "landing.html";
+			return "/landing.html";
 
 		System.out.println("Not NULL");
 		return "/html/profile.html";
@@ -99,7 +93,7 @@ public class MainController {
 	
 	@GetMapping("/finalizepasswordreset/{resetKey}")
 	public String routeResetPassword() {
-		System.out.println("Resetting Password");
+		System.out.println("Pathing to reset password");
 		return "/html/password-reset.html";
 		
 	}

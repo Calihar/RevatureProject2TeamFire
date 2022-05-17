@@ -4,9 +4,26 @@ let currentUser = null;
 
 
 window.onload = function () {
-    
+
+    document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPostDOM);
 
+}
+window.onunload = function () {
+    window.localStorage.clear();
+    null;
+
+}
+
+function preventBack() {
+    window.history.forward();
+  }
+  
+  setTimeout("preventBack()", 0);
+
+function redirectToLoginPage(){
+    
+    window.location.replace("../landing.html");
 }
 
 function startUp(){
@@ -108,8 +125,10 @@ function createPostDOM(query){
     newCardBody.classList.add("card-body");
 
     let newh5 = document.createElement("h5");
+
     newPoster.classList.add("card-title");
     newh5.textContent = "Title"; // DOM for the Title goes here.
+
 
     let newFlamesDiv = document.createElement("div");
     newPoster.classList.add("text-center");

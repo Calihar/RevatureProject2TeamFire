@@ -1,5 +1,3 @@
-
-
 window.onload = function () {
   document
     .getElementById("submit")

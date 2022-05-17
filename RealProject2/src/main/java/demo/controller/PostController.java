@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,7 +70,8 @@ public class PostController {
 	 * @return
 	 */
 	@PostMapping("/post")
-	public List<PostModel> postToDataBase(@RequestParam(value="post") PostModel postModel, HttpSession session) {
+	public PostModel postToDataBase(@RequestBody PostModel postModel, HttpSession session) {
+		System.out.println("In the /Post");
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 
@@ -80,8 +82,8 @@ public class PostController {
 			// PostgreSQL DB actions
 			postModel.setSubmitTime(new Timestamp(System.currentTimeMillis()));
 			postModel.setMyOwner(currentUser);
-			postDao.save(postModel);
-			return postDao.findAll();
+			return postDao.save(postModel);
+			
 		}
 
 		return null;
@@ -93,22 +95,34 @@ public class PostController {
 	 * @return returns a URL that will last for 24 hours.
 	 * @throws IOException
 	 */
-	@PostMapping("/post/photo")
-	public List<PostModel> postPhotoToDataBase(HttpSession session, @RequestParam(value = "file") MultipartFile file,
-			@RequestParam(value="post") PostModel postModel) throws IOException {
+	@PostMapping("/post/photo/{id}")
+	public PostModel postPhotoToDataBase(HttpSession session, @RequestParam(value = "file") MultipartFile file, @PathVariable("id") int postId) throws IOException {
+		System.out.println("In the /Post/photo");
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
+			PostModel postModel = postDao.findByPostId(postId);
 			String newFileName = storageServ.uploadAWSFile(file);
 			postModel.setPictureURL(newFileName);
 
 			postModel.setMyOwner(currentUser);
 			postModel.setSubmitTime(new Timestamp(System.currentTimeMillis()));
-			postDao.save(postModel);
+			return postDao.save(postModel);
 
-			return postDao.findAll();
 		}
 		return null;
 
+	}
+	
+	@PostMapping("/get/postowner/{id}")
+	public UserModel getpostOwner(HttpSession session, @PathVariable("id") int postId) {
+		
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			UserModel tempUser = postDao.findUserIdByPostId(postId);
+			System.out.println(tempUser);
+			return tempUser;
+		}
+		return null;
 	}
 
 	@PostMapping("/getall/posts")
@@ -122,8 +136,9 @@ public class PostController {
 	}
 	
 	@PostMapping("/post/{id}/comment")
-	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") int postId, CommentModel comModel) {
+	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") String postStr, CommentModel comModel) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		int postId = Integer.parseInt(postStr);
 		if (currentUser != null) {
 
 			// PROFANITY FILTER

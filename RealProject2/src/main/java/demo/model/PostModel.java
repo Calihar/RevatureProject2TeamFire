@@ -100,12 +100,22 @@ public class PostModel {
 		this.userLikesList = userLikesList;
 		this.commentList = commentList;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "PostModel [postId=" + postId + ", postRating=" + postRating + ", reviewItem=" + reviewItem
 				+ ", itemType=" + itemType + ", postContent=" + postContent + ", myOwner=" + myOwner.getFirstName() + " " + myOwner.getLastName() + ", submitTime="
 				+ submitTime + ", userLikesList=" + userLikesList + ", commentList=" + commentList + "]";
+	}
+
+	public PostModel(int postRating, String reviewItem, ItemType itemType, String postContent) {
+		super();
+		this.postRating = postRating;
+		this.reviewItem = reviewItem;
+		this.itemType = itemType;
+		this.postContent = postContent;
 	}
 
 	

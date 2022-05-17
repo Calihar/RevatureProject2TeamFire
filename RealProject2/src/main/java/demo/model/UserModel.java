@@ -139,7 +139,7 @@ public class UserModel {
 				+ firstName + ", lastName=" + lastName + ", userEmail=" + userEmail + ", userType=" + userType
 				+ ", creationDate=" + creationDate + ", userBirthday=" + userBirthday + ", userBio=" + userBio
 				+ ", reviewCount="
-				+ reviewCount + ", profilePicName=" + profilePicName + "]";
+				+ reviewCount + ", profilePicName=" + profilePicName + ", passwordResetKey=" + passwordResetKey + "]";
 	}
 
 	

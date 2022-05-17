@@ -52,7 +52,7 @@ public class PostController {
 
 	// DB ACCESS\\
 	@PostMapping("/post")
-	public List<PostModel> postToDataBase(@RequestBody PostModel postModel, HttpSession session) {
+	public List<PostModel> postToDataBase(@RequestParam(value="post") PostModel postModel, HttpSession session) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 
@@ -70,16 +70,6 @@ public class PostController {
 		return null;
 	}
 
-	@PostMapping("/getall/posts")
-	public List<PostModel> getAllPosts(HttpSession session) {
-
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser != null) {
-			return postDao.findAll();
-		}
-		return null;
-	}
-
 	/**
 	 * 
 	 * @param file
@@ -88,7 +78,7 @@ public class PostController {
 	 */
 	@PostMapping("/post/photo")
 	public List<PostModel> postPhotoToDataBase(HttpSession session, @RequestParam(value = "file") MultipartFile file,
-			PostModel postModel) throws IOException {
+			@RequestParam(value="post") PostModel postModel) throws IOException {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 			String newFileName = storageServ.uploadAWSFile(file);
@@ -104,6 +94,16 @@ public class PostController {
 
 	}
 
+	@PostMapping("/getall/posts")
+	public List<PostModel> getAllPosts(HttpSession session) {
+		
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			return postDao.findAll();
+		}
+		return null;
+	}
+	
 	@PostMapping("/post/{id}/comment")
 	public boolean postCommentToDataBase(HttpSession session, @PathVariable("id") int postId, CommentModel comModel) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");

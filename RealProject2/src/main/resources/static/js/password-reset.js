@@ -9,7 +9,6 @@ window.onunload = () => {
 
 
 function resetPasswordConfirm() {
-    console.log('resetting')
     let username = document.querySelector('#username').value;
     let password = document.querySelector('#password').value;
     let rPassword = document.querySelector('#rPassword').value;
@@ -19,7 +18,7 @@ function resetPasswordConfirm() {
 
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
-                if (JSON.parse(xhttp.responseText)) {
+                if (xhttp.responseText) {
                     let text = document.querySelector('#texto');
                     text.innerText = "Password Reset Successfully"
                     window.location = "http://localhost:9001/login"
@@ -38,7 +37,7 @@ function resetPasswordConfirm() {
         let length = currentURLArray.length;
         let URLEnd = currentURLArray[length - 1];
 
-        xhttp.open('POST', "http://localhost:9001/profile/passwordreset" + URLEnd)
+        xhttp.open('POST', "http://localhost:9001/profile/passwordreset/" + URLEnd)
 
         let reqObj = {
             "username": username,

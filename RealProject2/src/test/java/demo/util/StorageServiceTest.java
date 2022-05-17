@@ -32,7 +32,7 @@ public class StorageServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		myServ = new StorageService(aS3, u);
+		myServ = new StorageService(aS3);
 	}
 
 	@Test

@@ -22,7 +22,7 @@ public class StorageService {
 	private AmazonS3 amazonS3;
 	
 	@Autowired
-	public StorageService(AmazonS3 amazonS3, UUID u) {
+	public StorageService(AmazonS3 amazonS3) {
 		super();
 		this.amazonS3 = amazonS3;
 	}
@@ -33,7 +33,6 @@ public class StorageService {
 	 * @return boolean of true if passes
 	 * @throws IOException
 	 */
-	@SuppressWarnings("static-access")
 	public String uploadAWSFile(MultipartFile file) throws IOException {
 		System.out.println("In the service upload!");
 		File fileObj = convertMultipartFileToFile(file);

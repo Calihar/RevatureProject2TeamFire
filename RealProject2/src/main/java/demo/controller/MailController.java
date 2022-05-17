@@ -43,7 +43,7 @@ public class MailController {
 
 	String messageContent1 = "Someone has logged into your account and requested a password reset. If you did not do this, then please call Trevin Chester at Revature. "
 			+ "<br><br>Otherwise, please click on the link below to go to our reset page"
-			+ "<br><br><a href='http://localhost:9001/finalizepasswordreset/";
+			+ "<br><br><a href='http://54.147.157.227:9001/finalizepasswordreset/";
 	String messageContent2 = "'>Password Reset</a>"
 			+ "<br><br>Thanks,<br>HotTakes Security Team";
 

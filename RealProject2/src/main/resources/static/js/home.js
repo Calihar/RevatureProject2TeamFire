@@ -85,7 +85,7 @@ function getPostOwnerPic(respObj) {
     let params = respObj;
 
 
-    xhttp.open('POST', 'http://localhost:9001/get/postownerpic/' + params, false);
+    xhttp.open('POST', 'http://54.147.157.227:9001/get/postownerpic/' + params, false);
 
     xhttp.send();
     return query;

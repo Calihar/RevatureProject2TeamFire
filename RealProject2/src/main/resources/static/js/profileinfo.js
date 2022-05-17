@@ -299,7 +299,7 @@ function retrieveAllPosts() {
     let length = currentURLArray.length;
     let URLEnd = currentURLArray[length - 1];
 
-    xhttp.open('Post', 'http://localhost:9001/getall/userposts/' + URLEnd);
+    xhttp.open('Post', 'http://54.147.157.227:9001/getall/userposts/' + URLEnd);
     xhttp.send();
 }
 
@@ -448,7 +448,7 @@ function getPhoto(picName) {
     }
     let params = "?picName=" + picName;
 
-    xhttp.open('POST', 'http://localhost:9001/photo' + params, false);
+    xhttp.open('POST', 'http://54.147.157.227:9001/photo' + params, false);
     xhttp.send();
     return query;
 }
@@ -466,7 +466,7 @@ function getPostOwnerPic(respObj) {
     }
     let params = respObj;
 
-    xhttp.open('POST', 'http://localhost:9001/get/postownerpic/' + params, false);
+    xhttp.open('POST', 'http://54.147.157.227:9001/get/postownerpic/' + params, false);
     xhttp.send();
     return query;
 
@@ -507,7 +507,7 @@ function createPost() {
         }
     }
 
-    xhttp.open('POST', 'http://localhost:9001/post');
+    xhttp.open('POST', 'http://54.147.157.227:9001/post');
     xhttp.setRequestHeader("Content-Type", "application/json")
 
     xhttp.send(JSON.stringify(myPost));
@@ -644,7 +644,7 @@ function createPostPhoto(formData, postId) {
         }
     }
 
-    xhttp.open('POST', 'http://localhost:9001/post/photo/' + postId);
+    xhttp.open('POST', 'http://54.147.157.227:9001/post/photo/' + postId);
 
 
     xhttp.send(formData);

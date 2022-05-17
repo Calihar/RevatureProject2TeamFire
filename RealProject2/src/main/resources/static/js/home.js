@@ -2,7 +2,7 @@ let currentUser = null;
 
 window.onload = function () {
     startUp();
-    //document.getElementById('logout').addEventListener("click", redirectToLoginPage);
+    document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPostDOM);
 
 }
@@ -11,6 +11,12 @@ window.onunload = function () {
     null;
 
 }
+
+function redirectToLoginPage() {
+    ///this the line of the GODs!!!!!!
+    window.localStorage.clear();
+    window.location.replace("../html/login.html");
+  }
 
 function preventBack() {
     window.history.forward();

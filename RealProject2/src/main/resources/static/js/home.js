@@ -35,7 +35,7 @@ function startUp(){
         }
     }
     
-    xhttp.open('Post', 'http://localhost:9001/get/currentuser');
+    xhttp.open('POST', 'http://localhost:9001/get/currentuser');
     xhttp.send();
 
 }
@@ -123,7 +123,7 @@ function createPostDOM(query){
     let newh5 = document.createElement("h5");
 
     newPoster.classList.add("card-title");
-    newh5.textContent = "Title"; // DOM for the Title goes here.
+    newh5.innerText = document.querySelector("#myTitle").value; // DOM for the Title goes here.
 
 
     let newFlamesDiv = document.createElement("div");
@@ -132,27 +132,27 @@ function createPostDOM(query){
     let newStrong = document.createElement("strong")
     let newP = document.createElement("p");
     if (flameCount === 0){
-        newP.textContent = "Dumpster Fire"; // DOM for the Flames Flavortest goes here
+        newP.innerText = "Dumpster Fire"; // DOM for the Flames Flavortest goes here
     }
     else if (flameCount === 1)
-        newP.textContent = "Hot Garbage"; // DOM for the Flames Flavortest goes here
+        newP.innerText = "Hot Garbage"; // DOM for the Flames Flavortest goes here
     else if (flameCount === 2)
-        newP.textContent = "Wet Fire"; // DOM for the Flames Flavortest goes here
+        newP.innerText = "Wet Fire"; // DOM for the Flames Flavortest goes here
     else if (flameCount === 3)
-        newP.textContent = "Kindling"; // DOM for the Flames Flavortest goes here
+        newP.innerText = "Kindling"; // DOM for the Flames Flavortest goes here
     else if (flameCount === 4)
-        newP.textContent = "On Fire"; // DOM for the Flames Flavortest goes here
+        newP.innerText = "On Fire"; // DOM for the Flames Flavortest goes here
     else if (flameCount === 5)
-        newP.textContent = "Ablaze"; // DOM for the Flames Flavortest goes here
+        newP.innerText = "Ablaze"; // DOM for the Flames Flavortest goes here
     else
-        newP.textContent = "Bad Number";
+        newP.innerText = "Bad Number";
     
     let newPostContent = document.createElement("div");
     newPostContent.classList.add("col", "mx-3");
     
     let newPostReview = document.createElement("p");
     newPostReview.classList.add("mx-auto");
-    newPostReview.textContent = "Hello."; // DOM for the text review itself
+    newPostReview.innerText = "Hello."; // DOM for the text review itself
 
     let newProfileDiv = document.createElement("div");
     newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
@@ -167,7 +167,7 @@ function createPostDOM(query){
 
     let newP2 = document.createElement("p");
     newP2.classList.add("pt-3", "text-center");
-    newP2.textContent = myReview;
+    newP2.innerText = document.querySelector("#floatingTextarea").value;
 
     // Appending
     newPostDiv.appendChild(newRatingDiv);

@@ -20,7 +20,7 @@ function redirectToOwnProfile() {
 function redirectToLoginPage() {
     ///this the line of the GODs!!!!!!
     window.localStorage.clear();
-    window.location.replace("../landing.html");
+    window.location.replace("../login");
 }
 
 function preventBack() {

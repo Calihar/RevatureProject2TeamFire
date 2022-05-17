@@ -97,7 +97,7 @@ public class MainController {
 		return "/landing.html";
 	}
 	
-	@GetMapping("/finalizepasswordreset")
+	@GetMapping("/finalizepasswordreset/{resetKey}")
 	public String routeResetPassword() {
 		System.out.println("Resetting Password");
 		return "/html/password-reset.html";

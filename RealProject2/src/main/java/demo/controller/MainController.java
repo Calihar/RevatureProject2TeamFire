@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -14,6 +15,7 @@ import demo.model.UserModel;
 import demo.util.StorageService;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:9001/")
 public class MainController {
 
 	// FIELDS\\

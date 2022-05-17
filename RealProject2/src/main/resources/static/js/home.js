@@ -1,11 +1,8 @@
 let currentUser = null;
 
-
-
-
 window.onload = function () {
-
-    document.getElementById('logout').addEventListener("click", redirectToLoginPage);
+    startUp();
+    //document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPostDOM);
 
 }
@@ -29,18 +26,17 @@ function redirectToLoginPage(){
 function startUp(){
     let xhttp = new XMLHttpRequest();
 
-
-
     xhttp.onreadystatechange = function(){ // This step is second last. We are only setting up here before calling it later.
 
         if(xhttp.readyState==4 && xhttp.status ==200){
             let query = JSON.parse(xhttp.responseText);
+            console.log(query);
             currentUser = query;
         }
     }
     
-    xhttp.open('Post', 'http://localhost:9001/get/currentUser');
-    xhttp.send(formData);
+    xhttp.open('Post', 'http://localhost:9001/get/currentuser');
+    xhttp.send();
 
 }
 

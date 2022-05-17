@@ -1,29 +1,91 @@
+let currentUser = null;
+
+
+
+
 window.onload = function () {
     
     document.getElementById('mySubmit').addEventListener("click", createPostDOM);
 
 }
 
-function createPost(){
- 
+function startUp(){
     let xhttp = new XMLHttpRequest();
+
+
 
     xhttp.onreadystatechange = function(){ // This step is second last. We are only setting up here before calling it later.
 
         if(xhttp.readyState==4 && xhttp.status ==200){
             let query = JSON.parse(xhttp.responseText);
-            // myDOM(query);
+            currentUser = query;
         }
     }
-    xhttp.open('Post', 'http://localhost:9001/post/post');
+    
+    xhttp.open('Post', 'http://localhost:9001/get/currentUser');
+    xhttp.send(formData);
 
-    xhttp.send();
 }
 
-function createPostDOM(){
+function getPhoto(picName){
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function(){ // This step is second last. We are only setting up here before calling it later.
+
+        if(xhttp.readyState==4 && xhttp.status ==200){
+            let query = xhttp.responseText;
+            return query;
+
+        }
+    }
+    let params = "?picName=" + picName;
+
+    xhttp.open('Post', 'http://localhost:9001/photo' + params, false);
+    xhttp.send();
+
+}
+
+function createPost(){
+ 
+    
+    let myTitle = document.querySelector("#myTitle").value;
+    let myReview = document.querySelector("#floatingTextarea").value;
+    let myPhoto  = document.querySelector("#formFile").files[0];
+    let myFlames  = document.querySelector("#myTitle").value;
+    let itemtype  = document.querySelector('input[name="enum"]:checked').value;
+    let myPost = {
+        "reviewItem" : myTitle,
+        "postContent" : myReview,
+        "postRating" : myFlames,
+        "itemType": itemtype
+    }
+    let formData = new FormData();
+    formData.append("post", myPost)
+    if (myPhoto != null || myPhoto != undefined){
+        formData.append("file", myPhoto);
+    }
+    let xhttp = new XMLHttpRequest();
+
+
+
+    xhttp.onreadystatechange = function(){ // This step is second last. We are only setting up here before calling it later.
+
+        if(xhttp.readyState==4 && xhttp.status ==200){
+            let query = JSON.parse(xhttp.responseText);
+            createPostDOM(query);
+        }
+    }
+    if (myPhoto === null || myPhoto === undefined)
+        xhttp.open('Post', 'http://localhost:9001/post');
+    else
+        xhttp.open('Post', 'http://localhost:9001/post/photo');
+    xhttp.send(formData);
+}
+
+function createPostDOM(query){
 
     // Create Variables
-    flameCount = 5;
+    flameCount = query.flameCount;
 
 
     //Create Elements
@@ -67,6 +129,8 @@ function createPostDOM(){
         newP.textContent = "On Fire"; // DOM for the Flames Flavortest goes here
     else if (flameCount === 5)
         newP.textContent = "Ablaze"; // DOM for the Flames Flavortest goes here
+    else
+        newP.textContent = "Bad Number";
     
     let newPostContent = document.createElement("div");
     newPostContent.classList.add("col", "mx-3");
@@ -79,7 +143,7 @@ function createPostDOM(){
     newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
 
     let newProfileImg = document.createElement("img");
-    newProfileImg.setAttribute("src", "photo.png"); // DOM for profile pic
+    newProfileImg.setAttribute("src", currentUser.picName); // DOM for profile pic
     newProfileImg.setAttribute("height", "100px");
     newProfileImg.setAttribute("width", "100px");
     newProfileImg.setAttribute("alt", "Profile Picture");
@@ -88,7 +152,7 @@ function createPostDOM(){
 
     let newP2 = document.createElement("p");
     newP2.classList.add("pt-3", "text-center");
-    newP2.textContent = "Username";
+    newP2.textContent = myReview;
 
     // Appending
     newPostDiv.appendChild(newRatingDiv);

@@ -17,7 +17,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light position-static mb-3" style="top: 0; width: 100%;">
     <!--- Nav bar -->
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="/"> <!-- Inquire about this-->
         <img src="../favicon-32x32.png" alt="Hottakes">
       </a>
 
@@ -41,20 +41,22 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <textarea class="form-control" placeholder="Insert your Review Here!" id="floatingTextarea"></textarea>
+                    
                   </div>
                   <div class="modal-body">
-                    <label for="formFileMultiple" class="form-label">Upload Photos</label>
-                    <input class="form-control" type="file" id="formFileMultiple" multiple>
-                  
+                    <label for="formFileMultiple" class="form-label">Upload Poster</label>
+                    <input class="form-control" type="file" id="formFile">
+                    
                     <input type="radio" id="movie" name="enum" value="Movie" checked>
                     <label for="movie">Movie</label><br>
-                    <input type="radio" id="game" name="enum" value="Game">
+                    <input type="radio" id="game" name="enum" value="VideoGame">
                     <label for="game">Game</label><br>
                     <input type="radio" id="Book" name="enum" value="Book">
                     <label for="book">Book</label>
                   </div>  
                   <div class="mb-3 text-center" style="display: inline-block"> <!--- This is only so it doesn't take up the whole page, So, it's inline-block.-->
                     <input id="flame-count" type="number" placeholder="Flame Review">
+                    <input type="text" id="myTitle" placeholder="Title">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

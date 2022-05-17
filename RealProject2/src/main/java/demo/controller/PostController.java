@@ -113,14 +113,13 @@ public class PostController {
 
 	}
 	
-	@PostMapping("/get/postowner/{id}")
-	public UserModel getpostOwner(HttpSession session, @PathVariable("id") int postId) {
+	@PostMapping("/get/postownerpic/{id}")
+	public String getpostOwnerPic(HttpSession session, @PathVariable("id") int postId) {
 		
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
-			UserModel tempUser = postDao.findUserIdByPostId(postId);
-			System.out.println(tempUser);
-			return tempUser;
+			PostModel tempPost = postDao.findByPostId(postId);
+			return tempPost.getMyOwner().getUsername() + "|" + tempPost.getMyOwner().getProfilePicName();
 		}
 		return null;
 	}
@@ -131,6 +130,18 @@ public class PostController {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 			return postDao.findAll();
+		}
+		return null;
+	}
+	
+	@PostMapping("/getall/userposts/{username}")
+	public List<PostModel> getAllPostsByUser(HttpSession session, @PathVariable("username") String username) {
+		
+		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		if (currentUser != null) {
+			UserModel tempUser = userDao.findByUsername(username);
+			
+			return postDao.findAllByMyOwner(tempUser);
 		}
 		return null;
 	}

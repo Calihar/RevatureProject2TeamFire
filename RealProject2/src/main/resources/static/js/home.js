@@ -2,7 +2,7 @@ let currentUser = null;
 
 window.onload = function () {
     startUp();
-    //document.getElementById('logout').addEventListener("click", redirectToLoginPage);
+    document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPostDOM);
 
 }
@@ -11,6 +11,12 @@ window.onunload = function () {
     null;
 
 }
+
+function redirectToLoginPage() {
+    ///this the line of the GODs!!!!!!
+    window.localStorage.clear();
+    window.location.replace("../html/login.html");
+  }
 
 function preventBack() {
     window.history.forward();
@@ -115,7 +121,7 @@ function createPostDOM(query){
     let newPoster = document.createElement("img"); // img div
     newPoster.classList.add("card-img-top");
     newPoster.setAttribute("alt", "poster");
-    newPoster.setAttribute("src", "photo.png"); // The DOM for the Poster goes here.
+    newPoster.setAttribute("src", "#formFile"); // The DOM for the Poster goes here.
 
     let newCardBody = document.createElement("div"); // Container
     newCardBody.classList.add("card-body");
@@ -152,7 +158,7 @@ function createPostDOM(query){
     
     let newPostReview = document.createElement("p");
     newPostReview.classList.add("mx-auto");
-    newPostReview.innerText = "Hello."; // DOM for the text review itself
+    newPostReview.innerText = document.querySelector("#floatingTextarea").value; // DOM for the text review itself
 
     let newProfileDiv = document.createElement("div");
     newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
@@ -167,7 +173,7 @@ function createPostDOM(query){
 
     let newP2 = document.createElement("p");
     newP2.classList.add("pt-3", "text-center");
-    newP2.innerText = document.querySelector("#floatingTextarea").value;
+    newP2.innerText = document.querySelector(currentUser.username).value;
 
     // Appending
     newPostDiv.appendChild(newRatingDiv);

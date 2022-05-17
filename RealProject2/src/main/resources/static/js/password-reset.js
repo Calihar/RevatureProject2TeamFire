@@ -17,9 +17,9 @@ function resetPasswordConfirm() {
 
         let xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function() {
-            if(xhttp.readyState == 4 && xhttp.status == 200) {
-                if(JSON.parse(xhttp.responseText)){
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                if (JSON.parse(xhttp.responseText)) {
                     let text = document.querySelector('#texto');
                     text.innerText = "Password Reset Successfully"
                     window.location = "http://localhost:9001/login"
@@ -28,17 +28,20 @@ function resetPasswordConfirm() {
             }
         }
 
-        var key = "MayTheForceBeWithYou";  
+        var key = "MayTheForceBeWithYou";
         // var userPassword = document.querySelector("#password").value;
         // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
         var encryptedPassword = fakeMathRandom(() => CryptoJS.AES.encrypt(password, key));
         var encryptedPasswordString = encryptedPassword.toString();
+        
+        let currentURLArray = window.location.href.split("/");
+        let length = currentURLArray.length;
+        let URLEnd = currentURLArray[length - 1];
 
-
-        xhttp.open('POST', "http://localhost:9001/profile/passwordreset")
+        xhttp.open('POST', "http://localhost:9001/profile/passwordreset" + URLEnd)
 
         let reqObj = {
-            "username" : username,
+            "username": username,
             "password": encryptedPasswordString
         }
         xhttp.setRequestHeader("content-type", "application/json");
@@ -71,13 +74,13 @@ function fakeMathRandom(callBack) {
     if (!callBack) throw new Error("Must provide callBack function");
     let seed = 0;
     const randomOutputs = [
-      0.04, 0.08, 0.15, 0.16, 0.23, 0.42, 0.52, 0.65, 0.79, 0.89,
+        0.04, 0.08, 0.15, 0.16, 0.23, 0.42, 0.52, 0.65, 0.79, 0.89,
     ];
     const Math_random = Math.random;
     Math.random = function () {
-      return randomOutputs[seed++ % 10];
+        return randomOutputs[seed++ % 10];
     };
     const callbackOutput = callBack();
     Math.random = Math_random;
     return callbackOutput;
-  }
+}

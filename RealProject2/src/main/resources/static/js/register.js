@@ -142,7 +142,7 @@ function passwordMatching(userPassword) {
     return true;
   } /* if ((userPassword != "" & retypePassword != "")  & (userPassword != retypePassword)) */ else {
     // console.log("passwords don't match");
-    document.getElementById("texto").innerHTML = "passwords don't match";
+    document.getElementById("texto").innerHTML = "Passwords don't match";
     return false;
   }
 

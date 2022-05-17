@@ -170,7 +170,7 @@ public class UserController {
 	@PostMapping("/profile/passwordreset/{resetKey}")
 	public boolean updateUserPassword(@PathVariable("resetKey") String resetKey, @RequestBody UserModel reqUser) {
 		UserModel tempUser = userDao.findByUsername(reqUser.getUsername());
-		if(resetAuthentication(resetKey, tempUser)) {
+		if (resetAuthentication(resetKey, tempUser)) {
 			tempUser.setPassword(reqUser.getPassword());
 			userDao.save(tempUser);
 			return true;
@@ -222,8 +222,11 @@ public class UserController {
 	 */
 	public UserModel loginAuthentication(UserModel reqUser) {
 		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());
-		if (dbUser.getPassword().equals(reqUser.getPassword())) {
-			return dbUser;
+		if (dbUser != null) {
+
+			if (dbUser.getPassword().equals(reqUser.getPassword())) {
+				return dbUser;
+			}
 		}
 
 		return null;

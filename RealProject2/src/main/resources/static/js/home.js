@@ -6,7 +6,6 @@ window.onload = function () {
     document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPost);
     document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile)
-    document.getElementById('logout').addEventListener("click", redirectToLoginPage)
 
 }
 window.onunload = function () {

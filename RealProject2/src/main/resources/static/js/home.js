@@ -20,13 +20,13 @@ function redirectToOwnProfile() {
 function redirectToLoginPage() {
     ///this the line of the GODs!!!!!!
     window.localStorage.clear();
-    window.location.replace("./");
+    window.location.replace("../landing.html");
 }
 
 function preventBack() {
     window.history.forward();
-    setTimeout("preventBack()", 0);
 }
+setTimeout("preventBack()", 0);
 
 function startUp() {
     let xhttp = new XMLHttpRequest();

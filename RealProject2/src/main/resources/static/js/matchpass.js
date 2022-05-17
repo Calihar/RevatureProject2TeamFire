@@ -5,6 +5,7 @@
 
 ///ENCRYPTION
 var crypto = require('crypto');
+// import crypto from 'crypto';
 
 var creepy = function (clear){
 

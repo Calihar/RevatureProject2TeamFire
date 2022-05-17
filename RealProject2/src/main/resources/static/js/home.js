@@ -1,6 +1,6 @@
 window.onload = function () {
     
-    document.getElementById('submit').addEventListener("click", createPostDOM);
+    document.getElementById('mySubmit').addEventListener("click", createPostDOM);
 
 }
 

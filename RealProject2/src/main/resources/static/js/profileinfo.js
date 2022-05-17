@@ -283,5 +283,4 @@ function updateUserInfo() {
 
     xhttp.send(JSON.stringify(userObject));
 
-
 }

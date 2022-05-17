@@ -1,7 +1,23 @@
 window.onload = function () {
-    
+    document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('submit').addEventListener("click", createPostDOM);
 
+}
+window.onunload = function () {
+    window.localStorage.clear();
+    null;
+
+}
+
+function preventBack() {
+    window.history.forward();
+  }
+  
+  setTimeout("preventBack()", 0);
+
+function redirectToLoginPage(){
+    
+    window.location.replace("../landing.html");
 }
 
 function createPost(){
@@ -43,7 +59,7 @@ function createPostDOM(){
 
     let newh5 = document.createElement("h5");
     newPoster.classList.add("card-title")
-    newh5 = document.textContent : "Hello Za Warudo"
+    // newh5 = document.textContent : "Hello Za Warudo"
 
     // Appending
    // newPostDiv.appendChild(newContent);

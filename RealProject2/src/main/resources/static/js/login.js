@@ -81,6 +81,7 @@ function userLogin(userName, passWord) {
     var userPassword = document.querySelector("#password").value;
     // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
     var encryptedPassword = fakeMathRandom(() => CryptoJS.AES.encrypt(userPassword, key));
+    console.log(encryptedPasswordString)
     var encryptedPasswordString = encryptedPassword.toString();
     
     //no field is empty

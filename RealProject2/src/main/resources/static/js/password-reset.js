@@ -21,7 +21,7 @@ function resetPasswordConfirm() {
                 if (xhttp.responseText) {
                     let text = document.querySelector('#texto');
                     text.innerText = "Password Reset Successfully"
-                    window.location = "http://localhost:9001/login"
+                    window.location = "http://54.147.157.227:9001/login"
                 }
 
             }
@@ -37,7 +37,7 @@ function resetPasswordConfirm() {
         let length = currentURLArray.length;
         let URLEnd = currentURLArray[length - 1];
 
-        xhttp.open('POST', "http://localhost:9001/profile/passwordreset/" + URLEnd)
+        xhttp.open('POST', "http://54.147.157.227:9001/profile/passwordreset/" + URLEnd)
 
         let reqObj = {
             "username": username,

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:9001/")
 public class UserController {
 
 	// FIELDS\\

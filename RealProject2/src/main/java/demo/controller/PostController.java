@@ -7,10 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +24,7 @@ import demo.util.ProfanityFilter;
 import demo.util.StorageService;
 
 @RestController
-@RequestMapping("/post")
+@CrossOrigin(origins = "http://localhost:9001/")
 public class PostController {
 
 	// FIELDS\\
@@ -48,9 +47,27 @@ public class PostController {
 		this.commentDao = commentDao;
 	}
 
+	public PostController(UserDao userDao, PostDao postDao, CommentDao commentDao, StorageService storageServ,
+			ProfanityFilter pFilter) {
+		super();
+		this.userDao = userDao;
+		this.postDao = postDao;
+		this.commentDao = commentDao;
+		this.storageServ = storageServ;
+		this.pFilter = pFilter;
+	}
+
+
+
 	// ENDPOINTS\\
 
 	// DB ACCESS\\
+	/**
+	 * 
+	 * @param postModel
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/post")
 	public List<PostModel> postToDataBase(@RequestParam(value="post") PostModel postModel, HttpSession session) {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");

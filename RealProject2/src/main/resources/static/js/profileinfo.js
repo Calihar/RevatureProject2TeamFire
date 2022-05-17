@@ -1,7 +1,11 @@
 let picUrl = "";
-let currentUser = null;
+let currentUser = "null";
+let currentProfile = "null"
+let counter=0;
+
 
 window.onload = function () {
+
     startUp();
 
     document.getElementById("profilePictureMain").addEventListener('click', setModalPicture);
@@ -25,20 +29,30 @@ function startUp() {
             console.log(xhttp.responseText);
             let respObj = JSON.parse(xhttp.responseText);
             console.log(respObj);
+
+            currentUser = respObj;
+            console.log("Current User: " + currentUser);
+
             setUserInfo(respObj);
             setProfilePage(respObj);
+
         }
     }
 
     let currentURLArray = window.location.href.split("/");
     let length = currentURLArray.length;
     let URLEnd = currentURLArray[length - 1];
-    // let URLEnd = "Calihar";
+    currentProfile = URLEnd;
 
-    console.log(URLEnd);
     xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
     xhttp.setRequestHeader("content-type", "application/json");
     xhttp.send();
+}
+
+function buttonHide(){
+
+    
+
 }
 
 function setUserInfo(respObj) {
@@ -120,36 +134,40 @@ function getProfilePhoto(picName) {
 
 }
 
+
+
 function changeAvatarPictureFunction() {
     console.log("In Change Avatar Picture Function");
+    if (currentUser.username == currentProfile) {
 
-    //REMOVE
-    let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
+        //REMOVE
+        let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
 
-    let childModalPicture = document.querySelector("#childModalPicture");
-    childModalPicture.removeEventListener('click', changeAvatarPictureFunction);
-    childModalPicture.remove();
+        let childModalPicture = document.querySelector("#childModalPicture");
+        childModalPicture.removeEventListener('click', changeAvatarPictureFunction);
+        childModalPicture.remove();
 
-    //REPLACE
-    childModalPictureDescrpt = document.createElement("p");
-    childModalPictureDescrpt.setAttribute("id", "picModalDesc")
-    childModalPictureDescrpt.innerText = "Please choose file to upload";
-    ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
+        //REPLACE
+        childModalPictureDescrpt = document.createElement("p");
+        childModalPictureDescrpt.setAttribute("id", "picModalDesc")
+        childModalPictureDescrpt.innerText = "Please choose file to upload";
+        ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
 
-    let childFileUpload = document.createElement("input")
-    childFileUpload.setAttribute("id", "fileupload")
-    childFileUpload.setAttribute("type", "file");
-    childFileUpload.setAttribute("name", "fileupload");
-    ParentProfilePictureModalPictureUpload.appendChild(childFileUpload);
+        let childFileUpload = document.createElement("input")
+        childFileUpload.setAttribute("id", "fileupload")
+        childFileUpload.setAttribute("type", "file");
+        childFileUpload.setAttribute("name", "fileupload");
+        ParentProfilePictureModalPictureUpload.appendChild(childFileUpload);
 
-    let childFileSubmitBtn = document.createElement("button");
-    childFileSubmitBtn.setAttribute("id", "uploadButton")
-    childFileSubmitBtn.setAttribute("type", "submit");
-    childFileSubmitBtn.innerText = "Upload";
-    ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
+        let childFileSubmitBtn = document.createElement("button");
+        childFileSubmitBtn.setAttribute("id", "uploadButton")
+        childFileSubmitBtn.setAttribute("type", "submit");
+        childFileSubmitBtn.innerText = "Upload";
+        ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
 
-    document.getElementById("uploadButton").addEventListener('click', serverSendAndGetPhoto);
+        document.getElementById("uploadButton").addEventListener('click', serverSendAndGetPhoto);
 
+    }
 }
 
 function serverSendAndGetPhoto() {
@@ -174,28 +192,31 @@ function serverSendAndGetPhoto() {
 }
 
 function setModalPicture() {
-    let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
-    //REMOVE
-    let childModalPictureDescrpt = document.querySelector("#picModalDesc");
-    childModalPictureDescrpt.remove();
+    if (currentUser.username == currentProfile | counter<1) {
+        let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
+        //REMOVE
+        let childModalPictureDescrpt = document.querySelector("#picModalDesc");
+        childModalPictureDescrpt.remove();
 
-    let childFileUpload = document.querySelector("#fileupload")
-    childFileUpload.remove();
+        let childFileUpload = document.querySelector("#fileupload")
+        childFileUpload.remove();
 
-    let childFileSubmitBtn = document.querySelector("#uploadButton");
-    childFileSubmitBtn.remove();
+        let childFileSubmitBtn = document.querySelector("#uploadButton");
+        childFileSubmitBtn.remove();
 
-    //REPLACE
-    childModalPicture = document.createElement("img")
+        //REPLACE
+        childModalPicture = document.createElement("img")
 
-    childModalPicture.setAttribute("id", "childModalPicture");
-    childModalPicture.setAttribute("src", picUrl);
-    childModalPicture.setAttribute("height", "300px");
-    childModalPicture.setAttribute("width", "300px");
-    ParentProfilePictureModalPictureUpload.appendChild(childModalPicture);
+        childModalPicture.setAttribute("id", "childModalPicture");
+        childModalPicture.setAttribute("src", picUrl);
+        childModalPicture.setAttribute("height", "300px");
+        childModalPicture.setAttribute("width", "300px");
+        ParentProfilePictureModalPictureUpload.appendChild(childModalPicture);
 
 
-    (childModalPicture).addEventListener('click', changeAvatarPictureFunction);
+        (childModalPicture).addEventListener('click', changeAvatarPictureFunction);
+        counter++;
+    }
 }
 
 function changeEmailFunction() {

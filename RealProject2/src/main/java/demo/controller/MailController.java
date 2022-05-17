@@ -66,6 +66,7 @@ public class MailController {
 		
 		UserModel tempUser = userDao.findByUserEmail(email);
 		tempUser.setPasswordResetKey(resetKey);
+		userDao.save(tempUser);
 		
 		
 		Properties props = new Properties();

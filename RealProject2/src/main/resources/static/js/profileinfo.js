@@ -244,7 +244,6 @@ function setProfilePage(respObj) {
 
     getProfilePhoto(respObj.profilePicName);
     
-
 }
 
 function getProfilePhoto(picName) {

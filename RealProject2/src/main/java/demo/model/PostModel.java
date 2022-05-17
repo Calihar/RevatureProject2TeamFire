@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name="Post_Table")
+@JsonIgnoreProperties (value = {"myOwner", "userLikesList", "commentList"}, allowSetters = true)
 public class PostModel {
 	
 	@Id
@@ -45,18 +48,18 @@ public class PostModel {
 	@Column(name="post_content", unique=false, nullable=false)
 	private String postContent;
 	
-	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id_FK")
 	private UserModel myOwner;
 	
 	@Column(name="submit_date", unique=false, nullable=false)
 	private Timestamp submitTime;
 	
-	@ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	@JoinColumn(name="likes_id_FK")
 	private List<UserModel> userLikesList;
 	
-	@OneToMany(mappedBy="myPost", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="myPost", fetch = FetchType.LAZY)
 	private List<CommentModel> commentList;
 	
 	@Column(name="picture_url", unique=false, nullable=true)
@@ -97,12 +100,22 @@ public class PostModel {
 		this.userLikesList = userLikesList;
 		this.commentList = commentList;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "PostModel [postId=" + postId + ", postRating=" + postRating + ", reviewItem=" + reviewItem
 				+ ", itemType=" + itemType + ", postContent=" + postContent + ", myOwner=" + myOwner.getFirstName() + " " + myOwner.getLastName() + ", submitTime="
 				+ submitTime + ", userLikesList=" + userLikesList + ", commentList=" + commentList + "]";
+	}
+
+	public PostModel(int postRating, String reviewItem, ItemType itemType, String postContent) {
+		super();
+		this.postRating = postRating;
+		this.reviewItem = reviewItem;
+		this.itemType = itemType;
+		this.postContent = postContent;
 	}
 
 	

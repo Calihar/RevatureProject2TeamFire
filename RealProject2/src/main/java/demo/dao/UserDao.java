@@ -9,5 +9,7 @@ public interface UserDao extends JpaRepository<UserModel, Integer> {
 	public UserModel findByUsername(String username);
 	
 	public UserModel findByUserEmail(String userEmail);
+	
+	
 
 }

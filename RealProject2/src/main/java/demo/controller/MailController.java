@@ -41,15 +41,22 @@ public class MailController {
 	}
 
 
-
-
-
 	String messageContent1 = "Someone has logged into your account and requested a password reset. If you did not do this, then please call Trevin Chester at Revature. "
 			+ "<br><br>Otherwise, please click on the link below to go to our reset page"
 			+ "<br><br><a href='http://localhost:9001/finalizepasswordreset/";
 	String messageContent2 = "'>Password Reset</a>"
 			+ "<br><br>Thanks,<br>HotTakes Security Team";
 
+	
+	/**
+	 * 
+	 * @param email
+	 * @author CalebJGulledge
+	 * @return
+	 * @throws AddressException
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	@PostMapping("/sendemail")
 	public String sendEmail(@RequestParam(value="emailName") String email) throws AddressException, MessagingException, IOException {
 		System.out.println(email);
@@ -61,7 +68,15 @@ public class MailController {
 	
 	
 	
-
+	/**
+	 * This function takes in the email given by the user. It then sets the properties and the Gmail properties. It sets the gmail to a hardcoded value.
+	 * The password is hidden in the system environments variables.
+	 * @author CalebJGulledge
+	 * @param email
+	 * @throws AddressException
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	private void sendMail(String email) throws AddressException, MessagingException, IOException {
 		
 		String resetKey = UUID.randomUUID() + "";

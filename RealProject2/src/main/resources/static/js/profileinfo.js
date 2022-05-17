@@ -1,7 +1,11 @@
+let picUrl = "";
+
+
 window.onload = function () {
     startUp();
 
-   document.getElementById("childProfilePictureModalPictureUpload").addEventListener('click', changeAvatarPictureFunction);
+    document.getElementById("profileAvatarPictureUploadBtn").addEventListener('click', setModalPicture);
+
     document.getElementById("emailBtn").addEventListener('click', changeEmailFunction);
     document.getElementById("changeBirthDayBtn").addEventListener('click', changeBirthDayFunction);
     document.getElementById("firstNameParentBtn").addEventListener('click', changeFirstNameFunction);
@@ -9,16 +13,125 @@ window.onload = function () {
     document.getElementById("modalUpdateBtn").addEventListener('click', updateUserInfo);
 }
 
+function startUp() {
+    console.log("In startup Function");
+
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        console.log("readyState is changing: ", xhttp.readyState);
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            console.log("readyState is 4!!! AND status is 200!!!");
+            console.log(xhttp.responseText);
+            let respObj = JSON.parse(xhttp.responseText);
+            console.log(respObj);
+            setUserInfo(respObj);
+            setProfilePage(respObj);
+        }
+    }
+
+    let currentURLArray = window.location.href.split("/");
+    let length = currentURLArray.length;
+    let URLEnd = currentURLArray[length - 1];
+    // let URLEnd = "Calihar";
+
+    console.log(URLEnd);
+    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
+    xhttp.setRequestHeader("content-type", "application/json");
+    xhttp.send();
+}
+
+function setUserInfo(respObj) {
+
+    let emailChild = document.querySelector("#emailChild");
+    emailChild.innerText = respObj.userEmail;
+
+    let birthDayChild = document.querySelector("#birthDayChild");
+    let tempDate = new Date(respObj.userBirthday).toLocaleDateString();
+    birthDayChild.innerText = tempDate;
+
+    let firstNameChild = document.querySelector("#firstNameChild");
+    firstNameChild.innerText = respObj.firstName;
+
+    let lastNameChild = document.querySelector("#lastNameChild");
+    lastNameChild.innerText = respObj.lastName;
+
+}
+
+function setProfilePage(respObj) {
+    console.log("In Set Profile Page Function");
+    //username
+    let usernameTitle = document.querySelector("#usernameTitle");
+    usernameTitle.innerText = respObj.username;
+
+    let usernameModal = document.querySelector("#usernameModal");
+    usernameModal.innerText = respObj.username;
+
+    //MODEL FROM PROFILE PAGE
+    //email
+    let userEmail = document.querySelector("#emailChild");
+    userEmail.innerText = respObj.userEmail;
+
+    //first
+    let firstName = document.querySelector("#firstNameChild");
+    firstName.innerText = respObj.firstName;
+
+    //last
+    let lastName = document.querySelector("#lastNameChild");
+    lastName.innerText = respObj.lastName;
+
+
+    //birthday
+    let userBirthday = document.querySelector("#birthDayChild");
+    let eventB = new Date(respObj.userBirthday).toLocaleDateString();
+    userBirthday.innerText = eventB;
+
+    //biography
+    let userBio = document.querySelector("#userBiographyTextArea");
+    userBio.innerText = respObj.userBio
+
+    getProfilePhoto(respObj.profilePicName);
+
+
+}
+
+function getProfilePhoto(picName) {
+
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        console.log("readyState is changing: ", xhttp.readyState);
+
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+            let respObj = xhttp.responseText;
+            document.querySelector("#profilePictureMain").setAttribute("src", respObj);
+            picUrl = respObj;
+            document.querySelector("#navBarPhoto").setAttribute("src", respObj);
+        }
+    }
+
+    let params = "?picName=" + picName;
+    console.log("Picture URL: " + picUrl);
+    xhttp.open('POST', "http://localhost:9001/photo" + params);
+
+
+    xhttp.send();
+
+}
+
 function changeAvatarPictureFunction() {
     console.log("In Change Avatar Picture Function");
 
+    //REMOVE
     let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
 
-    let childProfilePictureModalPictureUpload = document.querySelector("#childProfilePictureModalPictureUpload");
-    childProfilePictureModalPictureUpload.remove();
+    let childProfilePictureModalPictureUpload = document.querySelector("#childModalPictureDescrpt");
     childProfilePictureModalPictureUpload.removeEventListener('click', changeAvatarPictureFunction);
+    childProfilePictureModalPictureUpload.remove();
 
-    let childModalPictureDescrpt = document.createElement("p");
+    //REPLACE
+    childModalPictureDescrpt = document.createElement("p");
     childModalPictureDescrpt.innerText = "Please choose file to upload";
     ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
 
@@ -33,17 +146,16 @@ function changeAvatarPictureFunction() {
     childFileSubmitBtn.setAttribute("type", "submit");
     childFileSubmitBtn.innerText = "Upload";
     ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
-    
+
     document.getElementById("upload-button").addEventListener('click', serverSendAndGetPhoto);
 
 }
-
 
 function serverSendAndGetPhoto() {
     let file = document.getElementById('fileupload').files[0];
     let formData = new FormData();
     formData.append("file", file);
-    
+
     let xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
@@ -59,7 +171,31 @@ function serverSendAndGetPhoto() {
     xhttp.open('POST', "http://localhost:9001/profile/picture")
 
     xhttp.send(formData);
+}
 
+function setModalPicture() {
+    let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
+    //REMOVE
+    let childModalPictureDescrpt = document.querySelector("#picModalDesc");
+    childModalPictureDescrpt.remove();
+
+    let childFileUpload = document.querySelector("#fileupload")
+    childFileUpload.remove();
+
+    let childFileSubmitBtn = document.querySelector("#upload-button");
+    childFileSubmitBtn.remove();
+
+    //REPLACE
+    childProfilePictureModalPictureUpload = document.createElement("img")
+    childProfilePictureModalPictureUpload.setAttribute("id", "childProfilePictureModalPictureUpload");
+    console.log("REP SMP"+picUrl );
+    childProfilePictureModalPictureUpload.setAttribute("src", picUrl);
+    childProfilePictureModalPictureUpload.setAttribute("height", "300px");
+    childProfilePictureModalPictureUpload.setAttribute("width", "300px");
+    ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
+
+
+    (childModalPictureDescrpt).addEventListener('click', changeAvatarPictureFunction);
 }
 
 function changeEmailFunction() {
@@ -146,125 +282,5 @@ function updateUserInfo() {
 
 
     xhttp.send(JSON.stringify(userObject));
-
-
-}
-
-function setUserInfo(respObj) {
-
-    let emailChild = document.querySelector("#emailChild");
-    emailChild.innerText = respObj.userEmail;
-
-    let birthDayChild = document.querySelector("#birthDayChild");
-    let tempDate = new Date(respObj.userBirthday).toLocaleDateString();
-    birthDayChild.innerText = tempDate;
-
-    let firstNameChild = document.querySelector("#firstNameChild");
-    firstNameChild.innerText = respObj.firstName;
-
-    let lastNameChild = document.querySelector("#lastNameChild");
-    lastNameChild.innerText = respObj.lastName;
-
-}
-
-function startUp() {
-    console.log("In startup Function");
-
-
-
-    //When done with testing, delete
-    //setUserInfo();
-    ///////////////////////////////////
-
-
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        console.log("readyState is changing: ", xhttp.readyState);
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            console.log("readyState is 4!!! AND status is 200!!!");
-
-
-
-            console.log(xhttp.responseText);
-            let respObj = JSON.parse(xhttp.responseText);
-            console.log(respObj);
-
-            setUserInfo(respObj);
-            setProfilePage(respObj);
-
-
-        }
-    }
-
-    let currentURLArray = window.location.href.split("/");
-    let length = currentURLArray.length;
-    let URLEnd = currentURLArray[length - 1];
-    // let URLEnd = "Calihar";
-
-    console.log(URLEnd);
-    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
-    xhttp.setRequestHeader("content-type", "application/json");
-    xhttp.send();
-}
-
-function setProfilePage(respObj) {
-    console.log("In Set Profile Page Function");
-    //username
-    let usernameTitle = document.querySelector("#usernameTitle");
-    usernameTitle.innerText = respObj.username;
-
-    let usernameModal = document.querySelector("#usernameModal");
-    usernameModal.innerText = respObj.username;
-
-    //MODEL FROM PROFILE PAGE
-    //email
-    let userEmail = document.querySelector("#emailChild");
-    userEmail.innerText = respObj.userEmail;
-
-    //first
-    let firstName = document.querySelector("#firstNameChild");
-    firstName.innerText = respObj.firstName;
-
-    //last
-    let lastName = document.querySelector("#lastNameChild");
-    lastName.innerText = respObj.lastName;
-
-
-    //birthday
-    let userBirthday = document.querySelector("#birthDayChild");
-    let eventB = new Date(respObj.userBirthday).toLocaleDateString();
-    userBirthday.innerText = eventB;
-
-    //biography
-    let userBio = document.querySelector("#userBiographyTextArea");
-    userBio.innerText = respObj.userBio
-
-    getProfilePhoto(respObj.profilePicName);
-    
-}
-
-function getProfilePhoto(picName) {
-
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        console.log("readyState is changing: ", xhttp.readyState);
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            let respObj = xhttp.responseText;
-            document.querySelector("#profilePictureMain").setAttribute("src", respObj);
-            document.querySelector("#navBarPhoto").setAttribute("src", respObj);
-            document.querySelector("#childProfilePictureModalPictureUpload").setAttribute("src", respObj);
-        }
-    }
-
-    let params = "?picName=" + picName;
-    xhttp.open('POST', "http://localhost:9001/photo" + params);
-
-    xhttp.send();
 
 }

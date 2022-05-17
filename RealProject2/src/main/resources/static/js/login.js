@@ -1,6 +1,7 @@
 window.onload = function () {
 
     document.getElementById('login').addEventListener("click", loginCheck);
+    document.getElementById('modalUpdateBtn').addEventListener('click', passwordReset)
 
 }
 
@@ -16,21 +17,6 @@ window.onunload = () => {
 }
 
 
-var crypto = require('crypto');
-var encrypt = function (clear){    
-
-    let salt = process.env.USER_SALT;
-
-    //SHA
-    let hash = crypto.createHmac("sha256", salt);
-    hash.update(clear);
-    return{
-        salt : salt,  //this is the salt (needs a column on DB unique for each user)
-        hash : hash.digest('hex') //this is the hashed string (goes in the DB on the password field)
-    }
-
-};
-
 
 
 function noEmptyFields(userName, passWord) {
@@ -43,9 +29,11 @@ function noEmptyFields(userName, passWord) {
 }
 
 function loginCheck() {
-    var clearpass = document.querySelector("#password").value;  //this is the user password in plaintext    
+
+      
     var userName = document.querySelector("#username").value;
-    var passWord = encrypt(clearpass);
+    var passWord = document.querySelector("#password").value;
+
 
     console.log(noEmptyFields(userName, passWord));
     if (noEmptyFields(userName, passWord)) {
@@ -82,10 +70,24 @@ function userLogin(userName, passWord) {
 
         }
     }
+
+    // var userPassword = passWord;
+    // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
+    // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
+    // var encryptedPasswordString = encryptedPassword.toString();
+    // console.log(encryptedPasswordString);
+
+    var key = "MayTheForceBeWithYou";  
+    var userPassword = document.querySelector("#password").value;
+    // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
+    var encryptedPassword = fakeMathRandom(() => CryptoJS.AES.encrypt(userPassword, key));
+    console.log(encryptedPasswordString)
+    var encryptedPasswordString = encryptedPassword.toString();
+    
     //no field is empty
     let userValidation = {
         "username": userName,
-        "password": passWord
+        "password": encryptedPasswordString
     }
     console.log(userValidation);
     
@@ -98,3 +100,39 @@ function userLogin(userName, passWord) {
     }
 
 }
+
+function passwordReset() {
+    let email = document.querySelector("#resetEmail").value;
+    console.log(email);
+
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            document.getElementById('texto').innerHTML = "Email Sent Successfully!";
+        }
+    }
+
+    xhttp.open('POST', "http://localhost:9001/sendemail") 
+
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    let params = "emailName=" + email;
+
+    xhttp.send(params);
+
+}
+
+function fakeMathRandom(callBack) {
+    if (!callBack) throw new Error("Must provide callBack function");
+    let seed = 0;
+    const randomOutputs = [
+      0.04, 0.08, 0.15, 0.16, 0.23, 0.42, 0.52, 0.65, 0.79, 0.89,
+    ];
+    const Math_random = Math.random;
+    Math.random = function () {
+      return randomOutputs[seed++ % 10];
+    };
+    const callbackOutput = callBack();
+    Math.random = Math_random;
+    return callbackOutput;
+  }

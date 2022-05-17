@@ -18,40 +18,52 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!--- Nav bar -->
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="../favicon-32x32.png" alt="Hottakes">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/aboutus">About Us</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <a href="/user/login">
-            <button class="btn btn-outline-primary" type="submit">Login</button>
-          </a>
-          <a href="/user/register">
-            <button style="margin-left: 10px;" class="btn btn-outline-primary" type="submit">Register</button>
-          </a>
 
-        </form>
-        <form class="d-flex">
-          <a class="navbar-brand" href="#">
-            <img src="../default_profile.jpg" width="32px" height="32px" alt="userProfilePic"
-              style="margin-left: 10px;">
-          </a>
-        </form>
-      </div>
+
+
+        <a class="navbar-brand" href="/">
+            <img src="../favicon-32x32.png" alt="Hottakes">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <li class="nav-item" style="margin-left: 10px;">
+                    <button class="nav-link btn btn-outline-success">Post</button>
+                </li>
+                
+
+            </ul>
+
+            <form class="d-flex">
+
+                <input class="form-control me-2" type="search"
+                        placeholder="Search for Users" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+
+                <button style="margin-left: 10px;" class="nav-link btn btn-outline-success">Logout</button>
+
+                <a class="navbar-brand">
+                    <img id="navBarPhoto" src="../default_profile.jpg" width="32px" height="32px" alt="userProfilePic"
+                        style="margin-left: 10px;">
+                </a>
+            </form>
+
+
+        </div>
+
+
     </div>
-  </nav> <!-- Nav bar end-->
+</nav> <!-- Nav bar end-->
   <br><br>
 
 
@@ -66,26 +78,51 @@
       </div>
       <div class="col-3" style="justify-content: center">
         <div class="card" style="width: 13.5rem;">
-          <img id="profilePicture" src="https://via.placeholder.com/100.png?text=Avitar-Picture" class="card-img-top"
-            alt="...">
+          <!-- START STATIC MODAL FOR AVATAR PICTURE UPLOAD -->
+
+          <!-- Button trigger modal -->
+          <p id="profileAvatarPictureUploadBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <img id="profilePictureMain" src="https://via.placeholder.com/100.png?text=Avitar-Picture"
+              class="card-img-top" alt="...">
+          </p>
+
+          <!-- Modal -->
+          <div class="modal fade2" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="ParentProfilePictureModalPictureUpload" class="modal-body">
+                  <img id="childProfilePictureModalPictureUpload"
+                    src="https://via.placeholder.com/100.png?text=Avitar-Picture" class="card-img-top" alt="...">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END STATIC MODAL FOR AVATAR PICTURE UPLOAD -->
+
+          <!--  <img id="profilePicture" src="https://via.placeholder.com/100.png?text=Avitar-Picture" class="card-img-top"
+            alt="..."> -->
 
           <div class="card-body">
             <h5 id="usernameTitle" class="card-title">USERNAME</h5>
             <p class="card-text"></p>
           </div>
-          <!-- <ul class="list-group list-group-flush">
-            <li id="userRank" class="list-group-item">USERRANK</li>
-            <li id="userBirthday" class="list-group-item">USERBIRTHDAY</li>
-          </ul> -->
+         
 
           <div class="card-body">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> View
               Account</button>
 
-
-            <!-- Modal -->
-
+            <!-- Modal Account Info-->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog">
@@ -148,7 +185,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <lable id="userBiographyLbl">Tell us a little about yourself:</lable>
+                    <label id="userBiographyLbl">Tell us a little about yourself:</label>
                     <textarea id="userBiographyTextArea" name="userBiographyValue" placeholder="Biography Entry: "
                       wrap="soft" rows="4" cols="48" value="Bio" name="userBiographyTextAreaValue">
                       </textarea>
@@ -164,11 +201,8 @@
                 </div>
               </div>
             </div>
+            <!-- END OF MODAL ACCOUNT INFO -->
 
-
-
-
-            <!-- <a href="#" class="card-link">View Account</a> -->
           </div>
         </div>
       </div>

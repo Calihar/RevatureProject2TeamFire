@@ -3,6 +3,7 @@ package demo.controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,32 +16,59 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import demo.dao.UserDao;
 import demo.model.UserModel;
 
 @RestController
 public class MailController {
-
-	String messageContent = "Someone logged into your account has requested a password reset. If you did not do this, then please call Trevin Chester at Revature. "
-			+ "<br><br>Otherwise, please click on the link below to go to our reset page"
-			+ "<br><br><a href='http://localhost:9001/finalizepasswordreset'>Password Reset</a>"
-			+ "<br><br>Thanks,<br>Hot Takes Security Team";
-
-	@GetMapping("/sendemail")
-	public String sendEmail(HttpSession session) throws AddressException, MessagingException, IOException {
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser != null) {
-			sendMail(currentUser.getUserEmail());
-			return "Email sent successfully";
-		}
-		return "Email did not send";
+	
+	
+	private UserDao userDao;
+	
+	
+	@Autowired
+	public MailController(UserDao userDao) {
+		super();
+		this.userDao = userDao;
 	}
 
+
+
+
+
+	String messageContent1 = "Someone has logged into your account and requested a password reset. If you did not do this, then please call Trevin Chester at Revature. "
+			+ "<br><br>Otherwise, please click on the link below to go to our reset page"
+			+ "<br><br><a href='http://localhost:9001/finalizepasswordreset/";
+	String messageContent2 = "'>Password Reset</a>"
+			+ "<br><br>Thanks,<br>HotTakes Security Team";
+
+	@PostMapping("/sendemail")
+	public String sendEmail(@RequestParam(value="emailName") String email) throws AddressException, MessagingException, IOException {
+		System.out.println(email);
+		sendMail(email);
+		
+		return "Email sent successfully";
+	}
+	
+	
+	
+	
+
 	private void sendMail(String email) throws AddressException, MessagingException, IOException {
+		
+		String resetKey = UUID.randomUUID() + "";
+		
+		UserModel tempUser = userDao.findByUserEmail(email);
+		tempUser.setPasswordResetKey(resetKey);
+		userDao.save(tempUser);
+		
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -57,7 +85,7 @@ public class MailController {
 		msg.setFrom(new InternetAddress("hottakesreview@gmail.com", false));
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 		msg.setSubject("Hot Takes Review Password Reset");
-		msg.setContent(messageContent, "text/html");
+		msg.setContent(messageContent1 + resetKey + messageContent2, "text/html");
 		msg.setSentDate(new Date());
 
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
@@ -72,5 +100,8 @@ public class MailController {
 //		msg.setContent(multipart);
 		Transport.send(msg);
 	}
+	
+	
+	
 
 }

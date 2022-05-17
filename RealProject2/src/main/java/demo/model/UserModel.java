@@ -1,7 +1,6 @@
 package demo.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -42,7 +42,7 @@ public class UserModel {
 	@Column(name = "last_name", unique = false, nullable = false, length = 14)
 	private String lastName;
 
-	@Column(name = "user_email", unique = false, nullable = false)
+	@Column(name = "user_email", unique = true, nullable = false)
 	private String userEmail;
 
 	@Column(name = "user_type", unique = false, nullable = false)
@@ -63,11 +63,17 @@ public class UserModel {
 	@Column(name = "profile_picture_name", unique = true, nullable = true)
 	private String profilePicName;
 
+	@Column(name = "password_reset_key", unique = true, nullable = true)
+	private String passwordResetKey;
+	
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="post_list")
 	private List<PostModel> postList;
 
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="comment_list")
 	private List<CommentModel> commentList;
+	
 
 	public enum UserType {
 		General, Admin
@@ -132,10 +138,16 @@ public class UserModel {
 		return "\nUserModel [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", userEmail=" + userEmail + ", userType=" + userType
 				+ ", creationDate=" + creationDate + ", userBirthday=" + userBirthday + ", userBio=" + userBio
-				+ ", reviewCount=" + reviewCount + ", postList=" + postList + ", commentList=" + commentList
-				+ ", profilePicName=" + profilePicName + "]";
+				+ ", reviewCount="
+				+ reviewCount + ", profilePicName=" + profilePicName + ", passwordResetKey=" + passwordResetKey + "]";
 	}
 
+	
+	/**
+	 * This function will check the input(obj) from the user and compare it what called it. If the user input(obj) is not null and is different, then it sets the new values to the key and returns the new 
+	 * @param obj
+	 * @return
+	 */
 	public UserModel updateObject(Object obj) {
 		UserModel mergedUserModel = this;
 		
@@ -150,7 +162,10 @@ public class UserModel {
 			mergedUserModel.setUserBio(other.getUserBio());
 		}
 		if(!Objects.equals(userBirthday, other.userBirthday) && other.userBirthday != null) {
-			mergedUserModel.setUserBirthday(other.getUserBirthday());
+			Long duration = (long) ((8 * 60 * 60) * 1000);
+			Timestamp oldTimestamp = other.getUserBirthday();
+			oldTimestamp.setTime(other.getUserBirthday().getTime() + duration);
+			mergedUserModel.setUserBirthday(oldTimestamp);
 		}
 		if(!Objects.equals(userEmail, other.userEmail) && other.userEmail != null) {
 			mergedUserModel.setUserEmail(other.getUserEmail());
@@ -158,6 +173,8 @@ public class UserModel {
 	   
 		return mergedUserModel;
 	}
+	
+	
 
 
 

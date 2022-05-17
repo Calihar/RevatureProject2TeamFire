@@ -1,19 +1,15 @@
 package demo.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import demo.dao.CommentDao;
 import demo.dao.PostDao;
 import demo.dao.UserDao;
-import demo.model.PostModel;
 import demo.model.UserModel;
 import demo.util.StorageService;
 
@@ -24,42 +20,42 @@ public class MainController {
 	private UserDao userDao;
 	private PostDao postDao;
 	private CommentDao commentDao;
+	private StorageService storageServ;
 
 	// CONSTRUCTORS\\
 	@Autowired
-	public MainController(UserDao userDao, PostDao postDao, CommentDao commentDao) {
+	public MainController(UserDao userDao, PostDao postDao, CommentDao commentDao, StorageService storageServ) {
 		super();
 		this.userDao = userDao;
 		this.postDao = postDao;
 		this.commentDao = commentDao;
+		this.storageServ = storageServ;
 	}
 	
-	@Autowired
-	private StorageService storageServ;
 
 	// ROUTING\\
 	@GetMapping("/")
 	public String routeLandingPage() {
 		System.out.println("In the main router");
-		return "landing.html";
+		return "/landing.html";
 	}
 
 	@GetMapping("/login")
 	public String routeLoginPage() {
 		System.out.println("In the main/login router");
-		return "html/login.html";
+		return "/html/login.html";
 	}
 
 	@GetMapping("/register")
 	public String routeRegisterPage() {
 		System.out.println("In the main/register router");
-		return "html/register.html";
+		return "/html/register.html";
 	}
 
 	@GetMapping("/aboutus")
 	public String routeAboutUsPage() {
 		System.out.println("In the main/aboutus router");
-		return "html/aboutus.html";
+		return "/html/aboutus.html";
 	}
 
 	@GetMapping("/home")
@@ -68,52 +64,37 @@ public class MainController {
 		// MAKE SURE THE USER IS LOGGED IN
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser == null)
-			return "landing.html";
+			return "/landing.html";
 
-		return "html/home.html";
+		return "/html/home.html";
 	}
 
-	@GetMapping("/profile")
-	public String routeProfilePage(HttpSession session) {
+	@GetMapping("/user/{username}")
+	public String routeProfilePage(HttpSession session, @PathVariable("username") String username) {
 		System.out.println("In the main/profile router");
 		// MAKE SURE THE USER IS LOGGED IN
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
+		System.out.println(currentUser);
 		if (currentUser == null)
-			return "landing.html";
+			return "/landing.html";
 
-		return "html/profile.html";
+		System.out.println("Not NULL");
+		return "/html/profile.html";
 	}
 
 	@GetMapping("/logout")
 	public String logoutMethod(HttpSession session) {
 		System.out.println("Logging out");
 		session.invalidate();
-		return "landing.html";
+		return "/landing.html";
 	}
-
-	// DB ACCESSING\\
-	@GetMapping("/homeall")
-	public List<PostModel> homeGetAllPosts(HttpSession session) {
-		// MAKE SURE THE USER IS LOGGED IN
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser == null)
-			return null;
-
-		List<PostModel> postArray = new ArrayList<>();
-		postArray.addAll(postDao.findAll());
-
-		return postArray;
-	}
-
-	@GetMapping("/photo")
-	public String getPictureURL(HttpSession session, String fileName) throws IOException {
-		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
-		if (currentUser == null) {
-			return storageServ.presignedUrl(fileName);
-		}
-		return null;
+	
+	@GetMapping("/finalizepasswordreset/{resetKey}")
+	public String routeResetPassword() {
+		System.out.println("Pathing to reset password");
+		return "/html/password-reset.html";
 		
 	}
+	
 
-	// HELPER METHOD\\
 }

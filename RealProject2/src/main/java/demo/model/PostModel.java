@@ -45,7 +45,7 @@ public class PostModel {
 	@Column(name="post_content", unique=false, nullable=false)
 	private String postContent;
 	
-	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id_FK")
 	private UserModel myOwner;
 	

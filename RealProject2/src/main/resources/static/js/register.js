@@ -60,9 +60,22 @@ function newUserRegister() {
   var email = document.querySelector("#email").value;
 
 
-  //encryption stuff  
+  // var text = "panchovilla";
+  // var key = "secret";
+
+  // var encrypted = fakeMathRandom(() => CryptoJS.AES.encrypt(text, key)); //This will always return U2FsdGVkX18KPXCjFHrhR4Q5zBbjCf+I/m/w9jbS3EuvE59kzUxK45FrGHDpqalt
+  // var encrypted2 = fakeMathRandom(() => CryptoJS.AES.encrypt(text, key));
+  // var encrypted3 = fakeMathRandom(() => CryptoJS.AES.encrypt(text, key));
+
+  // var decrypted = CryptoJS.AES.decrypt(encrypted, key).toString(
+  //   CryptoJS.enc.Utf8
+  // );
+
+  //encryption stuff
+  var key = "MayTheForceBeWithYou";  
   var userPassword = document.querySelector("#password").value;
-  var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
+  // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
+  var encryptedPassword = fakeMathRandom(() => CryptoJS.AES.encrypt(userPassword, key));
   var encryptedPasswordString = encryptedPassword.toString();
   
 
@@ -129,8 +142,24 @@ function passwordMatching(userPassword) {
     return true;
   } /* if ((userPassword != "" & retypePassword != "")  & (userPassword != retypePassword)) */ else {
     // console.log("passwords don't match");
-    document.getElementById("texto").innerHTML = "passwords don't match";
+    document.getElementById("texto").innerHTML = "Passwords don't match";
     return false;
   }
 
+}
+
+
+function fakeMathRandom(callBack) {
+  if (!callBack) throw new Error("Must provide callBack function");
+  let seed = 0;
+  const randomOutputs = [
+    0.04, 0.08, 0.15, 0.16, 0.23, 0.42, 0.52, 0.65, 0.79, 0.89,
+  ];
+  const Math_random = Math.random;
+  Math.random = function () {
+    return randomOutputs[seed++ % 10];
+  };
+  const callbackOutput = callBack();
+  Math.random = Math_random;
+  return callbackOutput;
 }

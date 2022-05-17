@@ -32,7 +32,7 @@ public class UserController {
 
 	@Autowired
 	private StorageService storageServ;
-	
+
 	@Autowired
 	private ProfanityFilter pFilter;
 
@@ -48,9 +48,12 @@ public class UserController {
 	// ENDPOINTS\\
 
 	// DB ACCESSING\\
-	
+
 	/**
-	 * This sends the user info to the helper method that checks to make sure the login was accurate and then sets the "loggedUser" attr in the session. The user is then sent to the home.html.
+	 * This sends the user info to the helper method that checks to make sure the
+	 * login was accurate and then sets the "loggedUser" attr in the session. The
+	 * user is then sent to the home.html.
+	 * 
 	 * @author CalebJGulledge
 	 * @param session
 	 * @param reqUser
@@ -70,8 +73,11 @@ public class UserController {
 	}
 
 	/**
-	 * Takes in all of the registration information from the user. It sets the default values to the UserModel, 
-	 * before sending it to the DB. What the DB returns is set to the "loggedUser" in the session. The user is then sent to the home.html page.
+	 * Takes in all of the registration information from the user. It sets the
+	 * default values to the UserModel, before sending it to the DB. What the DB
+	 * returns is set to the "loggedUser" in the session. The user is then sent to
+	 * the home.html page.
+	 * 
 	 * @author CalebJGulledge
 	 * @param session
 	 * @param reqUser
@@ -80,8 +86,8 @@ public class UserController {
 	@PostMapping("/r-authentication")
 	public String registerToHomePage(HttpSession session, @RequestBody UserModel reqUser) {
 		System.out.println("In the user/register controller");
-		
-		//PROFANITY FILTER
+
+		// PROFANITY FILTER
 		reqUser.setFirstName(pFilter.getCleanContent(reqUser.getFirstName()));
 		reqUser.setLastName(pFilter.getCleanContent(reqUser.getLastName()));
 
@@ -89,7 +95,7 @@ public class UserController {
 		if (dbCheck != null) {
 			return "/login";
 		}
-		
+
 		reqUser.setUserType(UserType.General);
 		reqUser.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		UserModel newUser = userDao.save(reqUser);
@@ -99,9 +105,9 @@ public class UserController {
 		return "/home";
 	}
 
-
 	/**
 	 * Checks that user is logged in and then returns the requested User
+	 * 
 	 * @author CalebJGulledge
 	 * @param username
 	 * @return Gets the requested UserModel from the DB
@@ -114,9 +120,11 @@ public class UserController {
 
 		return tempUser;
 	}
-	
+
 	/**
-	 * Checks that the user is logged in and then returns the current user in the session.
+	 * Checks that the user is logged in and then returns the current user in the
+	 * session.
+	 * 
 	 * @author CalebJGulledge
 	 * @param session
 	 * @return Current user in the session
@@ -129,11 +137,12 @@ public class UserController {
 		}
 		return currentUser;
 	}
-	
 
 	/**
-	 * Checks that the user is logged in and then uses a helper method in the Model that updates the fields. 
-	 * It then saves it to the DB and returns what the DB returns. Also, updates the currentUser in the session.
+	 * Checks that the user is logged in and then uses a helper method in the Model
+	 * that updates the fields. It then saves it to the DB and returns what the DB
+	 * returns. Also, updates the currentUser in the session.
+	 * 
 	 * @author CalebJGulledge
 	 * @param session
 	 * @param reqUser
@@ -150,21 +159,26 @@ public class UserController {
 
 		return currentUser;
 	}
-	
+
 	/**
-	 * Finds the 
+	 * Finds the
+	 * 
 	 * @author CalebJGulledge
 	 * @param reqUser
 	 * @return
 	 */
-	@PostMapping("/profile/passwordreset")
-	public boolean updateUserPassword(@RequestBody UserModel reqUser) {
+	@PostMapping("/profile/passwordreset/{resetKey}")
+	public boolean updateUserPassword(@PathVariable("resetKey") String resetKey, @RequestBody UserModel reqUser) {
 		UserModel tempUser = userDao.findByUsername(reqUser.getUsername());
-		tempUser.setPassword(reqUser.getPassword());
-		userDao.save(tempUser);
-		return true;
+		if (resetAuthentication(resetKey, tempUser)) {
+			tempUser.setPassword(reqUser.getPassword());
+			userDao.save(tempUser);
+			return true;
+		}
+		return false;
+
 	}
-	
+
 	/**
 	 * @author CalebJGulledge
 	 * @param session
@@ -173,20 +187,20 @@ public class UserController {
 	 * @throws IOException
 	 */
 	@PostMapping("/profile/picture")
-	public String updateProfilePicture(HttpSession session, @RequestParam(value="file") MultipartFile file) throws IOException {
+	public String updateProfilePicture(HttpSession session, @RequestParam(value = "file") MultipartFile file)
+			throws IOException {
 		UserModel currentUser = (UserModel) session.getAttribute("loggedUser");
 		if (currentUser != null) {
 			String newFileName = storageServ.uploadAWSFile(file);
 			currentUser.setProfilePicName(newFileName);
 			userDao.save(currentUser);
-			
+
 			return storageServ.presignedUrl(newFileName);
 		}
-		
+
 		return null;
 	}
-	
-	
+
 	@PostMapping("/photo")
 	public String getPictureURL(HttpSession session, @RequestParam("picName") String fileName) throws IOException {
 		System.out.println("In the get Photo method");
@@ -197,7 +211,7 @@ public class UserController {
 			return URL;
 		}
 		return null;
-		
+
 	}
 
 	// HELPER METHODS\\
@@ -207,29 +221,24 @@ public class UserController {
 	 * @return
 	 */
 	public UserModel loginAuthentication(UserModel reqUser) {
-		System.out.println("reqUser: " + reqUser);
 		UserModel dbUser = userDao.findByUsername(reqUser.getUsername());
-		System.out.println("dbUser: " + dbUser);
 		if (dbUser != null) {
-			
+
 			if (dbUser.getPassword().equals(reqUser.getPassword())) {
 				return dbUser;
 			}
 		}
+
 		return null;
 	}
-	
-	public UserModel resetAuthentication(String randomCode) {
-		System.out.println("randomCode: " + randomCode);
-		UserModel dbUser = userDao.findByUsername(randomCode);
-		System.out.println("dbUser: " + dbUser);
-		if (dbUser != null) {
-			
-			if (dbUser.getPassword().equals(randomCode)) {
-				return dbUser;
+
+	public boolean resetAuthentication(String resetKey, UserModel currentUser) {
+		if (currentUser != null) {
+			if (currentUser.getPasswordResetKey().equals(resetKey)) {
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 
 }

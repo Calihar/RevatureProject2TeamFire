@@ -47,6 +47,18 @@ public class PostController {
 		this.commentDao = commentDao;
 	}
 
+	public PostController(UserDao userDao, PostDao postDao, CommentDao commentDao, StorageService storageServ,
+			ProfanityFilter pFilter) {
+		super();
+		this.userDao = userDao;
+		this.postDao = postDao;
+		this.commentDao = commentDao;
+		this.storageServ = storageServ;
+		this.pFilter = pFilter;
+	}
+
+
+
 	// ENDPOINTS\\
 
 	// DB ACCESS\\

@@ -21,7 +21,7 @@ function redirectToOwnProfile() {
 function redirectToLoginPage() {
     ///this the line of the GODs!!!!!!
     window.localStorage.clear();
-    window.location.replace("./");
+    window.location.replace("http://localhost:9001/login");
 }
 
 function preventBack() {

@@ -15,7 +15,7 @@ import demo.model.UserModel;
 import demo.util.StorageService;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:9001/")
+@CrossOrigin(origins = "http://54.147.157.227:9001/")
 public class MainController {
 
 	// FIELDS\\

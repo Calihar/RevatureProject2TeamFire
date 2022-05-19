@@ -1,89 +1,7 @@
-//IMPORTS
-// import * as helperModule from "./helper-methods";
-//END IMPORTS
-
-//FIELDS
-let currentUser = null;
-let currentUserProPic = null;
-//END FIELDS
-
-//START UP
-window.onload = function () {
-    startUp();
-    document.getElementById('logout').addEventListener("click", redirectToLoginPage);
-    document.getElementById('mySubmit').addEventListener("click", createPost);
-    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile);
-
-}
 
 
-function startUp() {
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () { 
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            let query = JSON.parse(xhttp.responseText);
-            currentUser = query;
-            if (currentUser.profilePicName != null || currentUser.profilePicName != undefined) {
-                // currentUserProPic = getPhoto(currentUser.profilePicName);
-                let navBarPic = document.querySelector("#navbarPic")
-                // navBarPic.setAttribute("src", currentUserProPic);
-                currentUserProPic = getPhoto(currentUser.profilePicName, navBarPic)
-                navBarPic.addEventListener('click', redirectToOwnProfile)
-            }
-            retrieveAllPosts();
-
-        }
-    }
-    // xhttp.open('Post', 'http://54.147.157.227:9001/post/post');
-
-    xhttp.open('POST', 'http://54.147.157.227:9001/get/currentuser');
-    xhttp.send();
-
-}
-
-function retrieveAllPosts() {
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            query = JSON.parse(xhttp.responseText);
-            createAllPosts(query);
-        }
-    }
-
-    xhttp.open('Post', 'http://localhost:9001/getall/posts');
-
-    xhttp.send();
-}
-//END START UP
-
-
-//REDIRECT & UNLOAD
-window.onunload = function () {
-    window.localStorage.clear();
-
-
-}
-
-function redirectToOwnProfile() {
-    window.location.replace("http://localhost:9001/user/" + currentUser.username);
-}
-
-function redirectToLoginPage() {
-    ///this the line of the GODs!!!!!!
-    window.localStorage.clear();
-    window.location.replace("http://localhost:9001/login");
-}
-
-function preventBack() {
-    window.history.forward();
-    setTimeout("preventBack()", 0);
-}
-//END REDIRECT & UNLOAD
-
-
-function createAllPosts(query) {
+export function createAllPosts(query) {
+    console.log("In the helper-methods file/createAllPosts")
     let myBody = document.querySelector("#myBody")
     let postHolder = document.createElement("div");
     postHolder.setAttribute("id", "postHolder")
@@ -94,13 +12,15 @@ function createAllPosts(query) {
 
         }
     }
+
 }
 
-function createPostHelper(query) {
+export function createPostHelper(query) {
 
     let postHolder = document.querySelector("#postHolder");
     // Create Variables
     flameCount = query.postRating;
+    console.log(flameCount);
 
 
     //Create Elements
@@ -117,8 +37,7 @@ function createPostHelper(query) {
     let newPoster = document.createElement("img"); // img div
     newPoster.classList.add("card-img-top");
     newPoster.setAttribute("alt", "poster");
-    getPhoto(query.pictureURL, newPoster)
-    // newPoster.setAttribute("src", getPhoto(query.pictureURL)); // The DOM for the Poster goes here.
+    newPoster.setAttribute("src", getPhoto(query.pictureURL)); // The DOM for the Poster goes here.
 
     let newCardBody = document.createElement("div"); // Container
     newCardBody.classList.add("card-body");
@@ -153,15 +72,15 @@ function createPostHelper(query) {
 
     let newPostReview = document.createElement("p");
     newPostReview.classList.add("mx-auto");
-    newPostReview.innerText = query.postContent; // DOM for the text review itself
+    newPostReview.innerText.postContent; // DOM for the text review itself
 
     let newProfileDiv = document.createElement("div");
     newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
 
     let newProfileImg = document.createElement("img");
     let postOwner = getPostOwnerPic(query.postId);
-    // newProfileImg.setAttribute("src", pic); // DOM for profile pic
-    let pic = getPhoto(postOwner[1], newProfileImg);
+    let pic = getPhoto(postOwner[1]);
+    newProfileImg.setAttribute("src", pic); // DOM for profile pic
     newProfileImg.setAttribute("height", "100px");
     newProfileImg.setAttribute("width", "100px");
     newProfileImg.setAttribute("alt", "Profile Picture");
@@ -206,32 +125,28 @@ function createPostHelper(query) {
 
     // Prepending to Document Body
 
-    postHolder.prepend(newPostDiv);
+    postHolder.prependChild(newPostDiv);
 }
 
-function getPhoto(picName, element) {
+export function getPhoto(picName) {
     let xhttp = new XMLHttpRequest();
-    // let query = "";
+    let query = "";
     xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
 
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             query = xhttp.responseText;
-            element.setAttribute('src', query);
-            // return query;
+            return query;
 
         }
     }
     let params = "?picName=" + picName;
 
-
     xhttp.open('POST', 'http://localhost:9001/photo' + params, false);
-
-   // xhttp.open('Post', 'http://54.147.157.227:9001/getall/posts');
-
     xhttp.send();
-    // return query;
+    return query;
 }
-function createPost() {
+
+export function createPost() {
     let myTitle = document.querySelector("#myTitle").value;
     let myReview = document.querySelector("#floatingTextarea").value;
     let myPhoto = document.querySelector("#formFile").files[0];
@@ -268,7 +183,7 @@ function createPost() {
     xhttp.send(JSON.stringify(myPost));
 }
 
-function createPostPhoto(formData, postId) {
+export function createPostPhoto(formData, postId) {
     let xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
@@ -287,7 +202,7 @@ function createPostPhoto(formData, postId) {
     xhttp.send(formData);
 }
 
-function getPostOwnerPic(respObj) {
+export function getPostOwnerPic(respObj) {
     let xhttp = new XMLHttpRequest();
     let query = "";
     xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
@@ -308,10 +223,7 @@ function getPostOwnerPic(respObj) {
 
 
 function proPicRedirect(data) {
-    let redirectUsername = data.path[1].children[1].innerText;
-    console.log(redirectUsername);
-    window.location.replace('http://localhost:9001/user/' + redirectUsername);
+    console.log(data);
+    // window.location.replace('http://localhost:9001/user/' + redirectUsername);
 
 }
-
-path[1].children[1].innerText

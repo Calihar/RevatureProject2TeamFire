@@ -35,7 +35,6 @@ function loginCheck() {
     var passWord = document.querySelector("#password").value;
 
 
-    console.log(noEmptyFields(userName, passWord));
     if (noEmptyFields(userName, passWord)) {
         userLogin(userName, passWord);
     } else {
@@ -81,7 +80,6 @@ function userLogin(userName, passWord) {
     var userPassword = document.querySelector("#password").value;
     // var encryptedPassword = CryptoJS.AES.encrypt(userPassword, "Secret Passphrase");
     var encryptedPassword = fakeMathRandom(() => CryptoJS.AES.encrypt(userPassword, key));
-    console.log(encryptedPasswordString)
     var encryptedPasswordString = encryptedPassword.toString();
     
     //no field is empty
@@ -89,7 +87,6 @@ function userLogin(userName, passWord) {
         "username": userName,
         "password": encryptedPasswordString
     }
-    console.log(userValidation);
     
     // & passwordMatching()
     if (noEmptyFields()) {

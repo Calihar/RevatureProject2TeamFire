@@ -47,7 +47,7 @@ function userLogin(userName, passWord) {
 
     let xhttp = new XMLHttpRequest;
 
-    xhttp.open('POST', `http://localhost:9001/l-authentication`);
+    xhttp.open('POST', `http://54.147.157.227:9001/l-authentication`);
     xhttp.setRequestHeader("content-type", "application/json");
 
     xhttp.onreadystatechange = function () {
@@ -59,7 +59,7 @@ function userLogin(userName, passWord) {
             ///use this if the response text is the URI for user home page
 
             console.log("I'm in!")
-            var urlBase = "http://localhost:9001"
+            var urlBase = "http://54.147.157.227:9001"
             window.location = urlBase + xhttp.responseText;
 
             ///this if response text only says valid or invalid
@@ -110,7 +110,7 @@ function passwordReset() {
         }
     }
 
-    xhttp.open('POST', "http://localhost:9001/sendemail") 
+    xhttp.open('POST', "http://54.147.157.227:9001/sendemail") 
 
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     let params = "emailName=" + email;

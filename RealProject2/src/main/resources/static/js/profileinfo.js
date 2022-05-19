@@ -161,7 +161,7 @@ function serverSendAndGetPhoto() {
                 document.querySelector("#navBarPic").setAttribute("src", respObj);
         }
     }
-    xhttp.open('POST', `http://localhost:9001/profile/picture`)
+    xhttp.open('POST', `http://54.147.157.227:9001/profile/picture`)
 
     xhttp.send(formData);
 }
@@ -306,7 +306,7 @@ function updateUserInfo() {
         }
     }
 
-    xhttp.open('POST', `http://localhost:9001/profile/update`);
+    xhttp.open('POST', `http://54.147.157.227:9001/profile/update`);
 
     xhttp.setRequestHeader("content-type", "application/json");
 

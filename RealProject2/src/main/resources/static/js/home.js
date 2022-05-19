@@ -12,10 +12,10 @@ window.onload = function () {
     startUp();
     document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPost);
-    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile)
-    document.getElementById('logout').addEventListener("click", redirectToLoginPage)
+    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile);
 
 }
+
 
 function startUp() {
     let xhttp = new XMLHttpRequest();
@@ -36,8 +36,9 @@ function startUp() {
 
         }
     }
+    // xhttp.open('Post', 'http://54.147.157.227:9001/post/post');
 
-    xhttp.open('POST', 'http://localhost:9001/get/currentuser');
+    xhttp.open('POST', 'http://54.147.157.227:9001/get/currentuser');
     xhttp.send();
 
 }
@@ -52,15 +53,16 @@ function retrieveAllPosts() {
     }
 
     xhttp.open('Post', 'http://localhost:9001/getall/posts');
+
     xhttp.send();
 }
 //END START UP
 
 
-
 //REDIRECT & UNLOAD
 window.onunload = function () {
     window.localStorage.clear();
+
 
 }
 
@@ -92,7 +94,6 @@ function createAllPosts(query) {
 
         }
     }
-
 }
 
 function createPostHelper(query) {
@@ -222,7 +223,11 @@ function getPhoto(picName, element) {
     }
     let params = "?picName=" + picName;
 
+
     xhttp.open('POST', 'http://localhost:9001/photo' + params, false);
+
+   // xhttp.open('Post', 'http://54.147.157.227:9001/getall/posts');
+
     xhttp.send();
     // return query;
 }

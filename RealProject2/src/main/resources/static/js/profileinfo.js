@@ -4,25 +4,17 @@
 
 //FIELDS
 let picUrl = "";
-<<<<<<< HEAD
-let currentUser = "null";
-let currentProfile = "null"
-=======
 let currentUser = null;
 let currentUserProPic = null;
 let currentProfile = null;
 let currentProfileProPic = null;
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
 let counter = 0;
 
 //START UP FUNCTIONS
 window.onload = function () {
     startUp();
-<<<<<<< HEAD
-=======
     document.getElementById("submitPostBtn").addEventListener('click', createPost);
 
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
     document.getElementById("profilePictureMain").addEventListener('click', setModalPicture);
     document.getElementById("emailBtn").addEventListener('click', changeEmailFunction);
     document.getElementById("changeBirthDayBtn").addEventListener('click', changeBirthDayFunction);
@@ -40,24 +32,10 @@ function startUp() {
 
     xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-<<<<<<< HEAD
-            console.log("readyState is 4!!! AND status is 200!!!");
-            console.log(xhttp.responseText);
-            let respObj = JSON.parse(xhttp.responseText);
-            console.log(respObj);
-
-            currentUser = respObj;
-            console.log("Current User: " + currentUser);
-
-            setUserInfo(respObj);
-            setProfilePage(respObj);
-
-=======
             currentProfile = JSON.parse(xhttp.responseText);
             getCurrentUser();
             setUserInfo(currentProfile);
             setProfilePage(currentProfile);
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
             retrieveAllPosts();
         }
     }
@@ -161,146 +139,11 @@ function retrieveAllPosts() {
     let currentURLArray = window.location.href.split("/");
     let length = currentURLArray.length;
     let URLEnd = currentURLArray[length - 1];
-<<<<<<< HEAD
-    currentProfile = URLEnd;
-
-    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
-    console.log(URLEnd);
-    xhttp.open('POST', "http://54.147.157.227:9001/get/profile/" + URLEnd);
-    xhttp.setRequestHeader("content-type", "application/json");
-    xhttp.send();
-}
-
-function buttonHide() {
-
-    document.getElementById("modalUpInput").style.display = "none";
-
-
-
-}
-
-function setUserInfo(respObj) {
-
-    let emailChild = document.querySelector("#emailChild");
-    emailChild.innerText = respObj.userEmail;
-
-    let birthDayChild = document.querySelector("#birthDayChild");
-    let tempDate = new Date(respObj.userBirthday).toLocaleDateString();
-    birthDayChild.innerText = tempDate;
-
-    let firstNameChild = document.querySelector("#firstNameChild");
-    firstNameChild.innerText = respObj.firstName;
-
-    let lastNameChild = document.querySelector("#lastNameChild");
-    lastNameChild.innerText = respObj.lastName;
-
-}
-
-function setProfilePage(respObj) {
-    console.log("In Set Profile Page Function");
-    //username
-    let usernameTitle = document.querySelector("#usernameTitle");
-    usernameTitle.innerText = respObj.username;
-
-    let usernameModal = document.querySelector("#usernameModal");
-    usernameModal.innerText = respObj.username;
-
-    //MODEL FROM PROFILE PAGE
-    //email
-    let userEmail = document.querySelector("#emailChild");
-    userEmail.innerText = respObj.userEmail;
-
-    //first
-    let firstName = document.querySelector("#firstNameChild");
-    firstName.innerText = respObj.firstName;
-
-    //last
-    let lastName = document.querySelector("#lastNameChild");
-    lastName.innerText = respObj.lastName;
-
-
-    //birthday
-    let userBirthday = document.querySelector("#birthDayChild");
-    let eventB = new Date(respObj.userBirthday).toLocaleDateString();
-    userBirthday.innerText = eventB;
-
-    //biography
-    let userBio = document.querySelector("#userBiographyTextArea");
-    userBio.innerText = respObj.userBio
-
-    getProfilePhoto(respObj.profilePicName);
-
-
-}
-
-function getProfilePhoto(picName) {
-
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        console.log("readyState is changing: ", xhttp.readyState);
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            let respObj = xhttp.responseText;
-            document.querySelector("#profilePictureMain").setAttribute("src", respObj);
-            picUrl = respObj;
-            document.querySelector("#navBarPhoto").setAttribute("src", respObj);
-        }
-    }
-
-    let params = "?picName=" + picName;
-    console.log("Picture URL: " + picUrl);
-    xhttp.open('POST', "http://54.147.157.227:9001/photo" + params);
-
-
-    xhttp.send();
-
-}
-
-
-
-function changeAvatarPictureFunction() {
-    console.log("In Change Avatar Picture Function");
-    if (currentUser.username == currentProfile) {
-
-        //REMOVE
-        let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
-
-        let childModalPicture = document.querySelector("#childModalPicture");
-        childModalPicture.removeEventListener('click', changeAvatarPictureFunction);
-        childModalPicture.remove();
-
-        //REPLACE
-        childModalPictureDescrpt = document.createElement("p");
-        childModalPictureDescrpt.setAttribute("id", "picModalDesc")
-        childModalPictureDescrpt.innerText = "Please choose file to upload";
-        ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
-
-        let childFileUpload = document.createElement("input")
-        childFileUpload.setAttribute("id", "fileupload")
-        childFileUpload.setAttribute("type", "file");
-        childFileUpload.setAttribute("name", "fileupload");
-        ParentProfilePictureModalPictureUpload.appendChild(childFileUpload);
-
-        let childFileSubmitBtn = document.createElement("button");
-        childFileSubmitBtn.setAttribute("id", "uploadButton")
-        childFileSubmitBtn.setAttribute("type", "submit");
-        childFileSubmitBtn.innerText = "Upload";
-        ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
-
-        document.getElementById("uploadButton").addEventListener('click', serverSendAndGetPhoto);
-
-    }
-}
-
-=======
 
     xhttp.open('Post', 'http://localhost:9001/getall/userposts/' + URLEnd);
     xhttp.send();
 }
 
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
 function serverSendAndGetPhoto() {
     let file = document.getElementById('fileupload').files[0];
     let formData = new FormData();
@@ -358,11 +201,7 @@ function changeAvatarPictureFunction() {
 }
 
 function setModalPicture() {
-<<<<<<< HEAD
-    if (currentUser.username == currentProfile | counter < 1) {
-=======
     if (currentProfile.username == currentUser.username || counter < 1) {
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
         let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
         //REMOVE
         let childModalPictureDescrpt = document.querySelector("#picModalDesc");
@@ -378,11 +217,7 @@ function setModalPicture() {
         childModalPicture = document.createElement("img")
 
         childModalPicture.setAttribute("id", "childModalPicture");
-<<<<<<< HEAD
-        childModalPicture.setAttribute("src", picUrl);
-=======
         childModalPicture.setAttribute("src", currentProfileProPic);
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
         childModalPicture.setAttribute("height", "300px");
         childModalPicture.setAttribute("width", "300px");
         ParentProfilePictureModalPictureUpload.appendChild(childModalPicture);
@@ -501,200 +336,7 @@ function createAllPosts(query) {
 
 }
 
-<<<<<<< HEAD
-
-
-function createPostHelper(query, i, postHolder) {
-
-    // Create Variables
-    flameCount = query[i].postRating;
-    console.log(flameCount)
-
-
-    //Create Elements
-    let newPostDiv = document.createElement("div"); // Container
-    newPostDiv.classList.add("container-sm", "row", "border", "rounded", "mx-auto", "py-3", "my-3"); //div creation
-
-    let newRatingDiv = document.createElement("div"); // Rating Div
-    newRatingDiv.classList.add("col-auto");
-
-    let newCard = document.createElement("div"); // Card Div
-    newCard.classList.add("card");
-    newCard.style = "width: 15rem;";
-
-    let newPoster = document.createElement("img"); // img div
-    newPoster.classList.add("card-img-top");
-    newPoster.setAttribute("alt", "poster");
-    newPoster.setAttribute("src", getPhoto(query[i].pictureURL)); // The DOM for the Poster goes here.
-
-    let newCardBody = document.createElement("div"); // Container
-    newCardBody.classList.add("card-body");
-
-    let newh5 = document.createElement("h5");
-    newPoster.classList.add("card-title");
-    newh5.innerText = query[i].reviewItem; // DOM for the Title goes here.
-
-
-    let newFlamesDiv = document.createElement("div");
-    newPoster.classList.add("text-center");
-
-    let newStrong = document.createElement("strong")
-    let newP = document.createElement("p");
-    if (flameCount == 0) {
-        newP.innerText = "Dumpster Fire"; // DOM for the Flames Flavortest goes here
-    }
-    else if (flameCount === 1)
-        newP.innerText = "Hot Garbage"; // DOM for the Flames Flavortest goes here
-    else if (flameCount == 2)
-        newP.innerText = "Wet Fire"; // DOM for the Flames Flavortest goes here
-    else if (flameCount == 3)
-        newP.innerText = "Kindling"; // DOM for the Flames Flavortest goes here
-    else if (flameCount == 4)
-        newP.innerText = "On Fire"; // DOM for the Flames Flavortest goes here
-    else if (flameCount == 5)
-        newP.innerText = "Ablaze"; // DOM for the Flames Flavortest goes here
-    else
-        newP.innerText = "Bad Number";
-
-    let newPostContent = document.createElement("div");
-    newPostContent.classList.add("col", "mx-3");
-
-    let newPostReview = document.createElement("p");
-    newPostReview.classList.add("mx-auto");
-    newPostReview.innerText = query[i].postContent; // DOM for the text review itself
-
-    let newProfileDiv = document.createElement("div");
-    newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
-
-    let newProfileImg = document.createElement("img");
-    let postOwner = getPostOwnerPic(query[i].postId);
-    let pic = getPhoto(postOwner[1]);
-    newProfileImg.setAttribute("src", pic); // DOM for profile pic
-    newProfileImg.setAttribute("height", "100px");
-    newProfileImg.setAttribute("width", "100px");
-    newProfileImg.setAttribute("alt", "Profile Picture");
-
-    let newStrong2 = document.createElement("strong")
-
-    let newP2 = document.createElement("p");
-    newP2.classList.add("pt-3", "text-center");
-    newP2.innerText = postOwner[0];
-
-    // Appending
-    newPostDiv.appendChild(newRatingDiv);
-
-    newRatingDiv.appendChild(newCard);
-
-    newCard.appendChild(newPoster);
-    newCard.appendChild(newCardBody);
-
-    newCardBody.appendChild(newh5);
-    newCardBody.appendChild(newFlamesDiv);
-    for (let i = 0; i < flameCount; i++) {
-        // Add Flames
-        let imgFlames = document.createElement("img");
-        imgFlames.setAttribute("src", "../favicon-32x32.png")
-        newFlamesDiv.append(imgFlames);
-
-    }
-
-    newCardBody.appendChild(newStrong);
-    newStrong.appendChild(newP);
-    newPostDiv.appendChild(newPostContent);
-    newPostContent.appendChild(newPostReview);
-    newPostContent.appendChild(newProfileDiv);
-    newProfileDiv.appendChild(newProfileImg);
-    newProfileDiv.appendChild(newStrong2);
-    newStrong2.appendChild(newP2);
-
-    // Appending to Document Body
-
-    postHolder.appendChild(newPostDiv);
-}
-
-
-
-
-function getPhoto(picName) {
-    let xhttp = new XMLHttpRequest();
-    let query = "";
-    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            query = xhttp.responseText;
-            return query;
-
-        }
-    }
-    let params = "?picName=" + picName;
-
-    xhttp.open('POST', 'http://localhost:9001/photo' + params, false);
-    xhttp.send();
-    return query;
-}
-
-function getPostOwnerPic(respObj) {
-    let xhttp = new XMLHttpRequest();
-    let query = "";
-    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            query = xhttp.responseText.split("|");
-            return query;
-
-        }
-    }
-
-    let params = respObj;
-    xhttp.open('POST', 'http://localhost:9001/get/postownerpic/' + params, false);
-    xhttp.send();
-    return query;
-
-}
-
-function createPost() {
-    let myTitle = document.querySelector("#myTitle").value;
-    let myReview = document.querySelector("#floatingTextarea").value;
-    let myPhoto = document.querySelector("#formFile").files[0];
-    let myFlames = document.querySelector("#flame-count").value;
-    let itemtype = document.querySelector('input[name="enum"]:checked').value;
-    let myPost = {
-        "reviewItem": myTitle,
-        "postContent": myReview,
-        "postRating": myFlames,
-        "itemType": itemtype
-    }
-
-    let formData = new FormData();
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            let respObj = JSON.parse(xhttp.responseText);
-            if (myPhoto != null || myPhoto != undefined) {
-                formData.append("file", myPhoto);
-                createPostPhoto(formData, respObj.postId);
-            } else
-                createPostDOM(respObj);
-
-            console.log("respObj: ");
-            console.log(respObj);
-        }
-    }
-
-    xhttp.open('POST', 'http://localhost:9001/post');
-    xhttp.setRequestHeader("Content-Type", "application/json")
-
-    xhttp.send(JSON.stringify(myPost));
-}
-
-
-
-function createPostDOM(query) {
-=======
 function createPostHelper(query) {
->>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
 
     let postHolder = document.querySelector("#postHolder");
     // Create Variables

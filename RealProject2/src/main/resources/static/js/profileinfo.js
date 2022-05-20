@@ -1,16 +1,36 @@
+//IMPORTS
+// import * as helperModule from "./helper-methods";
+
+
+//FIELDS
 let picUrl = "";
+<<<<<<< HEAD
 let currentUser = "null";
 let currentProfile = "null"
+=======
+let currentUser = null;
+let currentUserProPic = null;
+let currentProfile = null;
+let currentProfileProPic = null;
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
 let counter = 0;
 
+//START UP FUNCTIONS
 window.onload = function () {
     startUp();
+<<<<<<< HEAD
+=======
+    document.getElementById("submitPostBtn").addEventListener('click', createPost);
+
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
     document.getElementById("profilePictureMain").addEventListener('click', setModalPicture);
     document.getElementById("emailBtn").addEventListener('click', changeEmailFunction);
     document.getElementById("changeBirthDayBtn").addEventListener('click', changeBirthDayFunction);
     document.getElementById("firstNameParentBtn").addEventListener('click', changeFirstNameFunction);
     document.getElementById("lastNameParentBtn").addEventListener('click', changeLastNameFunction);
     document.getElementById("modalUpdateBtn").addEventListener('click', updateUserInfo);
+
+    document.getElementById("logoutBtn").addEventListener('click', redirectToLoginPage);
 }
 
 function startUp() {
@@ -19,8 +39,8 @@ function startUp() {
     let xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
-        console.log("readyState is changing: ", xhttp.readyState);
         if (xhttp.readyState == 4 && xhttp.status == 200) {
+<<<<<<< HEAD
             console.log("readyState is 4!!! AND status is 200!!!");
             console.log(xhttp.responseText);
             let respObj = JSON.parse(xhttp.responseText);
@@ -32,13 +52,116 @@ function startUp() {
             setUserInfo(respObj);
             setProfilePage(respObj);
 
+=======
+            currentProfile = JSON.parse(xhttp.responseText);
+            getCurrentUser();
+            setUserInfo(currentProfile);
+            setProfilePage(currentProfile);
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
             retrieveAllPosts();
+        }
+    }
+
+    //THIS WILL GRAB THE END OF THE URI AND APPEND IT TO THIS CALL
+    let currentURLArray = window.location.href.split("/");
+    let length = currentURLArray.length;
+    let URLEnd = currentURLArray[length - 1];
+
+    xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
+    xhttp.setRequestHeader("content-type", "application/json");
+    xhttp.send();
+}
+
+function getCurrentUser() {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () { 
+
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            let query = JSON.parse(xhttp.responseText);
+            currentUser = query;
+            if (currentUser.profilePicName != null || currentUser.profilePicName != undefined) {
+                currentUserProPic = getPhoto(currentUser.profilePicName);
+                let navBarPic = document.querySelector("#navbarPic")
+                navBarPic.setAttribute("src", currentUserProPic);
+                navBarPic.addEventListener('click', redirectToOwnProfile)
+            }
+        }
+    }
+
+    xhttp.open('POST', 'http://localhost:9001/get/currentuser', false);
+    xhttp.send();
+
+}
+
+function setUserInfo(currentProfile) {
+
+    let emailChild = document.querySelector("#emailChild");
+    emailChild.innerText = currentProfile.userEmail;
+
+    let birthDayChild = document.querySelector("#birthDayChild");
+    let tempDate = new Date(currentProfile.userBirthday).toLocaleDateString();
+    birthDayChild.innerText = tempDate;
+
+    let firstNameChild = document.querySelector("#firstNameChild");
+    firstNameChild.innerText = currentProfile.firstName;
+
+    let lastNameChild = document.querySelector("#lastNameChild");
+    lastNameChild.innerText = currentProfile.lastName;
+
+}
+
+function setProfilePage(currentProfile) {
+    console.log("In Set Profile Page Function");
+    //username
+    let usernameTitle = document.querySelector("#usernameTitle");
+    usernameTitle.innerText = currentProfile.username;
+
+    let usernameModal = document.querySelector("#usernameModal");
+    usernameModal.innerText = currentProfile.username;
+
+    //MODEL FROM PROFILE PAGE
+    //email
+    let userEmail = document.querySelector("#emailChild");
+    userEmail.innerText = currentProfile.userEmail;
+
+    //first
+    let firstName = document.querySelector("#firstNameChild");
+    firstName.innerText = currentProfile.firstName;
+
+    //last
+    let lastName = document.querySelector("#lastNameChild");
+    lastName.innerText = currentProfile.lastName;
+
+
+    //birthday
+    let userBirthday = document.querySelector("#birthDayChild");
+    let eventB = new Date(currentProfile.userBirthday).toLocaleDateString();
+    userBirthday.innerText = eventB;
+
+    //biography
+    let userBio = document.querySelector("#userBiographyTextArea");
+    userBio.innerText = currentProfile.userBio
+
+    currentProfileProPic = getPhoto(currentProfile.profilePicName);
+    document.querySelector("#profilePictureMain").setAttribute("src", currentProfileProPic);
+    if (currentProfile.username == currentUser.username)
+        document.querySelector("#navBarPic").setAttribute("src", currentUserProPic);
+}
+
+function retrieveAllPosts() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            query = JSON.parse(xhttp.responseText);
+            createAllPosts(query);
         }
     }
 
     let currentURLArray = window.location.href.split("/");
     let length = currentURLArray.length;
     let URLEnd = currentURLArray[length - 1];
+<<<<<<< HEAD
     currentProfile = URLEnd;
 
     xhttp.open('POST', "http://localhost:9001/get/profile/" + URLEnd);
@@ -171,6 +294,13 @@ function changeAvatarPictureFunction() {
     }
 }
 
+=======
+
+    xhttp.open('Post', 'http://localhost:9001/getall/userposts/' + URLEnd);
+    xhttp.send();
+}
+
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
 function serverSendAndGetPhoto() {
     let file = document.getElementById('fileupload').files[0];
     let formData = new FormData();
@@ -183,8 +313,9 @@ function serverSendAndGetPhoto() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             let respObj = xhttp.responseText;
             document.querySelector("#profilePictureMain").setAttribute("src", respObj);
-            document.querySelector("#navBarPhoto").setAttribute("src", respObj);
             picUrl = respObj;
+            if (currentProfile.username == currentUser.username)
+                document.querySelector("#navBarPic").setAttribute("src", respObj);
         }
     }
     xhttp.open('POST', `http://54.147.157.227:9001/profile/picture`)
@@ -192,8 +323,46 @@ function serverSendAndGetPhoto() {
     xhttp.send(formData);
 }
 
+
+function changeAvatarPictureFunction() {
+    if (currentProfile.username == currentUser.username) {
+
+        //REMOVE
+        let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
+
+        let childModalPicture = document.querySelector("#childModalPicture");
+        childModalPicture.removeEventListener('click', changeAvatarPictureFunction);
+        childModalPicture.remove();
+
+        //REPLACE
+        childModalPictureDescrpt = document.createElement("p");
+        childModalPictureDescrpt.setAttribute("id", "picModalDesc")
+        childModalPictureDescrpt.innerText = "Please choose file to upload";
+        ParentProfilePictureModalPictureUpload.appendChild(childModalPictureDescrpt);
+
+        let childFileUpload = document.createElement("input")
+        childFileUpload.setAttribute("id", "fileupload")
+        childFileUpload.setAttribute("type", "file");
+        childFileUpload.setAttribute("name", "fileupload");
+        ParentProfilePictureModalPictureUpload.appendChild(childFileUpload);
+
+        let childFileSubmitBtn = document.createElement("button");
+        childFileSubmitBtn.setAttribute("id", "uploadButton")
+        childFileSubmitBtn.setAttribute("type", "submit");
+        childFileSubmitBtn.innerText = "Upload";
+        ParentProfilePictureModalPictureUpload.appendChild(childFileSubmitBtn);
+
+        document.getElementById("uploadButton").addEventListener('click', serverSendAndGetPhoto);
+    }
+
+}
+
 function setModalPicture() {
+<<<<<<< HEAD
     if (currentUser.username == currentProfile | counter < 1) {
+=======
+    if (currentProfile.username == currentUser.username || counter < 1) {
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
         let ParentProfilePictureModalPictureUpload = document.querySelector("#ParentProfilePictureModalPictureUpload");
         //REMOVE
         let childModalPictureDescrpt = document.querySelector("#picModalDesc");
@@ -209,7 +378,11 @@ function setModalPicture() {
         childModalPicture = document.createElement("img")
 
         childModalPicture.setAttribute("id", "childModalPicture");
+<<<<<<< HEAD
         childModalPicture.setAttribute("src", picUrl);
+=======
+        childModalPicture.setAttribute("src", currentProfileProPic);
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
         childModalPicture.setAttribute("height", "300px");
         childModalPicture.setAttribute("width", "300px");
         ParentProfilePictureModalPictureUpload.appendChild(childModalPicture);
@@ -307,38 +480,28 @@ function updateUserInfo() {
 
 }
 
-function retrieveAllPosts() {
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            query = JSON.parse(xhttp.responseText);
-            createAllPosts(query);
-        }
-    }
-
-    let currentURLArray = window.location.href.split("/");
-    let length = currentURLArray.length;
-    let URLEnd = currentURLArray[length - 1];
-
-    xhttp.open('Post', 'http://localhost:9001/getall/userposts/' + URLEnd);
-    xhttp.send();
+//REDIRECTS
+    function redirectToLoginPage() {
+        window.localStorage.clear();
+        window.location.replace("http://localhost:9001/login");
 }
 
 function createAllPosts(query) {
+    console.log("In the helper-methods file/createAllPosts")
     let myBody = document.querySelector("#myBody")
     let postHolder = document.createElement("div");
     postHolder.setAttribute("id", "postHolder")
     myBody.appendChild(postHolder);
     if (query.length > 0) {
         for (i = 0; i < query.length; i++) {
-            createPostHelper(query, i, postHolder)
-            console.log(query.postId)
+            createPostHelper(query[i])
 
         }
     }
 
 }
 
+<<<<<<< HEAD
 
 
 function createPostHelper(query, i, postHolder) {
@@ -529,11 +692,14 @@ function createPost() {
 
 
 function createPostDOM(query) {
+=======
+function createPostHelper(query) {
+>>>>>>> 5a54d1748fe155468d317cd52db4083053a9eb1f
 
     let postHolder = document.querySelector("#postHolder");
-
     // Create Variables
     flameCount = query.postRating;
+    console.log(flameCount);
 
 
     //Create Elements
@@ -565,10 +731,9 @@ function createPostDOM(query) {
 
     let newStrong = document.createElement("strong")
     let newP = document.createElement("p");
-    if (flameCount == 0) {
+    if (flameCount == 0) 
         newP.innerText = "Dumpster Fire"; // DOM for the Flames Flavortest goes here
-    }
-    else if (flameCount == 1)
+    else if (flameCount === 1)
         newP.innerText = "Hot Garbage"; // DOM for the Flames Flavortest goes here
     else if (flameCount == 2)
         newP.innerText = "Wet Fire"; // DOM for the Flames Flavortest goes here
@@ -598,6 +763,7 @@ function createPostDOM(query) {
     newProfileImg.setAttribute("height", "100px");
     newProfileImg.setAttribute("width", "100px");
     newProfileImg.setAttribute("alt", "Profile Picture");
+    newProfileImg.addEventListener("click", proPicRedirect)
 
     let newStrong2 = document.createElement("strong")
 
@@ -615,7 +781,7 @@ function createPostDOM(query) {
 
     newCardBody.appendChild(newh5);
     newCardBody.appendChild(newFlamesDiv);
-    for (let i = 0; i < flameCount; i++) {
+    for (let i = 0; i < flameCount && flameCount <= 5; i++) {
         // Add Flames
         let imgFlames = document.createElement("img");
         imgFlames.setAttribute("src", "../favicon-32x32.png")
@@ -636,13 +802,65 @@ function createPostDOM(query) {
     newProfileDiv.appendChild(newStrong2);
     newStrong2.appendChild(newP2);
 
-    // Appending to Document Body
+    // Prepending to Document Body
 
-    postHolder.appendChild(newPostDiv);
-
+    postHolder.prepend(newPostDiv);
 }
 
+function getPhoto(picName) {
+    let xhttp = new XMLHttpRequest();
+    let query = "";
+    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
 
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            query = xhttp.responseText;
+            return query;
+
+        }
+    }
+    let params = "?picName=" + picName;
+
+    xhttp.open('POST', 'http://localhost:9001/photo' + params, false);
+    xhttp.send();
+    return query;
+}
+
+function createPost() {
+    let myTitle = document.querySelector("#myTitle").value;
+    let myReview = document.querySelector("#floatingTextarea").value;
+    let myPhoto = document.querySelector("#formFile").files[0];
+    let myFlames = document.querySelector("#flame-count").value;
+    let itemtype = document.querySelector('input[name="enum"]:checked').value;
+    let myPost = {
+        "reviewItem": myTitle,
+        "postContent": myReview,
+        "postRating": myFlames,
+        "itemType": itemtype
+    }
+
+
+
+
+    let formData = new FormData();
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            let respObj = JSON.parse(xhttp.responseText);
+            if (myPhoto != null || myPhoto != undefined) {
+                formData.append("file", myPhoto);
+                createPostPhoto(formData, respObj.postId);
+            } else
+                createPostHelper(respObj);
+        }
+    }
+
+    xhttp.open('POST', 'http://localhost:9001/post');
+    xhttp.setRequestHeader("Content-Type", "application/json")
+
+    xhttp.send(JSON.stringify(myPost));
+}
 
 function createPostPhoto(formData, postId) {
     let xhttp = new XMLHttpRequest();
@@ -651,9 +869,7 @@ function createPostPhoto(formData, postId) {
 
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             let respObj = JSON.parse(xhttp.responseText);
-            console.log("respObj form picture: ");
-            console.log(respObj);
-            createPostDOM(respObj);
+            createPostHelper(respObj);
         }
     }
 
@@ -661,4 +877,33 @@ function createPostPhoto(formData, postId) {
 
 
     xhttp.send(formData);
+}
+
+function getPostOwnerPic(respObj) {
+    let xhttp = new XMLHttpRequest();
+    let query = "";
+    xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
+
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            query = xhttp.responseText.split("|");
+            return query;
+
+        }
+    }
+    let params = respObj;
+
+    xhttp.open('POST', 'http://localhost:9001/get/postownerpic/' + params, false);
+    xhttp.send();
+    return query;
+
+}
+
+
+function proPicRedirect(data) {
+    
+    console.log(data);
+    console.log(data.path[4]);
+    console.log(data.path[4].id);
+    // window.location.replace('http://localhost:9001/user/' + redirectUsername);
+
 }

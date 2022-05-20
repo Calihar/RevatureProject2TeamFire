@@ -41,12 +41,12 @@ function newUserRegister() {
 
   let xhttp = new XMLHttpRequest();
 
-  xhttp.open("POST", `http://localhost:9001/r-authentication`);
+  xhttp.open("POST", `http://54.147.157.227:9001/r-authentication`);
   xhttp.setRequestHeader("content-type", "application/json");
 
   xhttp.onreadystatechange = function () {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-      var urlBase = "http://localhost:9001";
+      var urlBase = "http://54.147.157.227:9001";
       window.location = urlBase + xhttp.responseText;
     }
   };

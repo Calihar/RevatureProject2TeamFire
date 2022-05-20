@@ -5,13 +5,12 @@ window.onload = function () {
     startUp();
     document.getElementById('logout').addEventListener("click", redirectToLoginPage);
     document.getElementById('mySubmit').addEventListener("click", createPost);
-    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile)
-    document.getElementById('logout').addEventListener("click", redirectToLoginPage)
+    document.getElementById('navbarPic').addEventListener("click", redirectToOwnProfile);
 
 }
 window.onunload = function () {
     window.localStorage.clear();
-
+    null;
 }
 
 function redirectToOwnProfile() {
@@ -21,13 +20,14 @@ function redirectToOwnProfile() {
 function redirectToLoginPage() {
     ///this the line of the GODs!!!!!!
     window.localStorage.clear();
-    window.location.replace("./");
+    window.location.replace("../html/login.html");
 }
 
 function preventBack() {
     window.history.forward();
-    setTimeout("preventBack()", 0);
+    
 }
+setTimeout("preventBack()", 0);
 
 function startUp() {
     let xhttp = new XMLHttpRequest();
@@ -46,8 +46,9 @@ function startUp() {
 
         }
     }
+    // xhttp.open('Post', 'http://54.147.157.227:9001/post/post');
 
-    xhttp.open('POST', 'http://localhost:9001/get/currentuser');
+    xhttp.open('POST', 'http://54.147.157.227:9001/get/currentuser');
     xhttp.send();
 
 }
@@ -65,25 +66,27 @@ function getPhoto(picName) {
     }
     let params = "?picName=" + picName;
 
-    xhttp.open('POST', 'http://localhost:9001/photo' + params, false);
+    xhttp.open('POST', 'http://54.147.157.227:9001/photo' + params, false);
     xhttp.send();
     return query;
 }
 
-function getPostOwner(respObj) {
+function getPostOwnerPic(respObj) {
     let xhttp = new XMLHttpRequest();
     let query = "";
     xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
 
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            query = xhttp.responseText;
+            query = xhttp.responseText.split("|");
             return query;
 
         }
     }
     let params = respObj;
 
-    xhttp.open('POST', 'http://localhost:9001/get/postowner/' + params, false);
+
+    xhttp.open('POST', 'http://localhost:9001/get/postownerpic/' + params, false);
+
     xhttp.send();
     return query;
 
@@ -123,7 +126,7 @@ function createPost() {
         }
     }
 
-    xhttp.open('POST', 'http://localhost:9001/post');
+    xhttp.open('POST', 'http://54.147.157.227:9001/post');
     xhttp.setRequestHeader("Content-Type", "application/json")
 
     xhttp.send(JSON.stringify(myPost));
@@ -142,7 +145,7 @@ function createPostPhoto(formData, postId) {
         }
     }
 
-    xhttp.open('POST', 'http://localhost:9001/post/photo/' + postId);
+    xhttp.open('POST', 'http://54.147.157.227:9001/post/photo/' + postId);
 
 
     xhttp.send(formData);
@@ -153,7 +156,7 @@ function createPostDOM(query) {
     let postHolder = document.querySelector("#postHolder");
 
     // Create Variables
-    flameCount = query.flameCount;
+    flameCount = query.postRating;
 
 
     //Create Elements
@@ -185,18 +188,18 @@ function createPostDOM(query) {
 
     let newStrong = document.createElement("strong")
     let newP = document.createElement("p");
-    if (flameCount === 0) {
+    if (flameCount == 0) {
         newP.innerText = "Dumpster Fire"; // DOM for the Flames Flavortest goes here
     }
-    else if (flameCount === 1)
+    else if (flameCount == 1)
         newP.innerText = "Hot Garbage"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 2)
+    else if (flameCount == 2)
         newP.innerText = "Wet Fire"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 3)
+    else if (flameCount == 3)
         newP.innerText = "Kindling"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 4)
+    else if (flameCount == 4)
         newP.innerText = "On Fire"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 5)
+    else if (flameCount == 5)
         newP.innerText = "Ablaze"; // DOM for the Flames Flavortest goes here
     else
         newP.innerText = "Bad Number";
@@ -212,8 +215,8 @@ function createPostDOM(query) {
     newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
 
     let newProfileImg = document.createElement("img");
-    let postOwner = getPostOwner(query.postId);
-    let pic = getPhoto(postOwner);
+    let postOwner = getPostOwnerPic(query.postId);
+    let pic = getPhoto(postOwner[1]);
     newProfileImg.setAttribute("src", pic); // DOM for profile pic
     newProfileImg.setAttribute("height", "100px");
     newProfileImg.setAttribute("width", "100px");
@@ -223,7 +226,7 @@ function createPostDOM(query) {
 
     let newP2 = document.createElement("p");
     newP2.classList.add("pt-3", "text-center");
-    newP2.innerText = postOwner.username;
+    newP2.innerText = postOwner[0];
 
     // Appending
     newPostDiv.appendChild(newRatingDiv);
@@ -267,12 +270,12 @@ function retrieveAllPosts() {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () { // This step is second last. We are only setting up here before calling it later.
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            query = xhttp.responseText;
+            query = JSON.parse(xhttp.responseText);
             createAllPosts(query);
         }
     }
 
-    xhttp.open('Post', 'http://localhost:9001/getall/posts');
+    xhttp.open('Post', 'http://54.147.157.227:9001/getall/posts');
     xhttp.send();
 }
 
@@ -281,10 +284,9 @@ function createAllPosts(query) {
     let postHolder = document.createElement("div");
     postHolder.setAttribute("id", "postHolder")
     myBody.appendChild(postHolder);
-    if (query.length < 1) {
+    if (query.length > 0) {
         for (i = 0; i < query.length; i++) {
             createPostHelper(query, i, postHolder)
-            console.log(query.postId)
 
         }
     }
@@ -294,7 +296,8 @@ function createAllPosts(query) {
 function createPostHelper(query, i, postHolder) {
 
     // Create Variables
-    flameCount = query[i].flameCount;
+    flameCount = query[i].postRating;
+    console.log(flameCount)
 
 
     //Create Elements
@@ -326,18 +329,18 @@ function createPostHelper(query, i, postHolder) {
 
     let newStrong = document.createElement("strong")
     let newP = document.createElement("p");
-    if (flameCount === 0) {
+    if (flameCount == 0) {
         newP.innerText = "Dumpster Fire"; // DOM for the Flames Flavortest goes here
     }
     else if (flameCount === 1)
         newP.innerText = "Hot Garbage"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 2)
+    else if (flameCount == 2)
         newP.innerText = "Wet Fire"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 3)
+    else if (flameCount == 3)
         newP.innerText = "Kindling"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 4)
+    else if (flameCount == 4)
         newP.innerText = "On Fire"; // DOM for the Flames Flavortest goes here
-    else if (flameCount === 5)
+    else if (flameCount == 5)
         newP.innerText = "Ablaze"; // DOM for the Flames Flavortest goes here
     else
         newP.innerText = "Bad Number";
@@ -353,8 +356,8 @@ function createPostHelper(query, i, postHolder) {
     newProfileDiv.classList.add("img-thumbnail", "rounded", "float-end", "mx-2", "py-3", "px-3");
 
     let newProfileImg = document.createElement("img");
-    let postOwner = getPostOwner(query.postId);
-    let pic = getPhoto(postOwner);
+    let postOwner = getPostOwnerPic(query[i].postId);
+    let pic = getPhoto(postOwner[1]);
     newProfileImg.setAttribute("src", pic); // DOM for profile pic
     newProfileImg.setAttribute("height", "100px");
     newProfileImg.setAttribute("width", "100px");
@@ -364,7 +367,7 @@ function createPostHelper(query, i, postHolder) {
 
     let newP2 = document.createElement("p");
     newP2.classList.add("pt-3", "text-center");
-    newP2.innerText = postOwner.username;
+    newP2.innerText = postOwner[0];
 
     // Appending
     newPostDiv.appendChild(newRatingDiv);

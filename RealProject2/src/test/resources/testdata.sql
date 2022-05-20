@@ -1,5 +1,0 @@
-INSERT INTO public.user_table (creation_date,first_name,last_name,hashed_password,password_reset_key,profile_picture_name,review_count,user_bio,user_birthday,user_email,user_type,username) VALUES
-	 ('2022-05-16 21:55:55.924','Caleb','Gulledge','U2FsdGVkX18KPXCjFHrhR8NVncDlhlvN49m0sdD3c4Q=','6a3b2213-29c2-4c96-b5e5-af6f6da902fc','2ed6317c-2b36-4a4b-8e17-c0447c63b693_Fire_nation_fullview.webp',0,'I really hate Fetch types','1997-10-15 04:00:00.000','calebjgulledge@gmail.com',0,'Calihar');
-
-INSERT INTO public.user_table (creation_date,first_name,last_name,hashed_password,password_reset_key,profile_picture_name,review_count,user_bio,user_birthday,user_email,user_type,username) VALUES
-	 ('2022-05-16 22:11:08.733','Stephen','Brady','U2FsdGVkX18KPXCjFHrhR86wOdWPEGCEPjcxalFuGXM=',NULL,'a7f908ed-2f99-48cb-b058-64b79dcd6d8a_kalligraphy-fire(100x100).gif',0,'Time to Do Picture Stuff','1987-04-04 03:00:00.000','stephen237@revature.net',0,'Hiro');
